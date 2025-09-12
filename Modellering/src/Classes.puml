@@ -1,9 +1,30 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
+abstract class Bruker
+abstract class Transportmiddel {
+    + ID : int
+    + AntallPassajerer : int
+    + AntallTilgjengelig : int
+}
+
+Buss <|-- Transportmiddel
+Tog <|-- Transportmiddel
+Baat <|-- Transportmiddel
+Trikk <|-- Transportmiddel
+
+class Buss {
+}
+class Tog {
+}
+class Baat {
+}
+class Trikk {
+}
+
+
+'Eksempler'
+/'interface List
 interface Collection
 
 List <|-- AbstractList
@@ -22,6 +43,6 @@ enum TimeUnit {
 DAYS
 HOURS
 MINUTES
-}
+}'/
 
 @enduml
