@@ -1,7 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class Bruker
 abstract class Transportmiddel {
     + ID : int
     + AntallPassajerer : int
@@ -22,6 +21,34 @@ class Baat {
 class Trikk {
 }
 
+'--------------------------'
+abstract class Bruker {
+}
+
+Kunde <|-- Bruker
+Admin <|-- Bruker
+Developer <|-- Bruker
+
+class Kunde {
+}
+class Admin {
+}
+class Developer {
+}
+
+'--------------------------'
+
+class Rute {
+}
+class Stopp {
+}
+class Kart {
+}
+
+'--------------------------'
+
+class innlogging {
+}
 
 'Eksempler'
 /'interface List
