@@ -23,6 +23,10 @@ class Trikk {
 
 '--------------------------'
 abstract class Bruker {
+    + ID : int
+    + Fornavn : String
+    + Etternavn : String
+    + E-post : String
 }
 
 Kunde <|-- Bruker
@@ -39,15 +43,33 @@ class Developer {
 '--------------------------'
 
 class Rute {
+    + ID : int
+    + Navn : String
+    + ArrayList<Rute> : Rute
+    + StartDatoTid : DateTime
+    + SluttDatoTid : DateTime
+    + Transportmiddel : Transportmiddel
 }
 class Stopp {
+    ID : int
+    Navn : String
+    Adresse: String
 }
 class Kart {
 }
 
 '--------------------------'
 
+class Betaling {
+}
+class Billett {
+}
 class innlogging {
+}
+
+'--------------------------'
+class SoekResultat {
+    ArrayList<Rute>Ruter : ArrayList<Rute>
 }
 
 'Eksempler'
