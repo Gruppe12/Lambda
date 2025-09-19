@@ -2,15 +2,13 @@
 'https://plantuml.com/class-diagram
 
 abstract class Transportmiddel {
-    + ID : int
-    + AntallPassajerer : int
-    + AntallTilgjengelig : int
+  - id : int
+  - antallPassasjerer : int
 }
 
-Buss <|-- Transportmiddel
-Tog <|-- Transportmiddel
-Baat <|-- Transportmiddel
-Trikk <|-- Transportmiddel
+Transportmiddel <|-- Buss
+Transportmiddel <|-- Tog
+Transportmiddel <|-- Baat
 
 class Buss {
 }
@@ -18,20 +16,18 @@ class Tog {
 }
 class Baat {
 }
-class Trikk {
-}
 
 '--------------------------'
 abstract class Bruker {
-    + ID : int
-    + Fornavn : String
-    + Etternavn : String
-    + E-post : String
+    - id : int
+    - fornavn : String
+    - etternavn : String
+    - email : String
 }
 
-Kunde <|-- Bruker
-Admin <|-- Bruker
-Developer <|-- Bruker
+Bruker <|-- Kunde
+Bruker <|-- Admin
+Bruker <|-- Developer
 
 class Kunde {
 }
@@ -43,17 +39,15 @@ class Developer {
 '--------------------------'
 
 class Rute {
-    + ID : int
-    + Navn : String
-    + ArrayList<Rute> : Rute
-    + StartDatoTid : DateTime
-    + SluttDatoTid : DateTime
-    + Transportmiddel : Transportmiddel
+    - id : int
+    - navn : String
+    - startDatoTid : DateTime
+    - sluttDatoTid : DateTime
 }
 class Stopp {
-    ID : int
-    Navn : String
-    Adresse: String
+   - id : int
+   - navn : String
+   - adresse : String
 }
 class Kart {
 }
@@ -64,34 +58,21 @@ class Betaling {
 }
 class Billett {
 }
-class innlogging {
+class Innlogging {
 }
 
 '--------------------------'
 class SoekResultat {
-    ArrayList<Rute>Ruter : ArrayList<Rute>
+    + ruter : List<Rute>
 }
 
-'Eksempler'
-/'interface List
-interface Collection
+' ---- Associations ----
+Bruker -- Innlogging
+Rute *-- Stopp
+Rute -- Transportmiddel
+SoekResultat --> Rute
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
-}
-
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
-}'/
+Kunde -- Billett
+Billett -- Betaling
 
 @enduml
