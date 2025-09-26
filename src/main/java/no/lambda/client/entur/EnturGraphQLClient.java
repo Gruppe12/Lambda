@@ -8,10 +8,8 @@ public class EnturGraphQLClient {
     private static final String URL = "https://api.entur.io/journey-planner/v3/graphql";
     private final OkHttpClient httpClient = new OkHttpClient();
     private final ObjectMapper mapper = new ObjectMapper();
-    private final String clientName = "LambdaTech AS";
-
+    private final String clientName = "LambdaTechAS-SkoleProsjekt_HIOF2025";
     public EnturGraphQLClient(){
-
     }
 
     public JsonNode execute(String query, Map<String, Object> variables) throws Exception{
