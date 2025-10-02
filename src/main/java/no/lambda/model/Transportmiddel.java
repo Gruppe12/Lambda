@@ -1,14 +1,12 @@
 package no.lambda.model;
 
-public class Transportmiddel {
+public abstract class Transportmiddel {
     private int ID;
     private int antallPassasjerer;
-    private int antallTilgjengelig;
 
-    public Transportmiddel(int ID, int antallPassasjerer, int antallTilgjengelig) {
+    public Transportmiddel(int ID, int antallPassasjerer) {
         this.ID = ID;
         this.antallPassasjerer = antallPassasjerer;
-        this.antallTilgjengelig = antallTilgjengelig;
     }
 
     public int getID() {
@@ -25,12 +23,6 @@ public class Transportmiddel {
         this.antallPassasjerer = antallPassasjerer;
     }
 
-    public int getAntallTilgjengelig() {
-        return antallTilgjengelig;
     }
-    public void setAntallTilgjengelig(int antallTilgjengelig) {
-        this.antallTilgjengelig = antallTilgjengelig;
-    }
-}
 
 
