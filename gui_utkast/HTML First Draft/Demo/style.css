@@ -1,0 +1,37 @@
+
+@import url("phone.css");
+@import url("load.css");
+@import url("app.css");
+
+*{
+    padding: 0;
+}
+
+
+body{
+    background-color: rgb(66, 66, 66);
+    display: flex;
+}
+
+
+:root{
+
+    /* Lengden på hjem-skjermen */
+    --home-screen-width: 310px;
+    --home-screen-height: 675px;
+
+    /* App størrelse */
+    --app-size: 50px;
+
+    /* Reiseklar-app plassering. Slik at den alligner med shortcut menu appene under */
+    --app-location-left: 93px;
+    --app-location-top: 250px;
+
+    /* Farger */
+    --background-color-1: #E9E3B4;
+    --color-1: #f39b6d;
+    --color-2: #6a3e7e;
+    --text-color-1: black;
+    --text-font-1: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;;
+    
+}
