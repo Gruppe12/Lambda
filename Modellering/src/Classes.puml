@@ -1,0 +1,78 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Transportmiddel {
+  - id : int
+  - antallPassasjerer : int
+}
+
+Transportmiddel <|-- Buss
+Transportmiddel <|-- Tog
+Transportmiddel <|-- Baat
+
+class Buss {
+}
+class Tog {
+}
+class Baat {
+}
+
+'--------------------------'
+abstract class Bruker {
+    - id : int
+    - fornavn : String
+    - etternavn : String
+    - email : String
+}
+
+Bruker <|-- Kunde
+Bruker <|-- Admin
+Bruker <|-- Developer
+
+class Kunde {
+}
+class Admin {
+}
+class Developer {
+}
+
+'--------------------------'
+
+class Rute {
+    - id : int
+    - navn : String
+    - startDatoTid : DateTime
+    - sluttDatoTid : DateTime
+}
+class Stopp {
+   - id : int
+   - navn : String
+   - adresse : String
+}
+class Kart {
+}
+
+'--------------------------'
+
+class Betaling {
+}
+class Billett {
+}
+class Innlogging {
+}
+
+'--------------------------'
+class SoekResultat {
+    + ruter : List<Rute>
+}
+
+' ---- Associations ----
+Bruker -- Innlogging
+Rute *-- Stopp
+Rute -- Transportmiddel
+SoekResultat --> Rute
+
+Kunde -- Billett
+Billett -- Betaling
+
+@enduml

@@ -1,0 +1,24 @@
+"""
+eksempel på en spørring som søker etter stop
+"""
+
+query ($id: String!) {
+    stopPlace(
+        id: $id
+    ) {
+        name
+        id
+        estimatedCalls {
+            expectedDepartureTime
+            destinationDisplay {
+                frontText
+            }
+            serviceJourney {
+                line {
+                    publicCode
+                    transportMode
+                }
+            }
+        }
+    }
+}
