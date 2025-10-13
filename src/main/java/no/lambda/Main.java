@@ -1,12 +1,8 @@
 package no.lambda;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import no.lambda.Services.EnturService;
 import no.lambda.client.entur.Geocoder.*;
 import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
-import no.lambda.client.entur.dto.TripResponseDto;
-
-import java.time.OffsetDateTime;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -15,6 +11,7 @@ public class Main {
         EnturService service = new EnturService(_client, _geocoder);
 
         var fromFeatures = _geocoder.geoCode("Halden");
+
         //var toGeoCode = _geocoder.geoCode("Alna, Oslo");
 
         int i = 0;
@@ -25,8 +22,6 @@ public class Main {
             i++;
             System.out.println(i);
         }
-
-
 
 
        /* TripResponseDto response = service.planATrip(

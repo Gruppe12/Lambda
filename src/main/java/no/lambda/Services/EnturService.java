@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class EnturService {
+public class EnturService implements IPlanTripService{
     private final EnturGraphQLClient _graphQLClient;
     private final EnturGeocoderClient _geocoderClient;
 
@@ -21,7 +21,6 @@ public class EnturService {
             if (dto == null || dto.data == null || dto.data.trip.tripPatterns == null){
                 throw new RuntimeException("Error: Trip response is null");
             }
-
         return dto;
     }
 

@@ -1,6 +1,7 @@
 package no.lambda.controller;
 
 import no.lambda.Services.EnturService;
+import no.lambda.Services.IPlanTripService;
 import no.lambda.client.entur.Geocoder.EnturGeocoderClient;
 import no.lambda.client.entur.dto.TripPattern;
 
@@ -23,10 +24,10 @@ public class PlanTripController {
         }
     }
 
-    private EnturService _enturService;
+    private final IPlanTripService _enturService;
 
 
-    public PlanTripController(EnturService enturService){
+    public PlanTripController(IPlanTripService enturService){
         _enturService = enturService;
     }
 
@@ -50,6 +51,5 @@ public class PlanTripController {
         var dto = _enturService.planATrip(tripQuery, variables);
 
         return dto.data.trip.tripPatterns;
-
     }
 }
