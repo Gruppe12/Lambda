@@ -1,30 +1,33 @@
 package no.lambda.Services;
-import  com.fasterxml.jackson.databind.JsonNode;
-import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
 import no.lambda.client.entur.Geocoder.EnturGeocoderClient;
+import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
 import no.lambda.client.entur.dto.TripResponseDto;
-import org.w3c.dom.stylesheets.LinkStyle;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Map;
 
 
 public class EnturService {
-    private final EnturGraphQLClient client;
+    private final EnturGraphQLClient _graphQLClient;
+    private final EnturGeocoderClient _geocoderClient;
 
-    public EnturService(EnturGraphQLClient client) throws Exception{
-        this.client = client;
+    public EnturService(EnturGraphQLClient graphQLClient, EnturGeocoderClient geocoderClient) throws Exception{
+        this._graphQLClient = graphQLClient;
+        _geocoderClient = geocoderClient;
     }
 
     public TripResponseDto planATrip(String query, Map<String, Object> variables) throws Exception{
-            TripResponseDto dto = client.execute(query, variables);
+            TripResponseDto dto = _graphQLClient.execute(query, variables);
             if (dto == null || dto.data == null || dto.data.trip.tripPatterns == null){
                 throw new RuntimeException("Error: Trip response is null");
             }
 
         return dto;
+    }
+
+    public List<EnturGeocoderClient.GeoHit> getGeoHit(String text) throws Exception{
+        var hits = _geocoderClient.geoCode(text);
+        return hits;
     }
 }
 

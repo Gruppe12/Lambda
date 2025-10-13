@@ -1,6 +1,7 @@
 package no.lambda.controller;
 
 import no.lambda.Services.EnturService;
+import no.lambda.client.entur.Geocoder.EnturGeocoderClient;
 import no.lambda.client.entur.dto.TripPattern;
 
 import java.io.IOException;
@@ -10,7 +11,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
-public class Controller {
+public class PlanTripController {
 
     private final static String tripQuery;
 
@@ -24,13 +25,17 @@ public class Controller {
 
     private EnturService _enturService;
 
-    public Controller(EnturService enturService){
+
+    public PlanTripController(EnturService enturService){
         _enturService = enturService;
     }
 
 
-    //Før dette punktet må vi hente coordinates ved
-    //bruk av Geocode klienten og deretter bruke det i planTrip metoden
+    public List<EnturGeocoderClient.GeoHit> geoHits(String text) throws Exception{
+        return _enturService.getGeoHit(text);
+    }
+
+
     public List<TripPattern> planTrip(String fromName, double latitude, double longitude, String toName, String placeId, int tripPatterns, OffsetDateTime dateTime, boolean arriveBy) throws Exception {
         Map<String, Object> variables = Map.of(
                 "fromName", fromName,

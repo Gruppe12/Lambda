@@ -12,13 +12,24 @@ public class Main {
     public static void main(String[] args) throws Exception {
         var _client = new EnturGraphQLClient();
         var _geocoder = new EnturGeocoderClient();
-        EnturService service = new EnturService(_client );
+        EnturService service = new EnturService(_client, _geocoder);
 
-        var fromGeoCode = _geocoder.geoCode("Bjerkealleen 5A, Skedsmo");
-        var toGeoCode = _geocoder.geoCode("Alna, Oslo");
+        var fromFeatures = _geocoder.geoCode("Halden");
+        //var toGeoCode = _geocoder.geoCode("Alna, Oslo");
+
+        int i = 0;
+
+        for (var feature : fromFeatures){
+
+            System.out.println(feature );
+            i++;
+            System.out.println(i);
+        }
 
 
-        TripResponseDto response = service.planATrip(
+
+
+       /* TripResponseDto response = service.planATrip(
                 fromGeoCode.label(),
                 fromGeoCode.latitude(),
                 fromGeoCode.longitude(),
@@ -28,6 +39,8 @@ public class Main {
                 OffsetDateTime.parse("2025-10-10T20:56:13.751+02:00"), false );
 
         System.out.println(response.data.trip.tripPatterns.toString());
+
+        */
 
 
     }
