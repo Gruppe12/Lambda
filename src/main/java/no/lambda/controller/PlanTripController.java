@@ -23,7 +23,6 @@ public class PlanTripController {
             throw new RuntimeException(e);
         }
     }
-
     private final IPlanTripService _enturService;
 
 

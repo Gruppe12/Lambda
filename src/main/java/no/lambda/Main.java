@@ -6,7 +6,7 @@ import no.lambda.Services.EnturService;
 import no.lambda.client.entur.Geocoder.*;
 import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
 import no.lambda.client.entur.dto.TripPattern;
-import no.lambda.client.entur.dto.TripResponseDto;
+
 import no.lambda.controller.PlanTripController;
 
 import java.time.OffsetDateTime;
@@ -14,32 +14,29 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
+        //dependencies
         var _client = new EnturGraphQLClient();
         var _geocoder = new EnturGeocoderClient();
         EnturService service = new EnturService(_client, _geocoder);
         PlanTripController _controller = new PlanTripController(service);
 
-        var fromFeatures = _geocoder.geoCode("Halden stasjon, Halden");
+        //En liste med POI's til argumentet
+        var fromFeatures = _controller.geoHits("Halden stasjon, Halden");
+        //En liste med POI's til argumentet
+        var toFeatures = _controller.geoHits("Fredrikstad bussterminal, Fredrikstad");
 
-        var toFeatures = _geocoder.geoCode("Fredrikstad bussterminal, Fredrikstad");
-
-        //int i = 0;
-
-        /*for (var feature : fromFeatures){
-
-            System.out.println(feature );
-            i++;
-            System.out.println(i);
-        }
-
-         */
-
+        //Tar første POI - Fra feltet
         var fromGeoHit = fromFeatures.get(0);
-        System.out.println(fromGeoHit);
+        System.out.println(fromGeoHit); // Printer det ut for å se hvilken POI det er
 
+        //Tar første POI - Til feltet
         var toGeoHit = toFeatures.get(0);
-        System.out.println(toGeoHit);
+        System.out.println(toGeoHit); // Printer det ut for å se hvilken POI det er
 
+        //metoden _controller.planTrip sender request til GraphQL API-et og returnerer en
+        //liste med TripPatterns, altså "Ruter". tripPatterns er satt til 1
+        //så det blir kun 1 "rute"
         List<TripPattern> response = _controller.planTrip(
                 fromGeoHit.label(),
                 fromGeoHit.latitude(),
@@ -51,6 +48,7 @@ public class Main {
                 1,
                 OffsetDateTime.parse("2025-10-14T17:42:57.701+02:00"), false );
 
+        //Bruker ObjectMapper for å prettify utskrift
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         for (TripPattern rute : response){
             System.out.println("Rute: ");
