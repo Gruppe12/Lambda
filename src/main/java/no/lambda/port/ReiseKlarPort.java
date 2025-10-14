@@ -1,10 +1,9 @@
 package no.lambda.port;
 import no.lambda.exception.EnTurException;
 import no.lambda.model.Rute;
-import java.util.ArrayList;
 
-public interface EnTurPort {
+public interface ReiseKlarPort {
 
-    void createRoute(Rute rute) throws EnTurException;
     void createFavoriteRoute(Rute rute) throws EnTurException;
+    Rute getFavoriteRoute(int favorittruteId) throws EnTurException;
 }

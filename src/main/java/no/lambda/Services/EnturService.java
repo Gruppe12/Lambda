@@ -2,6 +2,7 @@ package no.lambda.Services;
 import  com.fasterxml.jackson.databind.JsonNode;
 import kotlin.text.UStringsKt;
 import no.lambda.client.entur.EnturGraphQLClient;
+import no.lambda.port.ReiseKlarPort;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,11 +14,13 @@ public class EnturService {
     private final EnturGraphQLClient client;
     private final String searchStopQuery;
     private final String planTripQuery;
+    private final ReiseKlarPort adapter;
 
-    public EnturService(EnturGraphQLClient client) throws Exception{
+    public EnturService(EnturGraphQLClient client, ReiseKlarPort adapter) throws Exception{
         this.client = client;
         this.searchStopQuery = Files.readString(Path.of("src/main/resources/graphql/entur/stop_search.graphql"));
         this.planTripQuery = Files.readString(Path.of("src/main/resources/graphql/entur/plan_trip.graphql"));
+        this.adapter = adapter;
     }
     //eksempel på en metode som søker etter stopp
     public JsonNode searchStop(String id) throws Exception{
