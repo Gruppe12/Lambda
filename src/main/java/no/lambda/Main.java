@@ -18,8 +18,8 @@ public class Main {
         //dependencies
         var _client = new EnturGraphQLClient();
         var _geocoder = new EnturGeocoderClient();
-        EnturService service = new EnturService(_client, _geocoder);
-        PlanTripController _controller = new PlanTripController(service);
+        var service = new EnturService(_client, _geocoder);
+        var _controller = new PlanTripController(service);
 
         //En liste med POI's til argumentet
         var fromFeatures = _controller.geoHits("Halden stasjon, Halden");
@@ -32,7 +32,12 @@ public class Main {
 
         //Tar første POI - Til feltet
         var toGeoHit = toFeatures.get(0);
+
         System.out.println(toGeoHit); // Printer det ut for å se hvilken POI det er
+
+        System.out.println("");
+        System.out.println("Rute nedenfor er laget med ovenfor POI's: ");
+        System.out.println("");
 
         //metoden _controller.planTrip sender request til GraphQL API-et og returnerer en
         //liste med TripPatterns, altså "Ruter". tripPatterns er satt til 1
