@@ -5,4 +5,12 @@ public class Leg {
     public double distance;
     public Line line;
 
+    @Override
+    public String toString() {
+        return "Leg{" +
+                "mode='" + mode + '\'' +
+                ", distance=" + distance +
+                ", line=" + line +
+                '}';
+        }
 }

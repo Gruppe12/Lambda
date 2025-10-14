@@ -18,6 +18,7 @@ public class EnturService implements IPlanTripService{
 
     public TripResponseDto planATrip(String query, Map<String, Object> variables) throws Exception{
             TripResponseDto dto = _graphQLClient.execute(query, variables);
+
             if (dto == null || dto.data == null || dto.data.trip.tripPatterns == null){
                 throw new RuntimeException("Error: Trip response is null");
             }

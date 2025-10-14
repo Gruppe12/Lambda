@@ -37,15 +37,17 @@ public class PlanTripController {
     }
 
 
-    public List<TripPattern> planTrip(String fromName, double latitude, double longitude, String toName, String placeId, int tripPatterns, OffsetDateTime dateTime, boolean arriveBy) throws Exception {
+    public List<TripPattern> planTrip(String fromName, double latitude, double longitude, String toName, String placeId, double toLatitude ,double toLongitude, int tripPatterns, OffsetDateTime dateTime, boolean arriveBy) throws Exception {
         Map<String, Object> variables = Map.of(
                 "fromName", fromName,
                 "latitude", latitude,
                 "longitude", longitude,
                 "toName", toName,
                 "placeId", placeId,
+                "toLatitude", toLatitude,
+                "toLongitude", toLongitude,
                 "tripPatterns", tripPatterns,
-                "datetime", dateTime,
+                "dateTime", dateTime,
                 "arriveBy", arriveBy);
 
         var dto = _enturService.planATrip(tripQuery, variables);

@@ -31,11 +31,10 @@ public class EnturGraphQLClient {
                 .addHeader("ET-Client-Name", clientName)
                 .post(RequestBody.create(body.toString(), MediaType.get("application/json")))
                 .build();
-                System.out.println(mapper.writeValueAsString(variables)); //sjekker variablene før kall, for debugging.
+                //System.out.println(mapper.writeValueAsString(variables)); //sjekker variablene før kall, for debugging.
 
         try (Response response = httpClient.newCall(request).execute()){
             if (!response.isSuccessful()) throw new RuntimeException("Error in the Entur API request: " + response);
-
             return mapper.readValue(response.body().string(), TripResponseDto.class);
         }
 
