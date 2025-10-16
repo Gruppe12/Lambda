@@ -1,0 +1,71 @@
+
+*{
+    padding: 0;
+}
+
+
+body{
+    background-color: rgb(66, 66, 66);
+    display: flex;
+}
+
+
+:root{
+
+    /* Lengden på hjem-skjermen */
+    --home-screen-width: 310px;
+    --home-screen-height: 675px;
+
+    /* App størrelse */
+    --app-size: 50px;
+
+    /* Reiseklar-app plassering. Slik at den alligner med shortcut menu appene under */
+    --app-location-left: 93px;
+    --app-location-top: 250px;
+
+    /* Farger */
+    --color-light-yellow: #E9E3B4;
+    --color-orange: #f39b6d;
+    --color-purple: #6a3e7e;
+    --text-color: black;
+    --text-font-1: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;;
+    
+}
+
+/* Selve telefon-vinduet */
+.phone-screen{
+    margin: auto;
+    width: var(--home-screen-width);
+    height: var(--home-screen-height);
+    background-color: rgb(0, 0, 0);
+    background-size: contain;
+    border-radius: 10px;
+    position: relative;
+
+    overflow-y: scroll;
+}
+
+/* Tlf statusbar helt øverst på telefonen */
+.phone-status-bar{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+/* Standard utseende for knapper */
+.button{
+    margin: auto;
+    width: 150px;
+    height: 50px;
+    border-radius: 3px;
+    border: none;
+    background-color: var(--color-orange);
+    color: var(--color-purple);
+    font-weight: bolder;
+    text-transform: uppercase;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 5px 5px 0px var(--color-purple);
+}

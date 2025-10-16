@@ -1,0 +1,67 @@
+@import url("style.css");
+
+.phone-screen{
+    background: linear-gradient(180deg,rgba(233, 227, 180, 1) 0%, rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+.logo-main-image{
+    margin: auto;
+    width: 275px;
+    height: auto;
+    margin-top: 50px;
+}
+
+
+.back{
+    position: absolute;
+    width: 40px;
+    height: 10px;
+    font-size: .5rem;
+    box-shadow: 2px 2px 0px var(--color-purple);
+    top: 25px;
+    left: 5px;
+} 
+
+.trips details{
+    margin: auto;
+    border-radius: 10px;
+    border: solid var(--color-purple) 2px;
+    padding: 0px 20px 0px 20px;
+    margin-top: 50px;
+    background-color: var(--color-light-yellow);
+    width: 60%;
+}
+
+.trips details summary{
+    margin: auto;
+    margin-left: -10px;
+    font-size: 1rem;
+    font-weight: bolder;
+    padding: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.trips details ul {
+  list-style: disc;
+  position: relative;
+}
+.trips details ul li {
+  position: relative;
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+.trips details ul li::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 10px;
+  bottom: -25px;
+  width: 1px;
+  background: #000;
+}
+.trips details ul li:last-child::before {
+  display: none;
+}

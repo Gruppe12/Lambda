@@ -1,0 +1,50 @@
+@import url("style.css");
+
+
+.phone-screen{
+    background: linear-gradient(180deg,rgba(233, 227, 180, 1) 0%, rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+.logo-main-image{
+    margin: auto;
+    width: 275px;
+    height: auto;
+    margin-top: 50px;
+}
+
+.input-wrapper{
+    display: grid;
+    margin: auto;
+    row-gap: 30px;
+    margin-top: 50px;
+}
+
+.input-wrapper span{
+    position: relative;
+    height: fit-content;
+}
+
+.input-wrapper span p{
+    position: absolute;
+    top: 50%;
+    transform: translate(20%, -50%);
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--color-purple);
+    font-weight: bolder;
+    line-height: 40px;
+    text-transform: uppercase;
+}
+
+input{
+    width: 205px;
+    height: 45px;
+    border-radius: 10px;
+    background-color: var(--color-light-yellow);
+    border: 3px solid var(--color-purple);
+    padding-left: 55px;
+    color: var(--color-purple);
+    font-size: 1rem;
+}

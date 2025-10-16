@@ -1,0 +1,69 @@
+@import url("style.css");
+
+
+/* Setter wallpaper for bakgrunnen til tlf */
+.phone-screen{
+    background-image: url("../assets/wallpaper.jpg");
+}
+
+
+
+/* Snarvei menyen nederst på telefonen */
+.shortcut-menu{
+    width: 95%;
+    height: 70px;
+    background-color: rgba(74, 74, 74, 0.5);
+    margin: auto;
+    margin-top: 190%;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+/* App-ikonene inne i snarvei-menyen */
+.shortcut-menu img{
+    width: var(--app-size);
+    height: var(--app-size);
+    border-radius: 10px;
+    margin: auto;
+    user-select: none;
+    -moz-user-select: none;
+} .shortcut-menu img:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+
+/* Selve reiseklar appen sin knapp */
+.reiseklar-app-icon{
+    position: absolute;
+    top: var(--app-location-top);
+    left: var(--app-location-left);
+    height: var(--app-size);
+    width: var(--app-size);
+    display: block;
+    border-radius: 10px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    
+}.reiseklar-app-icon:hover{
+    transform: scale(1.05);
+}
+
+/* Bildet inne i reiseklar appen */
+.reiseklar-app-icon img{
+    margin: auto;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+/* Teksten under reiseklar-appen */
+.reiseklar-app-icon p{
+    margin: auto;
+    padding-top: 2px;
+    font-size: 11px;
+    color: white;
+    width: 100%;
+}
