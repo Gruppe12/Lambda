@@ -3,31 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reiseklar MVP - Loading</title>
+    <title>Reiseklar MVP - Main</title>
 
     <link rel="stylesheet" href="styles/app_landing.css">
+    <script src="js/input_logic.js"></script>
+
+
 </head>
 <body>
 
     <main class="phone-screen" >
 
         <!-- Bilde av en telefon statusbar som ligger øverst på telefonen -->
-        <img src="assets/status-bar.png" class="phone-status-bar">
+        <img src="assets/phone-icons/status-bar.png" class="phone-status-bar">
 
-        <img src="assets/main_app_logo.png" class="logo-main-image" alt="logo">
+        <!-- Hovedlogo-bildet øvsert på appen -->
+        <img src="assets/main_logo.png" class="logo-main-image" alt="logo">
 
+        <!-- Boksen som holder alle input-ting. Brukes for bedre kontroll over sentrering -->
         <section class="input-wrapper">
+
+            <!-- Fra input-felt -->
             <span>
                 <p>Fra:</p>
                 <input type="text" id="input_from">
             </span>
 
+            <!-- Til input-felt -->
             <span>
                 <p>Til:</p>
-                <input type="text" id="input_from">
+                <input type="text" id="input_to">
             </span>
 
-            <button class="button" onclick="location.href='ruter.html';">LAG RUTE</button>
+            <!-- Knappen som sender deg videre -->
+            <!-- CheckInput, sjekker om det finnes noe i input-feltene eller ikke -->
+            <button class="button" onclick="checkInput()">LAG RUTE</button>
+
+            <!-- Error message -->
+            <p id="error_message" class="error-message">Boksene kan ikke være tomme</p>
             
         </section>
 

@@ -1,37 +1,62 @@
 @import url("style.css");
 
 
-/* Setter wallpaper for bakgrunnen til tlf */
-.phone-screen{
-    background: linear-gradient(180deg,rgba(233, 227, 180, 1) 0%, rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
+/* Telefon vindu. Finnes også i Style.css, men overskrives fra Grid til Flex her i Loading */
+.phone-screen {
+
+    /* Oppsett */
+    display: flex;
 }
 
-.loading{
+
+/* Boksen som inneholder alle loading elementer */
+.loading {
+
+    /* Størrelse */
     width: 100%;
     height: 100%;
+
+    /* Oppsett */
     display: grid;
 }
 
-.loading img{
+
+/* App-logo som vises mens man loader */
+.loading img {
+
+    /* Størrelse */
     width: 250px;
     height: auto;
+
+    /* Plassering */
     margin: auto;
 }
 
+
+/* Loading-spinner animasjonen */
 .loader {
+
+    /* Størrelse */
     width: 48px;
     height: 48px;
+
+    /* Utseende */
     border: 5px solid var(--color-light-yellow);
     border-bottom-color: var(--color-purple);
     border-radius: 50%;
-    display: inline-block;
     box-sizing: border-box;
-    animation: rotation 1s linear infinite;
+
+    /* Oppsett */
+    display: inline-block;
     margin: auto;
+
+    /* Animasjon */
+    animation: rotation 1s linear infinite;
 }
 
 
+/* Animasjonen som gjør at loadingen spinner */
 @keyframes rotation {
-    0% {transform: rotate(0deg);}   
-    100% {transform: rotate(360deg);}
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

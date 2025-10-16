@@ -1,15 +1,22 @@
 
+/* Standard greier */
 *{
     padding: 0;
 }
 
 
-body{
-    background-color: rgb(66, 66, 66);
-    display: flex;
+/* Importerer Fonten vi har lastet ned */
+@font-face {
+  font-family: 'ErasITCBold';
+  src: url('../assets/fonts/eras-itc-bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
+
+
+/* Variabler som kan brukes på tvers av CSS-filer */
 :root{
 
     /* Lengden på hjem-skjermen */
@@ -28,25 +35,55 @@ body{
     --color-orange: #f39b6d;
     --color-purple: #6a3e7e;
     --text-color: black;
-    --text-font-1: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;;
+
+    /* Tekst */
+    --text-type-bold: 'ErasITCBold';
+    --text-type-normal: Arial, Helvetica, sans-serif;
+    
+}
+
+/* Denne trenger vi ikke å røre mer, da all logikk foregår inne i en Section inne i Body */
+body{
+
+    /* Oppsett */
+    display: flex;
+
+    /* Utseende */
+    background-color: rgb(66, 66, 66);
+
+    font-family: var(--text-type-normal)
     
 }
 
 /* Selve telefon-vinduet */
 .phone-screen{
-    margin: auto;
+    
+    /* Størrelse og plassering */
     width: var(--home-screen-width);
     height: var(--home-screen-height);
-    background-color: rgb(0, 0, 0);
-    background-size: contain;
+    margin: auto;
+
+    /* Utseende */
+    background: linear-gradient(180deg,rgba(233, 227, 180, 1) 0%, rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
     border-radius: 10px;
+
+    /* Oppsett */
+    display: grid;
+    grid-template-rows: auto auto 1fr;
     position: relative;
 
-    overflow-y: scroll;
+    /* Overflow */
+    overflow-y: scroll;    
+    overflow-x: hidden;
+    
 }
 
+
+
 /* Tlf statusbar helt øverst på telefonen */
-.phone-status-bar{
+.phone-status-bar {
+    
+    /* Plassering */
     position: absolute;
     top: 0;
     left: 0;
@@ -54,18 +91,37 @@ body{
 }
 
 
-/* Standard utseende for knapper */
-.button{
-    margin: auto;
+/* Utseende knapp */
+.button {
+
+    /* Størrelse og plassering */
     width: 150px;
     height: 50px;
-    border-radius: 3px;
-    border: none;
+    margin: auto;
+
+    /* Utseende */
     background-color: var(--color-orange);
+    border: none;
+    border-radius: 3px;
+    box-shadow: 5px 5px 0px var(--color-purple);
+
+    /* Tekst */
     color: var(--color-purple);
     font-weight: bolder;
+    font-size: 1.1rem;
     text-transform: uppercase;
-    font-size: 1rem;
+    font-family: var(--text-type-bold);
+
+    /* Interaksjon */
     cursor: pointer;
-    box-shadow: 5px 5px 0px var(--color-purple);
+}
+
+
+/* Logo øverst på skjermen*/
+.logo-main-image {
+
+    /* Størrelse og plassering */
+    width: 275px;
+    height: auto;
+    margin: 50px auto 0 auto;
 }

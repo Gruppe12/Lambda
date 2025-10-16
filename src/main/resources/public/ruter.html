@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reiseklar MVP - Loading</title>
+    <title>Reiseklar MVP - Ruter</title>
 
     <link rel="stylesheet" href="styles/ruter.css">
-        <script src="main.js"></script>
+    <script src="js/build_trips.js"></script>
+
 </head>
 
 
@@ -15,17 +16,20 @@
     <main class="phone-screen" >
 
         <!-- Bilde av en telefon statusbar som ligger øverst på telefonen -->
-        <img src="assets/status-bar.png" class="phone-status-bar">
+        <img src="assets/phone-icons/status-bar.png" class="phone-status-bar">
 
-        <img src="assets/main_app_logo.png" class="logo-main-image" alt="logo">
+        <!-- Hovedlogo-bildet øvsert på appen -->
+        <img src="assets/main_logo.png" class="logo-main-image" alt="logo">
 
-        <button class="button back" onclick="location.href='app_landing.html';">Back</button>
+        <!-- Tilbake knappen -->
+        <button class="button back" onclick="location.href='app_landing.html';">Tilbake</button>
         
-
+        <!-- Boksen som alle trips blir lagt inn i (via JS) -->
         <section class="trips" id="trips_wrapper">
 
         <!--
-        Slik ser ferdig rute ut:    
+        Slik ser ferdig rute ut:   
+
         <details>
             <summary>Rute 1 (10 minutter)</summary>
             <ul>

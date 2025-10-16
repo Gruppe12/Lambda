@@ -1,69 +1,109 @@
 @import url("style.css");
 
 
-/* Setter wallpaper for bakgrunnen til tlf */
-.phone-screen{
-    background-image: url("../assets/wallpaper.jpg");
+/* Telefon vindu. Finnes også i Style.css, men overskriver bakgrunnen her */
+.phone-screen {
+
+    /* Utseende */
+    background-image: url("../assets/phone-icons/wallpaper.jpg");
+    background-size: contain;
 }
 
 
+/* Snarvei-meny nederst på telefonen */
+.shortcut-menu {
 
-/* Snarvei menyen nederst på telefonen */
-.shortcut-menu{
+    /* Størrelse */
     width: 95%;
     height: 70px;
+
+    /* Utseende */
     background-color: rgba(74, 74, 74, 0.5);
-    margin: auto;
-    margin-top: 190%;
     border-radius: 10px;
+
+    /* Oppsett */
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+
+    /* Plassering */
+    margin: 190% auto 0 auto;
 }
 
-/* App-ikonene inne i snarvei-menyen */
-.shortcut-menu img{
+
+/* App-ikoner i snarvei-menyen */
+.shortcut-menu img {
+
+    /* Størrelse */
     width: var(--app-size);
     height: var(--app-size);
+
+    /* Utseende */
     border-radius: 10px;
-    margin: auto;
     user-select: none;
     -moz-user-select: none;
-} .shortcut-menu img:hover{
+
+    /* Plassering */
+    margin: auto;
+} .shortcut-menu img:hover {
+
+    /* Interaksjon */
     transform: scale(1.05);
     cursor: pointer;
 }
 
 
-/* Selve reiseklar appen sin knapp */
-.reiseklar-app-icon{
-    position: absolute;
-    top: var(--app-location-top);
-    left: var(--app-location-left);
-    height: var(--app-size);
+/* Reiseklar-app knapp */
+.reiseklar-app-icon {
+
+    /* Størrelse */
     width: var(--app-size);
+    height: var(--app-size);
+
+    /* Oppsett */
     display: block;
+
+    /* Utseende */
     border-radius: 10px;
     border: none;
     background-color: transparent;
+
+    /* Plassering */
+    position: absolute;
+    top: var(--app-location-top);
+    left: var(--app-location-left);
+
+    /* Interaksjon */
     cursor: pointer;
-    
-}.reiseklar-app-icon:hover{
+}.reiseklar-app-icon:hover {
     transform: scale(1.05);
 }
 
-/* Bildet inne i reiseklar appen */
-.reiseklar-app-icon img{
-    margin: auto;
+
+/* Bildet inne i reiseklar-appen */
+.reiseklar-app-icon img {
+
+    /* Størrelse */
     width: 100%;
     height: 100%;
+
+    /* Plassering */
+    margin: auto;
+
+    /* Utseende */
     border-radius: 10px;
 }
 
-/* Teksten under reiseklar-appen */
-.reiseklar-app-icon p{
-    margin: auto;
-    padding-top: 2px;
+
+/* Tekst under reiseklar-appen */
+.reiseklar-app-icon p {
+
+    /* Tekst */
     font-size: 11px;
     color: white;
+
+    /* Plassering */
     width: 100%;
+    margin: auto;
+    padding-top: 2px;
 }
+

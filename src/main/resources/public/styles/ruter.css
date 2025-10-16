@@ -1,67 +1,98 @@
 @import url("style.css");
 
-.phone-screen{
-    background: linear-gradient(180deg,rgba(233, 227, 180, 1) 0%, rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
-    display: grid;
-    grid-template-rows: auto auto 1fr;
-}
 
-.logo-main-image{
-    margin: auto;
-    width: 275px;
-    height: auto;
-    margin-top: 50px;
-}
+/* Tilbake-knapp */
+/* Knapper bruker også button-klassen fra Style.css */
+.back {
 
-
-.back{
-    position: absolute;
+    /* Størrelse */
     width: 40px;
     height: 10px;
-    font-size: .5rem;
+
+    /* Tekst */
+    font-size: 0.5rem;
+    font-family: var(--text-type-normal);
+
+    /* Utseende */
     box-shadow: 2px 2px 0px var(--color-purple);
+
+    /* Plassering */
+    position: absolute;
     top: 25px;
     left: 5px;
-} 
-
-.trips details{
-    margin: auto;
-    border-radius: 10px;
-    border: solid var(--color-purple) 2px;
-    padding: 0px 20px 0px 20px;
-    margin-top: 50px;
-    background-color: var(--color-light-yellow);
-    width: 60%;
 }
 
-.trips details summary{
-    margin: auto;
-    margin-left: -10px;
+
+/* Boksen som inneholder rutene som er generert */
+.trips details {
+
+    /* Størrelse og plassering */
+    width: 70%;
+    margin: 50px auto 0 auto;
+    padding: 0 20px;
+
+    /* Utseende */
+    border: 2px solid var(--color-purple);
+    border-radius: 10px;
+    background-color: var(--color-light-yellow);
+}
+
+
+/* Trykkbar overskrift som åpner mer info*/
+.trips details summary {
+
+    /* Tekst */
     font-size: 1rem;
     font-weight: bolder;
+
+    /* Størrelse og plassering */
+    margin: auto;
+    margin-left: -10px;
     padding: 10px;
+
+    /* Interaksjon */
     cursor: pointer;
     user-select: none;
 }
 
+
+/* Lista som viser hvert ledd i reisen */
 .trips details ul {
-  list-style: disc;
-  position: relative;
+
+    /* Utseende */
+    list-style: disc;
+
+    /* Plassering */
+    position: relative;
 }
+
+
+/* Hvert ledd i reisen */
 .trips details ul li {
-  position: relative;
-  padding-left: 10px;
-  margin-bottom: 15px;
+
+    /* Plassering */
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 15px;
 }
+
+
+/* Linja som kobler alle liste-elementene sammen */
 .trips details ul li::before {
-  content: "";
-  position: absolute;
-  left: -11px;
-  top: 10px;
-  bottom: -25px;
-  width: 1px;
-  background: #000;
+
+    /* Utseende */
+    content: "";
+    width: 1px;
+    background: #000;
+
+    /* Plassering */
+    position: absolute;
+    left: -11px;
+    top: 10px;
+    bottom: -25px;
 }
+
+/* Fjerner treken fra siste element, slik at det ikke er en strek som ikke går noe sted */
 .trips details ul li:last-child::before {
-  display: none;
+    display: none;
 }
