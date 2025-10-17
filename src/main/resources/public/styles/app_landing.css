@@ -1,0 +1,89 @@
+@import url("style.css");
+
+
+/* Boksen som inneholder alle spans (som har inputs i seg) */
+.input-wrapper {
+
+    /* Oppsett */
+    display: grid;
+    row-gap: 30px;
+
+    /* Plassering */
+    margin: 50px auto 0 auto;
+}
+
+
+/* Inneholder alle elementer til hver Input */
+.input-wrapper span {
+
+    /* Plassering */
+    position: relative;
+    height: fit-content;
+}
+
+
+/* Tekst som står i hver input-bar*/
+.input-wrapper span p {
+
+    /* Plassering */
+    position: absolute;
+    top: 50%;
+    transform: translate(20%, -50%);
+    margin: 0;
+
+    /* Tekst */
+    font-size: 1.2rem;
+    color: var(--color-purple);
+    font-weight: bolder;
+    line-height: 40px;
+    text-transform: uppercase;
+    font-family: 'ErasITCBold';
+}
+
+
+/* Input-felt */
+input {
+
+    /* Størrelse */
+    width: 205px;
+    height: 45px;
+
+    /* Utseende */
+    border-radius: 10px;
+    background-color: var(--color-light-yellow);
+    border: 3px solid var(--color-purple);
+    padding-left: 65px;
+
+    /* Tekst */
+    color: var(--color-purple);
+    font-size: 1rem;
+}
+
+
+/* Feilmelding */
+.error-message {
+
+    /* Utseende */
+    background-color: #ff4d4f;
+    color: white;
+    border-left: 5px solid #a70000;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+
+    /* Størrelse og plassering */
+    padding: 12px 20px;
+    max-width: 300px;
+    margin: 10px auto;
+
+    /* Synlighet */
+    opacity: 0;
+}
+
+/* Animasjon for feilmelding */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    83% { opacity: 1; }
+    100% { opacity: 0; }
+}
