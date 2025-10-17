@@ -51,7 +51,7 @@ public class Main {
                 toGeoHit.latitude(),
                 toGeoHit.longitude(),
                 1,
-                OffsetDateTime.parse("2025-10-14T17:42:57.701+02:00"), false );
+                OffsetDateTime.parse("2025-10-16T17:42:57.701+02:00"), false );
 
         //Bruker ObjectMapper for å prettify utskrift
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);

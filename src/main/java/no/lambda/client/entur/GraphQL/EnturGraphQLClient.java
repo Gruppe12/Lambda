@@ -1,9 +1,12 @@
 package no.lambda.client.entur.GraphQL;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import no.lambda.client.entur.Exceptions.EnturGraphQLExceptions;
 import no.lambda.client.entur.dto.TripResponseDto;
 import okhttp3.*;
 import com.fasterxml.jackson.databind.*;
+
+import java.io.IOException;
 import java.util.Map;
 
 public class EnturGraphQLClient {
@@ -16,7 +19,7 @@ public class EnturGraphQLClient {
     public EnturGraphQLClient(){
     }
 
-    public TripResponseDto execute(String query, Map<String, Object> variables) throws Exception{
+    public TripResponseDto execute(String query, Map<String, Object> variables) throws EnturGraphQLExceptions {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
@@ -34,8 +37,10 @@ public class EnturGraphQLClient {
                 //System.out.println(mapper.writeValueAsString(variables)); //sjekker variablene før kall, for debugging.
 
         try (Response response = httpClient.newCall(request).execute()){
-            if (!response.isSuccessful()) throw new RuntimeException("Error in the Entur API request: " + response);
+            if (!response.isSuccessful()) throw new EnturGraphQLExceptions("Error in the Entur API request: " + response);
             return mapper.readValue(response.body().string(), TripResponseDto.class);
+        } catch (IOException e) {
+            throw new EnturGraphQLExceptions(e);
         }
 
     }

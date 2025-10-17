@@ -1,13 +1,15 @@
 package no.lambda.client.entur.Geocoder;
+import no.lambda.client.entur.Exceptions.EnturGeocoderException;
 import okhttp3.*;
 import com.fasterxml.jackson.databind.*;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class EnturGeocoderClient {
-    //Record for geo data for POIN/addresse/Stop
+    //Record for geo data for POI/addresse/Stop
     public record GeoHit(String label,String County ,double latitude, double longitude, String placeId){ }
 
     private final OkHttpClient httpClient = new OkHttpClient();
@@ -17,7 +19,7 @@ public class EnturGeocoderClient {
 
 
     //Metode for request til geocode api-et som returner en GeoHit object
-    public ArrayList<GeoHit> geoCode(String text) throws Exception{
+    public ArrayList<GeoHit> geoCode(String text) throws EnturGeocoderException {
         var hits = new ArrayList<GeoHit>();
 
         //Entur geocoder API endepunktet
@@ -66,6 +68,8 @@ public class EnturGeocoderClient {
                 );
             }
             return hits;
+        } catch (IOException e) {
+            throw new EnturGeocoderException(e);
         }
     }
 }
