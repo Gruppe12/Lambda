@@ -12,19 +12,31 @@ public class EnturGeocoderClient {
     //Record for geo data for POI/addresse/Stop
     public record GeoHit(String label,String County ,double latitude, double longitude, String placeId){ }
 
-    private final OkHttpClient httpClient = new OkHttpClient();
+    private final OkHttpClient httpClient;
+    private final ObjectMapper mapper;
+    private final String baseUrl;
+    private final String clientName;
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    public EnturGeocoderClient(){
+            this(new OkHttpClient(), new ObjectMapper(),
+            "https://api.entur.io/geocoder/v1/autocomplete",
+            "LambdaTechAS-SkoleProsjekt_HIOF2025");
+    }
 
+    public EnturGeocoderClient(OkHttpClient httpClient, ObjectMapper mapper, String baseUrl, String clientName){
 
+        this.httpClient = httpClient != null ?  httpClient: new OkHttpClient();
+        this.mapper = mapper != null ? mapper : new ObjectMapper();
+        this.baseUrl = baseUrl != null ? baseUrl : "https://api.entur.io/geocoder/v1/autocomplete";
+        this.clientName = clientName != null ? clientName : "LambdaTechAS-SkoleProsjekt_HIOF2025";
+    }
 
     //Metode for request til geocode api-et som returner en GeoHit object
     public ArrayList<GeoHit> geoCode(String text) throws EnturGeocoderException {
         var hits = new ArrayList<GeoHit>();
 
         //Entur geocoder API endepunktet
-        var url = "https://api.entur.io/geocoder/v1/autocomplete?lang=no&size=10&text="
-                + URLEncoder.encode(text, StandardCharsets.UTF_8);
+        String url = String.format("%s?lang=no&size=10&text=%s", baseUrl, URLEncoder.encode(text, StandardCharsets.UTF_8));
 
         //bygger requesten med OKHTTP3
         var request = new Request.Builder()
@@ -36,9 +48,14 @@ public class EnturGeocoderClient {
 
         //bygger responsen med OKHTTP3
         try (var response = httpClient.newCall(request).execute()){
-            //Kaster en exception dersom request feiler
-            if (!response.isSuccessful()) throw new RuntimeException("Geocoder error: " + response);
 
+            if (!response.isSuccessful()) {
+                throw new EnturGeocoderException("Geocoder error: " + response);
+            }
+
+            if (response.body() == null){
+                throw new EnturGeocoderException("Empty response body from Entur geocoder");
+            }
             //Leser selve responsen
             JsonNode root = mapper.readTree(response.body().string());
 
@@ -46,7 +63,7 @@ public class EnturGeocoderClient {
             JsonNode featuresNode = root.get("features");
 
             if (featuresNode == null || !featuresNode.isArray() || featuresNode.isEmpty()) {
-                throw new RuntimeException("No geocoding results for: " + text);
+                throw new EnturGeocoderException("No geocoding results for: " + text);
             }
 
             //oppretter en GeoHit objekt for hver feature i hits

@@ -18,8 +18,8 @@ public class Main {
         //dependencies
         var _client = new EnturGraphQLClient();
         var _geocoder = new EnturGeocoderClient();
-        var service = new EnturService(_client, _geocoder);
-        var _controller = new PlanTripController(service);
+        var _service = new EnturService(_client, _geocoder);
+        var _controller = new PlanTripController(_service);
 
         //En liste med POI's til argumentet
         var fromFeatures = _controller.geoHits("Halden stasjon, Halden");
@@ -51,7 +51,7 @@ public class Main {
                 toGeoHit.latitude(),
                 toGeoHit.longitude(),
                 1,
-                OffsetDateTime.parse("2025-10-16T17:42:57.701+02:00"), false );
+                OffsetDateTime.parse("2025-10-17T19:42:57.701+02:00"), false );
 
         //Bruker ObjectMapper for å prettify utskrift
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
