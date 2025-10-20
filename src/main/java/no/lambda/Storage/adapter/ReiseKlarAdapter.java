@@ -68,36 +68,6 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
             throw new EnTurException("Could not retrieve favorite route " + favorittruteId, e);
         }
     }
-
-    @Override
-    public void createUserSQLQuery(String fornavn, String etternavn) throws EnTurException {
-        //Opprette bruker, "ID er generert automatisk."
-        System.out.println("INSERT INTO Bruker(fornavn, etternavn)\n" +
-                           "VALUES ("+fornavn+", "+etternavn+")");
-    }
-
-    @Override
-    public void createFavoriteRouteSQLQuery(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude, int ToPlaceId) throws EnTurException {
-        //Opprette Favorittrute, "ID er generert automatisk."
-        System.out.println("INSERT INTO Favorittrute(bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id)\n" +
-                           "VALUES ("+brukerId+", "+fromLongitude+", "+fromLatitude+", "+ToLongitude+", "+ToLatitude+", "+ToPlaceId+")");
-    }
-
-    @Override
-    public void getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(int favorittruteId, int brukerId) throws EnTurException {
-        //Hente from/to longitude/latitude fra en bestemt favorittrute og bruker.
-        System.out.println("SELECT from_longitude, from_latitude, to_longitude, to_latitude\n" +
-                           "FROM Favorittrute\n" +
-                           "WHERE favorittrute_id = "+favorittruteId+" AND bruker_id = "+brukerId);
-    }
-
-    @Override
-    public void getFavoriteRoutesFromUserBasedOnIdSQLQuery(int brukerId) throws EnTurException {
-        //Hente favorittruter fra en bestemt bruker
-        System.out.println("SELECT *\n" +
-                           "FROM Favorittrute\n" +
-                           "WHERE bruker_id = "+brukerId);
-    }
 }
 
 
