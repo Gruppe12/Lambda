@@ -3,6 +3,9 @@ package no.lambda.Storage.adapter;
 import no.lambda.exception.EnTurException;
 import no.lambda.port.SQLStringPort;
 
+/*
+Inneholder flere metoder som produserer dynamiske SQL queries basert på gitte parametere.
+ */
 public class SQLStringAdapter implements SQLStringPort {
 
     @Override

@@ -3,6 +3,10 @@ package no.lambda.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+En rute skal inneholde informasjon angående fra og til destinasjon, hvilken bruker dette gjelder for,
+og om den er lagret som en favorittrute av den samme brukeren.
+*/
 public class Rute {
 
     private int favorittrute_id;

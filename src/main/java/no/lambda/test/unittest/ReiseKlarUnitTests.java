@@ -14,20 +14,21 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 
+//Tester om de ulike SQL String metodene returnerer den String teksten som forventet.
 public class ReiseKlarUnitTests {
 
     @Test
     public void SQLStringAdapter_StringsCreatedSuccessfully() throws Exception {
-        // Arrange
+        //Arrange
         SQLStringAdapter sqlStringAdapter = new SQLStringAdapter();
 
-        // Act
+        //Act
         String stringText1 = sqlStringAdapter.createUserSQLQuery("Jane", "Doe");
         String stringText2 = sqlStringAdapter.createFavoriteRouteSQLQuery(1, 10, 20, 30, 40, 1);
         String stringText3 = sqlStringAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(1, 1);
         String stringText4 = sqlStringAdapter.getFavoriteRoutesFromUserBasedOnIdSQLQuery(1);
 
-        // Assert
+        //Assert
         Assertions.assertEquals(("INSERT INTO Bruker(fornavn, etternavn)\n" + "VALUES (Jane, Doe)"), stringText1);
         Assertions.assertEquals(("INSERT INTO Favorittrute(bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id)\n" +
                 "VALUES ("+1+", "+10.0+", "+20.0+", "+30.0+", "+40.0+", "+1+")"), stringText2);

@@ -4,6 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/*
+Abstrakt testdatabase for testing av ulike metoder og SQLs-spørringer mot en database.
+*/
 public abstract class TestDatabase {
     protected Connection connection;
 
@@ -11,6 +14,7 @@ public abstract class TestDatabase {
 
     public abstract void stopDB() throws Exception;
 
+    //Lager tabeller mot databasen.
     public void createTables() throws Exception{
         try (Statement statement = connection.createStatement()) {
             statement.execute("CREATE TABLE Bruker(\n" +
@@ -38,6 +42,7 @@ public abstract class TestDatabase {
         }
     }
 
+    //Lager placeholder data som brukes for testing av de ulike metodene.
     public void createDummyData() throws Exception{
         try (Statement statement = connection.createStatement()) {
             lagBruker(1, "Jane", "Doe");
@@ -46,6 +51,7 @@ public abstract class TestDatabase {
         }
     }
 
+    //Lager en rad i 'Bruker' tabellen med verdier angitt i parameterne.
     public void lagBruker(int brukerId, String fornavn, String etternavn)
             throws Exception{
         String sql = "INSERT INTO Bruker (bruker_id, fornavn, etternavn) " +
@@ -59,6 +65,7 @@ public abstract class TestDatabase {
         }
     }
 
+    //Lager en rad i 'Favorittrute' tabllen med verdier angitt i parameterne.
     public void lagFavorittrute(int favorittruteId, int brukerId, double fromLongitude, double fromLatitude, double toLongitude, double toLatitude, int toPlaceId) throws Exception{
         String sql = "INSERT INTO Favorittrute(favorittrute_id, bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -74,6 +81,7 @@ public abstract class TestDatabase {
         }
     }
 
+    //Teller antall rader i en tabell og gir en tallverdi basert på antall rader. Tabellen som skal telles er angitt i parameteren.
     public int countRowsInTable(String tableName) throws Exception {
         String sql = "SELECT COUNT(*) FROM " + tableName;
 
@@ -84,6 +92,7 @@ public abstract class TestDatabase {
         }
     }
 
+    //Returnerer en eller flere spesifikke from_longitude verdier basert på gitt favorittruteId gitt i parameter.
     public String getSpecificFromLongitudeValue(int favorittruteId) throws Exception{
         String sql = "SELECT from_longitude FROM Favorittrute WHERE favorittrute_id=?";
 

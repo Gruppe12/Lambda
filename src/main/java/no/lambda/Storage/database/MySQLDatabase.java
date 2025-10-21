@@ -4,6 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/*
+Fundamental kode for behandling av en database.
+Funksjonalitet inkluderer start og stopp av databasen.
+*/
 public class MySQLDatabase {
     private String url;
     private String username;

@@ -7,6 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*
+Adapter for ReiseKlar løsningen som inneholder logikk for kommunikasjon med databasen.
+*/
 public class ReiseKlarAdapter implements ReiseKlarPort {
 
     private Connection connection;
@@ -17,6 +20,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
 
     @Override
     public void createFavoriteRoute(Rute rute) throws EnTurException {
+        //Lager en ny rad i 'Favorittrute' tabellen basert på verdier inneholdt i et ruteobjekt.
         String sql = "INSERT INTO Favorittrute(favorittrute_id, bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -35,6 +39,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
 
     @Override
     public Rute getFavoriteRoute(int favorittruteId) throws EnTurException {
+        //Henter en favorittrute fra databasen basert på gitt id i parameter og lager et nytt ruteobjekt basert på verdiene i den raden.
         String sql = "SELECT favorittrute_id, bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id " +
                      "FROM Favorittrute " +
                      "WHERE favorittrute_id=?";

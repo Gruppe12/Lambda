@@ -3,6 +3,9 @@ package no.lambda.test.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/*
+Testdatabase som skal etterligne funskjonalitet og kobling til en faktisk database.
+*/
 public class H2TestDatabase extends TestDatabase {
     public final static String DB_NAME = "testdb";
     /*

@@ -6,6 +6,7 @@ import no.lambda.test.database.TestDatabase;
 import org.junit.jupiter.api.*;
 import java.sql.Connection;
 
+//Ulike tester for metoder man kan bruke mot testdatabasen.
 public class ReiseKlarMySQLAdapterIntegrationTest {
     private static TestDatabase testDB = new H2TestDatabase();
     private static Connection connection;
@@ -37,6 +38,7 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         testDB.stopDB();
     }
 
+    //Tester om en favorittrute er laget riktig og samsvarer med det som blir lagret i testdatabasen.
     @Test
     public void lagFavorittrute_favorittruteErLagetRiktig() throws Exception {
         //Arrange
@@ -46,7 +48,9 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         reiseKlar.createFavoriteRoute(rute);
 
         //Assert
+        //Tester om antall rader i databasen er det som forventet.
         Assertions.assertEquals(2, testDB.countRowsInTable(("Favorittrute")));
+        //Tester om raden i databasen inneholder den forventede from_longitude verdien basert på gitt favorittruteId.
         Assertions.assertEquals("20.1", testDB.getSpecificFromLongitudeValue(2));
     }
 }
