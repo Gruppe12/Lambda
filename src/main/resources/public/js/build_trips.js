@@ -1,28 +1,33 @@
 
 
 // Testing for laging av ruter-funksjonen:
-function testBuildTrips() {
+async function testBuildTrips() {
+
+
+  const from = "Sarpsborg"
+  const response = await fetch(`/api/trips?from=${from}&to=Bergen&arriveBy=false`);
+  console.log(response);
+
   const sampleTrips = [
     {
       duration: 35,
       legs: [
-        { description: "Go to place" },
-        { description: "Use the bus" },
-        { description: "Walk the rest" }
+        {description: "Go to place"},
+        {description: "Use the bus"},
+        {description: "Walk the rest"}
       ]
     },
     {
       duration: 100,
       legs: [
-        { description: "Start at station" },
-        { description: "Take the train" },
-        { description: "Arrive at destination" }
+        {description: "Start at station"},
+        {description: "Take the train"},
+        {description: "Arrive at destination"}
       ]
     }
   ];
   buildTrips(sampleTrips);
 }
-
 
 
 // Fyller inn alle rutene vi har fått

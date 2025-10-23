@@ -34,7 +34,7 @@ public class Application {
 
         // Query Parameters
         // example url: http://localhost:8080/api/trips?from=Oslo&to=Bergen&arriveBy=false
-        app.get("/api/ruter.html", ctx -> {
+        app.get("/api/trips", ctx -> {
             String from = ctx.queryParam("from");
             String to = ctx.queryParam("to");
             boolean arriveBy = Boolean.parseBoolean(ctx.queryParam("arriveBy"));
@@ -60,14 +60,7 @@ public class Application {
                     OffsetDateTime.parse(time), arriveBy
             );
 
-            ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
-            for (TripPattern rute : response){
-                System.out.println("Rute: ");
-                //System.out.print(rute);
-                System.out.println(mapper.writeValueAsString(rute));
-            }
-
-
+            ctx.json(response);
 
 
         });
