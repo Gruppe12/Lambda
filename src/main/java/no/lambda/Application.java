@@ -8,9 +8,9 @@ import no.lambda.port.ReiseKlarPort;
 import java.sql.Connection;
 
 public class Application {
-    private final static String URL = "jdbc:mysql://localhost:3306/entur";
-    private final static String USERNAME = "username";
-    private final static String PASSWORD = "password";
+    private final static String URL = "jdbc:mysql://158.39.162.26:3306/Lambda";
+    private final static String USERNAME = "gruppe12";
+    private final static String PASSWORD = "Summer31";
 
     public static void main(String[] args) throws Exception {
 
@@ -19,11 +19,11 @@ public class Application {
         Connection dbConnection = database.startDB();
 
         // Konfigurerer klasse (for database-spørringer)
-        ReiseKlarPort enTur = new ReiseKlarAdapter(dbConnection);
+        ReiseKlarPort reiseKlar = new ReiseKlarAdapter(dbConnection);
 
         EnturGraphQLClient client = new EnturGraphQLClient();
         // Oppretter EnturService
-        EnturService enturService = new EnturService(client, enTur);
+        EnturService enturService = new EnturService(client, reiseKlar);
     }
 }
 

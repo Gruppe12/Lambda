@@ -53,4 +53,22 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         //Tester om raden i databasen inneholder den forventede from_longitude verdien basert på gitt favorittruteId.
         Assertions.assertEquals("20.1", testDB.getSpecificFromLongitudeValue(2));
     }
+
+    //Tester om en favorittrute er hentet fra databasen og riktig verdier er returnert.
+    @Test
+    public void hentFavorittrute_favorittruteErHentetRiktig() throws Exception {
+        //Arrange
+        int favorittRuteId = 1;
+
+        //Act
+        Rute hentetFavorittrute = reiseKlar.getFavoriteRoute(favorittRuteId);
+
+        //Assert
+        //Tester om verdiene fra ruten laget av 'getFavoriteRoute' metoden er riktige.
+        Assertions.assertEquals(1, hentetFavorittrute.getBruker_id());
+        Assertions.assertEquals(10.5, hentetFavorittrute.getFrom_latitude());
+        Assertions.assertEquals(49.3, hentetFavorittrute.getTo_longitude());
+    }
 }
+
+

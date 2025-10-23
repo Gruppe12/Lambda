@@ -52,10 +52,10 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int brukerId = resultSet.getInt("bruker_id");
-                double fromLongitude = resultSet.getInt("from_longitude");
-                double fromLatitude = resultSet.getInt("from_latitude");
-                double toLongitude = resultSet.getInt("to_longitude");
-                double toLatitude = resultSet.getInt("from_latitude");
+                double fromLongitude = resultSet.getDouble("from_longitude");
+                double fromLatitude = resultSet.getDouble("from_latitude");
+                double toLongitude = resultSet.getDouble("to_longitude");
+                double toLatitude = resultSet.getDouble("to_latitude");
                 int toPlaceId = resultSet.getInt("to_place_id");
 
                 favorittRute.setFavorittrute_id(favorittruteId);
