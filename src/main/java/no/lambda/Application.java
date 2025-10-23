@@ -33,17 +33,17 @@ public class Application {
 
 
         // Query Parameters
-        // example url: http://localhost:8080/api/trips?from=Oslo&to=Bergen&arriveBy=false
+        // example url: http://localhost:8080/api/trips?from=Oslo&to=Bergen&time=2025-10-23T19:37:25.123%2B02:00&arriveBy=false
+        // ADVARSEL!! --- Tiden må være i formatet 2025-10-23T19:37:25.123%2B02:00 og kan ikke være tilbake i tid.
+
         app.get("/api/trips", ctx -> {
             String from = ctx.queryParam("from");
             String to = ctx.queryParam("to");
+            String time = ctx.queryParam("time");
             boolean arriveBy = Boolean.parseBoolean(ctx.queryParam("arriveBy"));
 
             var fromFeatures = _controller.geoHits(from);
             var toFeatures = _controller.geoHits(to);
-
-            String time = OffsetDateTime.now(ZoneOffset.ofHours(2)).toString();
-
 
             var fromGeoHit = fromFeatures.get(0);
             var toGeoHit = toFeatures.get(0);

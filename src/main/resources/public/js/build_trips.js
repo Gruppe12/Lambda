@@ -5,8 +5,10 @@ async function testBuildTrips() {
 
 
   const from = "Sarpsborg"
-  const response = await fetch(`/api/trips?from=${from}&to=Bergen&arriveBy=false`);
-  console.log(response);
+  const localDateTime = "2025-10-23T19:37:25.123"
+  const response = await fetch(`/api/trips?from=${from}&to=&time=${localDateTime}%2B02:00&arriveBy=false`);
+  const data = await response.json()
+  console.log(data);
 
   const sampleTrips = [
     {
