@@ -87,7 +87,7 @@ async function BuildTrips() {
 function makeHeader(dict){
 
   // Setter H3 elementet på siden til å bli dette
-  document.getElementById("title").innerHTML = dict["from"] + " - " + dict["to"]
+  document.getElementById("title").innerHTML = capitalize(dict["from"]) + " - " + capitalize(dict["to"])
 
 }
 
