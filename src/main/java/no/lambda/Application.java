@@ -48,6 +48,7 @@ public class Application {
             var fromGeoHit = fromFeatures.get(0);
             var toGeoHit = toFeatures.get(0);
 
+
             List<TripPattern> response = _controller.planTrip(
                     fromGeoHit.label(),
                     fromGeoHit.latitude(),
@@ -56,7 +57,7 @@ public class Application {
                     toGeoHit.placeId(),
                     toGeoHit.latitude(),
                     toGeoHit.longitude(),
-                    1,
+                    5,
                     OffsetDateTime.parse(time), arriveBy
             );
 
