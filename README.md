@@ -2,7 +2,7 @@
 
 ITF20319 - Software Engineering og testing - Prosjekt (Gruppe12)
 
-Dette repositoryet inneholder kildekoden for gruppeprosjektet "Lambda" i kurset ITF20319. README-en her gir en oversikt over prosjektet, hvordan du bygger og kjører det, hvordan du bidrar, og annen nyttig informasjon for utviklere og sensorer.
+Dette repositoryet inneholder kildekoden for gruppeprosjektet "Lambda" i kurset ITF20319. README-en her gir en oversikt over prosjektet, hvordan du bygger og kjører det, og annen nyttig informasjon for utviklere og sensorer.
 
 Innhold
 - Om prosjektet
@@ -22,8 +22,13 @@ Lambda er et Java-basert prosjekt (Maven) utviklet som en del av kurset for å l
 Teknologistack
 ----------------
 - Java (versjon anbefales: 11 eller nyere)
+- JavaScript
+- HTML
+- CSS
+- GraphQL
 - Maven (byggeverktøy)
 - JUnit (enhetstesting)
+- OKhttp3
 - (Evt. andre biblioteker finnes i pom.xml)
 
 Forutsetninger
@@ -61,7 +66,7 @@ Prosjektstruktur
 Dette prosjektet følger standard Maven-struktur:
 
 - src/main/java/     -> Applikasjonskode
-- src/main/resources/-> Ressurser (konfigurasjoner, properties)
+- src/main/resources/-> Ressurser (konfigurasjoner, properties, GraphQL spørringer)
 - src/test/java/     -> Tester
 - pom.xml            -> Maven-konfigurasjon
 - .mvn/              -> Maven wrapper (inkludert slik at bygg fungerer uten global mvn-installasjon)
@@ -90,15 +95,7 @@ Vanlige problemer
 - Feil versjon av Java: Sjekk java -version og oppdater om nødvendig.
 - Maven cache-problemer: Prøv mvn -U clean package for å oppdatere avhengigheter.
 
-Lisens og kontakt
-----------------
-Legg inn lisensinformasjon her (for eksempel MIT) hvis prosjektet skal være åpent. Hvis ikke, angi at dette er et studentprosjekt.
 
 Kontakt:
 - Gruppe12
 - Repository: https://github.com/Gruppe12/Lambda
-
-Hvis dere ønsker, kan jeg også:
-- Generere en mer detaljert arkitektur-README med klasse- og pakkediagrammer
-- Legge til en GitHub Actions-workflow for bygg og test
-- Opprette ISSUE-maler og PR-maler
