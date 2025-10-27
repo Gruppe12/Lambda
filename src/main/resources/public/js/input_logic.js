@@ -1,5 +1,16 @@
 
 
+// Denne funksjonen lager en "hash" verdi som kan settes etter url.
+// Denne leses i neste vindu og det blir slik vi sender data fra denne fanen til neste
+function makeHash(from, to) {
+
+  // Denne funk gjør at navnene vi sender er trygge for bruk i URL
+  // Altså, fjerner spesialtegn og mellomrom (Hello There --> hello%there)
+  const hashValue = "#" + encodeURIComponent(to) + '+' + encodeURIComponent(from);
+  return hashValue
+}
+
+
 
 // Logikken for hva som skjer når du trykker på "LAG RUTE"-knappen. 
 // Sjekker først om inputs er tomme eller ikke.
@@ -24,7 +35,11 @@ function checkInput() {
     
   } else {
 
-    // Går til rute-siden
-    window.location.href = 'ruter.html';
+
+    
+    // Går til rute-siden. Vi legger til verdiene fra input-feltene som hash-verdier som leses i neste fane
+    window.location.href = 'ruter.html' + makeHash(inputFrom, inputTo);
   }
 }
+
+

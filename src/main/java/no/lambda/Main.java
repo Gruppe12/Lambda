@@ -22,9 +22,9 @@ public class Main {
         var _controller = new PlanTripController(_service);
 
         //En liste med POI's til argumentet
-        var fromFeatures = _controller.geoHits("Halden stasjon, Halden");
+        var fromFeatures = _controller.geoHits("Høvik Kirke");
         //En liste med POI's til argumentet
-        var toFeatures = _controller.geoHits("Fredrikstad bussterminal, Fredrikstad");
+        var toFeatures = _controller.geoHits("Lysaker stasjon");
 
         //Tar første POI - Fra feltet
         var fromGeoHit = fromFeatures.get(0);
@@ -40,8 +40,8 @@ public class Main {
         System.out.println("");
 
         //metoden _controller.planTrip sender request til GraphQL API-et og returnerer en
-        //liste med TripPatterns, altså "Ruter". tripPatterns er satt til 1
-        //så det blir kun 1 "rute"
+        //liste med TripPatterns, altså "Ruter". tripPatterns er satt til 1 i graphql spørringen.
+        //så det blir kun 1 "rute/tripPattern"
         List<TripPattern> response = _controller.planTrip(
                 fromGeoHit.label(),
                 fromGeoHit.latitude(),
@@ -50,8 +50,10 @@ public class Main {
                 toGeoHit.placeId(),
                 toGeoHit.latitude(),
                 toGeoHit.longitude(),
-                1,
-                OffsetDateTime.parse("2025-10-17T19:42:57.701+02:00"), false );
+                5,
+                OffsetDateTime.now(),
+                false );
+
 
         //Bruker ObjectMapper for å prettify utskrift
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
