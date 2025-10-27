@@ -22,9 +22,9 @@ public class Main {
         var _controller = new PlanTripController(_service);
 
         //En liste med POI's til argumentet
-        var fromFeatures = _controller.geoHits("Halden stasjon, Halden");
+        var fromFeatures = _controller.geoHits("Høvik Kirke");
         //En liste med POI's til argumentet
-        var toFeatures = _controller.geoHits("Fredrikstad bussterminal, Fredrikstad");
+        var toFeatures = _controller.geoHits("Lysaker stasjon");
 
         //Tar første POI - Fra feltet
         var fromGeoHit = fromFeatures.get(0);
@@ -51,7 +51,9 @@ public class Main {
                 toGeoHit.latitude(),
                 toGeoHit.longitude(),
                 5,
-                OffsetDateTime.parse("2025-10-24T21:00:57.701+02:00"), false );
+                OffsetDateTime.now(),
+                false );
+
 
         //Bruker ObjectMapper for å prettify utskrift
         ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);

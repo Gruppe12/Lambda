@@ -57,7 +57,6 @@ public class EnturGraphQLClient {
         } catch (IOException e) {
             throw new EnturGraphQLExceptions(e);
         }
-
     }
 
     private static ObjectMapper defaultMapper(){
