@@ -92,15 +92,15 @@ public abstract class TestDatabase {
         }
     }
 
-    //Returnerer en eller flere spesifikke from_longitude verdier basert på gitt favorittruteId gitt i parameter.
-    public String getSpecificFromLongitudeValue(int favorittruteId) throws Exception{
-        String sql = "SELECT from_longitude FROM Favorittrute WHERE favorittrute_id=?";
+    //Returnerer en eller flere spesifikke verdier fra databasen gitt som første parameter basert på gitt favorittruteId gitt i andre parameter.
+    public String getValueFromColumnBasedOnFavoriteId(String column, int favorittruteId) throws Exception{
+        String sql = "SELECT "+column+" FROM Favorittrute WHERE favorittrute_id=?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, favorittruteId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return resultSet.getString("from_longitude");
+            return resultSet.getString(1);
         }
     }
 }

@@ -50,8 +50,13 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         //Assert
         //Tester om antall rader i databasen er det som forventet.
         Assertions.assertEquals(2, testDB.countRowsInTable(("Favorittrute")));
-        //Tester om raden i databasen inneholder den forventede from_longitude verdien basert på gitt favorittruteId.
-        Assertions.assertEquals("20.1", testDB.getSpecificFromLongitudeValue(2));
+        //Tester om raden i databasen inneholder de forventede verdiene basert på gitt favorittruteId.
+        Assertions.assertEquals("2", testDB.getValueFromColumnBasedOnFavoriteId("bruker_id", 2));
+        Assertions.assertEquals("20.1", testDB.getValueFromColumnBasedOnFavoriteId("from_longitude", 2));
+        Assertions.assertEquals("14.7", testDB.getValueFromColumnBasedOnFavoriteId("from_latitude", 2));
+        Assertions.assertEquals("46.5", testDB.getValueFromColumnBasedOnFavoriteId("to_longitude", 2));
+        Assertions.assertEquals("70.0", testDB.getValueFromColumnBasedOnFavoriteId("to_latitude", 2));
+        Assertions.assertEquals("4", testDB.getValueFromColumnBasedOnFavoriteId("to_place_id", 2));
     }
 
     //Tester om en favorittrute er hentet fra databasen og riktig verdier er returnert.
@@ -65,9 +70,13 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
 
         //Assert
         //Tester om verdiene fra ruten laget av 'getFavoriteRoute' metoden er riktige.
+        Assertions.assertEquals(1, hentetFavorittrute.getFavorittrute_id());
         Assertions.assertEquals(1, hentetFavorittrute.getBruker_id());
+        Assertions.assertEquals(20.4, hentetFavorittrute.getFrom_longitude());
         Assertions.assertEquals(10.5, hentetFavorittrute.getFrom_latitude());
         Assertions.assertEquals(49.3, hentetFavorittrute.getTo_longitude());
+        Assertions.assertEquals(31.9, hentetFavorittrute.getTo_latitude());
+        Assertions.assertEquals(3, hentetFavorittrute.getTo_place_id());
     }
 }
 
