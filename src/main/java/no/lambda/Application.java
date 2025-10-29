@@ -3,6 +3,7 @@ import no.lambda.Services.EnturService;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
 import no.lambda.client.entur.EnturGraphQLClient;
+import no.lambda.model.Bruker;
 import no.lambda.model.Rute;
 import no.lambda.port.ReiseKlarPort;
 import java.sql.Connection;
@@ -27,10 +28,17 @@ public class Application {
         // Oppretter EnturService
         // EnturService enturService = new EnturService(client, reiseKlar);
 
-        // Demonstrasjon av opprettelse av en ny rute i databasen.
-        // Rute eksempelRute = new Rute(2,1, 60, 120, 40, 80, 3);
-        // reiseKlar.createFavoriteRoute(eksempelRute);
+        // Demonstrasjon av opprettelser av nye rader i databasen.
+        Rute eksempelRute1 = new Rute(2, 1, 60.0, 120.0, 40.0, 80.0, 3);
+        Rute eksempelRute2 = new Rute(3, 2, 35.0, 41.0, 57.0, 55.0, 5);
+        // reiseKlar.createFavoriteRoute(eksempelRute1);
+        // reiseKlar.createFavoriteRoute(eksempelRute2);
+        // reiseKlar.createUser("John", "Doe");
+
+        // Demonstrasjon av henting av data fra rader i databasen.
+        System.out.println("Henter favorittrute:\n" + reiseKlar.getFavoriteRoute(1) + "\n");
+        System.out.println("Henter fra og til verdier basert på favorittrute_id og bruker_id:\n" + reiseKlar.getToAndFromBasedOnFavoriteRouteIDAndUserID(1, 1) + "\n");
+        System.out.println("Henter ruteinformasjon basert på bruker_id:\n" + reiseKlar.getFavoriteRoutesFromUserBasedOnId(2) + "\n");
     }
 }
-
 

@@ -77,4 +77,15 @@ public class Rute {
     public void setTo_place_id(int to_place_id) {
         this.to_place_id = to_place_id;
     }
+
+    @Override
+    public String toString() {
+        return Integer.toString(getFavorittrute_id()) + " " +
+                Integer.toString(getBruker_id()) + " " +
+                Double.toString(getFrom_longitude()) + " " +
+                Double.toString(getFrom_latitude()) + " " +
+                Double.toString(getTo_longitude()) + " " +
+                Double.toString(getTo_latitude()) + " " +
+                Integer.toString(getTo_place_id());
+    }
 }

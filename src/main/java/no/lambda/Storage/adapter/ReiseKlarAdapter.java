@@ -1,5 +1,7 @@
 package no.lambda.Storage.adapter;
+import no.lambda.Storage.exception.MySQLDatabaseException;
 import no.lambda.exception.EnTurException;
+import no.lambda.model.Bruker;
 import no.lambda.model.Rute;
 import no.lambda.port.ReiseKlarPort;
 import java.sql.Connection;
@@ -13,13 +15,14 @@ Adapter for ReiseKlar løsningen som inneholder logikk for kommunikasjon med dat
 public class ReiseKlarAdapter implements ReiseKlarPort {
 
     private Connection connection;
+    SQLStringAdapter sqlStringAdapter = new SQLStringAdapter();
 
     public ReiseKlarAdapter(Connection connection) {
         this.connection = connection;
     }
 
     @Override
-    public void createFavoriteRoute(Rute rute) throws EnTurException {
+    public void createFavoriteRoute(Rute rute) throws MySQLDatabaseException {
         //Lager en ny rad i 'Favorittrute' tabellen basert på verdier inneholdt i et ruteobjekt.
         String sql = "INSERT INTO Favorittrute(favorittrute_id, bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -38,7 +41,19 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
     }
 
     @Override
-    public Rute getFavoriteRoute(int favorittruteId) throws EnTurException {
+    public void createUser(String fornavn, String etternavn) throws MySQLDatabaseException {
+        //Lager en ny rad i 'Bruker' tabellen basert på verdier inneholdt i et ruteobjekt.
+        String sql = sqlStringAdapter.createUserSQLQuery(fornavn, etternavn);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new EnTurException("Could not create user", e);
+        }
+    }
+
+    @Override
+    public Rute getFavoriteRoute(int favorittruteId) throws MySQLDatabaseException {
         //Henter en favorittrute fra databasen basert på gitt id i parameter og lager et nytt ruteobjekt basert på verdiene i den raden.
         String sql = "SELECT favorittrute_id, bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id " +
                      "FROM Favorittrute " +
@@ -70,7 +85,44 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
             return favorittRute;
 
         } catch (SQLException e) {
-            throw new EnTurException("Could not retrieve favorite route " + favorittruteId, e);
+            throw new EnTurException("Could not retrieve favorite route" + favorittruteId, e);
+        }
+    }
+
+    @Override
+    public String getToAndFromBasedOnFavoriteRouteIDAndUserID(int favorittruteId, int brukerId) throws MySQLDatabaseException {
+        //Hente from/to longitude/latitude fra en bestemt favorittrute og bruker, og skrive ut informasjonen som blir hentet.
+        String sql = sqlStringAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(favorittruteId, brukerId);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getString(1) + " " +
+                    resultSet.getString(2) + " " +
+                    resultSet.getString(3) + " " +
+                    resultSet.getString(4);
+        } catch (SQLException e) {
+            throw new EnTurException("Could not get to and from based on Ids", e);
+        }
+    }
+
+    @Override
+    public String getFavoriteRoutesFromUserBasedOnId(int brukerId) throws MySQLDatabaseException {
+        //Hente favorittruter fra en bestemt bruker, og skrive ut informasjonen som blir hentet.
+        String sql = sqlStringAdapter.getFavoriteRoutesFromUserBasedOnIdSQLQuery(brukerId);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getString(1) + " " +
+                    resultSet.getString(2) + " " +
+                    resultSet.getString(3) + " " +
+                    resultSet.getString(4) + " " +
+                    resultSet.getString(5) + " " +
+                    resultSet.getString(6) + " " +
+                    resultSet.getString(7);
+        } catch (SQLException e) {
+            throw new EnTurException("Could not get to and from based on Ids", e);
         }
     }
 }
