@@ -8,7 +8,7 @@ import no.lambda.port.ReiseKlarPort;
 import java.sql.Connection;
 
 public class Application {
-    private final static String URL = "jdbc:mysql://158.39.162.26:3306/Lambda";
+    private final static String URL = "jdbc:mysql://itstud.hiof.no:3306/se25_G12";
     private final static String USERNAME = "gruppe12";
     private final static String PASSWORD = "Summer31";
 
