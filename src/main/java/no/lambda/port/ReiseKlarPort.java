@@ -11,7 +11,7 @@ public interface ReiseKlarPort {
     void createFavoriteRoute(Rute rute) throws MySQLDatabaseException;
     void createUser(String fornavn, String etternavn) throws MySQLDatabaseException;
     Rute getFavoriteRoute(int favorittruteId) throws MySQLDatabaseException;
-    String getToAndFromBasedOnFavoriteRouteIDAndUserID(int favorittruteId, int brukerId) throws MySQLDatabaseException;
+    ArrayList<Double> getToAndFromBasedOnFavoriteRouteIDAndUserID(int favorittruteId, int brukerId) throws MySQLDatabaseException;
     ArrayList<ArrayList<Double>> getFavoriteRoutesFromUserBasedOnId(int brukerId) throws MySQLDatabaseException;
 }
 

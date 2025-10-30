@@ -91,17 +91,19 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
     }
 
     @Override
-    public String getToAndFromBasedOnFavoriteRouteIDAndUserID(int favorittruteId, int brukerId) throws MySQLDatabaseException {
-        //Hente from/to longitude/latitude fra en bestemt favorittrute og bruker, og skrive ut informasjonen som blir hentet.
+    public ArrayList<Double> getToAndFromBasedOnFavoriteRouteIDAndUserID(int favorittruteId, int brukerId) throws MySQLDatabaseException {
+        //Hente liste av from/to longitude/latitude verdier fra en bestemt favorittrute og bruker, og skrive ut informasjonen som blir hentet.
+        ArrayList<Double> coordinates = new ArrayList<>();
         String sql = sqlStringAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(favorittruteId, brukerId);
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return resultSet.getString(1) + " " +
-                    resultSet.getString(2) + " " +
-                    resultSet.getString(3) + " " +
-                    resultSet.getString(4);
+            coordinates.add(resultSet.getDouble(1));
+            coordinates.add(resultSet.getDouble(2));
+            coordinates.add(resultSet.getDouble(3));
+            coordinates.add(resultSet.getDouble(4));
+            return coordinates;
         } catch (SQLException e) {
             throw new EnTurException("Could not get to and from based on Ids", e);
         }
