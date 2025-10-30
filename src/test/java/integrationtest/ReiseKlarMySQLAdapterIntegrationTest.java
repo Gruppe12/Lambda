@@ -1,8 +1,8 @@
-package no.lambda.test.integrationtest;
+package integrationtest;
+import database.TestDatabase;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.model.Rute;
-import no.lambda.test.database.H2TestDatabase;
-import no.lambda.test.database.TestDatabase;
+import database.H2TestDatabase;
 import org.junit.jupiter.api.*;
 import java.sql.Connection;
 
@@ -17,9 +17,7 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
     public static void setUpTestDB() throws Exception {
         connection = testDB.startDB();
         testDB.createTables();
-
         connection.setAutoCommit(false);
-
         reiseKlar = new ReiseKlarAdapter(connection);
     }
 

@@ -6,7 +6,6 @@ import no.lambda.client.entur.dto.TripResponseDto;
 import okhttp3.*;
 import com.fasterxml.jackson.databind.*;
 
-
 import java.io.IOException;
 import java.util.Map;
 
@@ -23,7 +22,6 @@ public class EnturGraphQLClient {
                 defaultMapper(),
                 "LambdaTechAS-SkoleProsjekt_HIOF2025");
     }
-
 
     //konstruktør for testing
     public EnturGraphQLClient(String url, OkHttpClient httpClient, ObjectMapper mapper, String clientName) {

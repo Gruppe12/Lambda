@@ -1,4 +1,4 @@
-package no.lambda.test.unittest;
+package unittest;
 
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.adapter.SQLStringAdapter;

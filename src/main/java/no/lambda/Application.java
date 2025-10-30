@@ -2,7 +2,7 @@ package no.lambda;
 import no.lambda.Services.EnturService;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
-import no.lambda.client.entur.EnturGraphQLClient;
+import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
 import no.lambda.model.Bruker;
 import no.lambda.model.Rute;
 import no.lambda.port.ReiseKlarPort;
@@ -22,22 +22,23 @@ import no.lambda.controller.PlanTripController;
 
 
 public class Application {
-    public static void main(String[] args) throws Exception {
     private final static String URL = "jdbc:mysql://itstud.hiof.no:3306/se25_G12";
     private final static String USERNAME = "gruppe12";
     private final static String PASSWORD = "Summer31";
-      
-        var _client = new EnturGraphQLClient();
-        var _geocoder = new EnturGeocoderClient();
-        var service = new EnturService(_client, _geocoder);
-        var _controller = new PlanTripController(service);
-      
-      // Konfigurerer database
+
+    public static void main(String[] args) throws Exception {
+
+        // Konfigurerer database
         MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
         Connection dbConnection = database.startDB();
 
         // Konfigurerer klasse (for database-spørringer)
-        ReiseKlarPort reiseKlar = new ReiseKlarAdapter(dbConnection);
+        var reiseKlar = new ReiseKlarAdapter(dbConnection);
+
+        var _client = new EnturGraphQLClient();
+        var _geocoder = new EnturGeocoderClient();
+        var service = new EnturService(_client, _geocoder, reiseKlar);
+        var _controller = new PlanTripController(service);
          
         //Etter en merge conflict vurderer jeg å fjerne denne, men lar den stå for nå og kommenterer ut.
         //EnturGraphQLClient client = new EnturGraphQLClient();
@@ -58,8 +59,7 @@ public class Application {
         //1. fromLongitude 2. fromLatitude 3. toLongitude 4. toLatitude
         System.out.println("Henter en liste av favorittrutekoordinater basert på bruker_id:\n" + reiseKlar.getFavoriteRoutesFromUserBasedOnId(1) + "\n");
         
-        //dependencies
-        
+
 
 
         // Makes the app object based on the HTML/CSS/JS in the public folder

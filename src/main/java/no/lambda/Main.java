@@ -3,22 +3,32 @@ package no.lambda;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import no.lambda.Services.EnturService;
+import no.lambda.Storage.adapter.ReiseKlarAdapter;
+import no.lambda.Storage.database.MySQLDatabase;
 import no.lambda.client.entur.Geocoder.*;
 import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
 import no.lambda.client.entur.dto.TripPattern;
 
 import no.lambda.controller.PlanTripController;
 
+import java.sql.Connection;
 import java.time.OffsetDateTime;
 import java.util.List;
 
 public class Main {
+    private final static String URL = "jdbc:mysql://itstud.hiof.no:3306/se25_G12";
+    private final static String USERNAME = "gruppe12";
+    private final static String PASSWORD = "Summer31";
     public static void main(String[] args) throws Exception {
 
+        MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
+        Connection dbConnection = database.startDB();
         //dependencies
         var _client = new EnturGraphQLClient();
         var _geocoder = new EnturGeocoderClient();
-        var _service = new EnturService(_client, _geocoder);
+        var reiseKlar = new ReiseKlarAdapter(dbConnection);
+
+        var _service = new EnturService(_client, _geocoder, reiseKlar);
         var _controller = new PlanTripController(_service);
 
         //En liste med POI's til argumentet
