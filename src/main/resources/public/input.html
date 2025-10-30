@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reiseklar MVP - Main</title>
+
+    <link rel="stylesheet" href="styles/input.css">
+    <script src="js/input.js"></script>
+
+
+</head>
+<body>
+
+    <main class="phone-screen" >
+
+        <!-- Bilde av en telefon statusbar som ligger øverst på telefonen -->
+        <img src="assets/phone-icons/status-bar.png" class="phone-status-bar">
+
+        <!-- Appen sitt vindu; Alt under statusbaren -->
+        <section class="page-content">
+
+            <!-- Hovedlogo-bildet øvsert på appen -->
+            <img src="assets/main_logo.png" class="logo-main-image" alt="logo">
+
+
+            <div class="input-wrapper">
+
+                <!-- Fra input-felt -->
+                <div class="input-bar-container">
+                    <span>Fra:</span>
+                    <input type="text" id="input_from" list="cities">
+                    <ul class="dropdown" id="dropdown_from">
+                        <li onmousedown="readValueDropdown('input_from', this)">Sarpsborg</li>
+                        <li onmousedown="readValueDropdown('input_from', this)">Fredrikstad</li>
+                    </ul>
+                </div>
+
+
+                <!-- Til input-felt -->
+                <div class="input-bar-container">
+                    <span>Til:</span>
+                    <input type="text" id="input_to" list="cities">
+                    <ul class="dropdown" id="dropdown_to">
+                        <li onmousedown="readValueDropdown('input_to', this)">Sarpsborg</li>
+                        <li onmousedown="readValueDropdown('input_to', this)">Fredrikstad</li>
+                        <li onmousedown="readValueDropdown('input_to', this)">Oslo</li>
+                        <li onmousedown="readValueDropdown('input_to', this)">Råde</li>
+                    </ul>
+                </div>
+            </div>
+
+            
+    
+
+            <!-- Knappen som sender deg videre -->
+            <!-- CheckInput, sjekker om det finnes noe i input-feltene eller ikke -->
+            <button class="button" onclick="checkInput()">LAG RUTE</button>
+
+            <!-- Error message -->
+            <p id="error_message" class="error-message">Boksene kan ikke være tomme</p>
+                
+            
+
+        </section>
+
+
+
+        
+
+    </main>
+    
+
+
+</body>
+</html>

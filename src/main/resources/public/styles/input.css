@@ -1,0 +1,144 @@
+@import url("style.css");
+@import url("error.css");
+
+
+.input-wrapper{
+
+    margin: auto;
+    display: grid;
+
+    row-gap: 30px;
+}
+
+
+/* Inneholder alle elementer til hver Input */
+.input-bar-container {
+
+    /* Plassering */
+    position: relative;
+    height: fit-content;
+    display: flex;
+    margin: auto;
+
+    /* Størrelse */
+    width: fit-content;
+}
+
+/* Tekst som står i hver input-bar */
+.input-bar-container span {
+
+    /* Plassering */
+    margin: auto;
+
+    /* Størrelse */
+    width: 50px;
+    height: 45px;
+
+    /* Utseende */
+    background-color: var(--color-light-yellow);
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    border: 3px solid var(--color-purple);
+    border-right: none;
+
+    /* Tekst */
+    font-size: 1.2rem;
+    line-height: 45px;
+    color: var(--color-purple);
+    font-weight: bolder;
+    text-transform: uppercase;
+    font-family: 'ErasITCBold';
+    user-select: none;
+    text-align: center;
+}
+
+/* Input-felt */
+input {
+
+    /* Størrelse */
+    width: 205px;
+    height: 45px;
+
+    /* Utseende */
+    background-color: var(--color-light-yellow);
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 3px solid var(--color-purple);
+    border-left: none;
+    padding-left: 5px;
+
+    /* Tekst */
+    color: var(--color-purple);
+    font-size: 1rem;
+}
+
+/* Fjerner standard blå outline på input bar når man trykker på den */
+input:focus{
+    outline: none; 
+}
+
+/* Hvis du trykker på input bar så skjer dette: */
+.input-bar-container:focus-within input {
+    border: 3px solid #2684FF; 
+    border-left: none;
+}
+
+.input-bar-container:focus-within span {
+    border: 3px solid #2684FF; 
+    border-right: none;
+}
+
+.input-bar-container:focus-within .dropdown {
+    visibility: visible;
+}
+
+
+
+/* Dropdown list for autocomplete */
+.dropdown {
+
+    /* Plassering */
+    position: absolute;
+    top: 55%;
+    width: 99%;
+
+    /* Størrelse */
+    height: fit-content;
+    max-height: 500px;
+
+    /* Utseende */
+    background-color: var(--color-light-yellow);
+    display: grid;
+    border-radius: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: 2px solid var(--color-purple);
+    overflow-x: hidden;
+
+    /* Visibility */
+    visibility: hidden;
+    z-index: 1;
+}
+
+/* Dropdown list items */
+.dropdown li {
+
+    /* Plassering */
+    margin: auto;
+
+    /* Størrelse */
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    /* Utseende */
+    list-style: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.dropdown li:hover {
+
+    /* Utseende */
+    background-color: var(--color-orange);
+}

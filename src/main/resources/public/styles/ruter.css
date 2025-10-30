@@ -1,26 +1,6 @@
 @import url("style.css");
 @import url("loading.css");
 
-/* Tilbake-knapp */
-/* Knapper bruker også button-klassen fra Style.css */
-.back {
-
-    /* Størrelse */
-    width: 40px;
-    height: 10px;
-
-    /* Tekst */
-    font-size: 0.5rem;
-    font-family: var(--text-type-normal);
-
-    /* Utseende */
-    box-shadow: 2px 2px 0px var(--color-purple);
-
-    /* Plassering */
-    position: absolute;
-    top: 25px;
-    left: 5px;
-}
 
 
 /* Overskriften som viser hvor du reiser fra og til */
@@ -40,6 +20,7 @@
 
     /* Størrelse og plassering */
     display: grid;
+    flex: 1;
 }
 
 
