@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /*
 Adapter for ReiseKlar løsningen som inneholder logikk for kommunikasjon med databasen.
@@ -107,26 +108,31 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
     }
 
     @Override
-    public String getFavoriteRoutesFromUserBasedOnId(int brukerId) throws MySQLDatabaseException {
-        //Hente favorittruter fra en bestemt bruker, og skrive ut informasjonen som blir hentet.
+    public ArrayList<ArrayList<Double>> getFavoriteRoutesFromUserBasedOnId(int brukerId) throws MySQLDatabaseException {
+        //Hente favorittrute koordinater fra en bestemt bruker, og skrive ut informasjonen som blir hentet.
+        ArrayList<ArrayList<Double>> amountOfFavorites = new ArrayList<>();
         String sql = sqlStringAdapter.getFavoriteRoutesFromUserBasedOnIdSQLQuery(brukerId);
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            return resultSet.getString(1) + " " +
-                    resultSet.getString(2) + " " +
-                    resultSet.getString(3) + " " +
-                    resultSet.getString(4) + " " +
-                    resultSet.getString(5) + " " +
-                    resultSet.getString(6) + " " +
-                    resultSet.getString(7);
+            while (resultSet.next()) {
+                ArrayList<Double> coordinates = new ArrayList<>();
+                //fromLongitude
+                coordinates.add(resultSet.getDouble(3));
+                //fromLatitude
+                coordinates.add(resultSet.getDouble(4));
+                //toLongitude
+                coordinates.add(resultSet.getDouble(5));
+                //toLatitude
+                coordinates.add(resultSet.getDouble(6));
+                amountOfFavorites.add(coordinates);
+            }
+            return amountOfFavorites;
         } catch (SQLException e) {
-            throw new EnTurException("Could not get to and from based on Ids", e);
+            throw new EnTurException("Could not get favorite routes based on Id", e);
         }
     }
 }
-
 
 
 
