@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reiseklar MVP - Main</title>
+
+    <link rel="stylesheet" href="styles/app_landing.css">
+    <script src="js/input_logic.js"></script>
+
+
+</head>
+<body>
+
+    <main class="phone-screen" >
+
+        <!-- Bilde av en telefon statusbar som ligger øverst på telefonen -->
+        <img src="assets/phone-icons/status-bar.png" class="phone-status-bar">
+
+        <!-- Hovedlogo-bildet øvsert på appen -->
+        <img src="assets/main_logo.png" class="logo-main-image" alt="logo">
+
+        <!-- Boksen som holder alle input-ting. Brukes for bedre kontroll over sentrering -->
+        <section class="input-wrapper">
+
+            <!-- Fra input-felt -->
+            <span>
+                <p>Fra:</p>
+                <input type="text" id="input_from" list="cities">
+
+
+                <!-- Kode for fremtidig autocomplete -->
+                <datalist id="cities" class="testytest">
+                    <option value="Fredrikstad">
+                    <option value="Sarpsborg">
+                    <option value="Råde">
+                    <option value="Moss">
+                    <option value="Halden">
+                    <option value="Oslo">
+                    <option value="Drammen">
+                </datalist>
+
+
+            </span>
+
+            <!-- Til input-felt -->
+            <span>
+                <p>Til:</p>
+                <input type="text" id="input_to" list="cities">
+
+                <!-- Kode for fremtidig autocomplete -->
+                <datalist id="cities" class="testytest">
+                    <option value="Fredrikstad">
+                    <option value="Sarpsborg">
+                    <option value="Råde">
+                    <option value="Moss">
+                    <option value="Halden">
+                    <option value="Oslo">
+                    <option value="Drammen">
+                </datalist>
+
+            </span>
+
+            <!-- Knappen som sender deg videre -->
+            <!-- CheckInput, sjekker om det finnes noe i input-feltene eller ikke -->
+            <button class="button" onclick="checkInput()">LAG RUTE</button>
+
+            <!-- Error message -->
+            <p id="error_message" class="error-message">Boksene kan ikke være tomme</p>
+            
+        </section>
+
+        
+
+    </main>
+    
+
+
+</body>
+</html>

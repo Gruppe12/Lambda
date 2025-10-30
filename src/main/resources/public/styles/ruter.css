@@ -1,0 +1,118 @@
+@import url("style.css");
+@import url("loading.css");
+
+/* Tilbake-knapp */
+/* Knapper bruker også button-klassen fra Style.css */
+.back {
+
+    /* Størrelse */
+    width: 40px;
+    height: 10px;
+
+    /* Tekst */
+    font-size: 0.5rem;
+    font-family: var(--text-type-normal);
+
+    /* Utseende */
+    box-shadow: 2px 2px 0px var(--color-purple);
+
+    /* Plassering */
+    position: absolute;
+    top: 25px;
+    left: 5px;
+}
+
+
+/* Overskriften som viser hvor du reiser fra og til */
+.title{
+
+    /* Plassering */
+    margin: auto;
+
+    /* Utseende */
+    padding-top: 40px;
+    margin-bottom: -20px;
+
+}
+
+/* Inneholder alle elementer på denne siden */
+.trips {
+
+    /* Størrelse og plassering */
+    display: grid;
+}
+
+
+/* Boksen som inneholder rutene som er generert */
+.trips details {
+
+    /* Størrelse og plassering */
+    width: 70%;
+    margin: 50px auto 0 auto;
+    padding: 0 20px;
+
+    /* Utseende */
+    border: 2px solid var(--color-purple);
+    border-radius: 10px;
+    background-color: var(--color-light-yellow);
+}
+
+
+/* Trykkbar overskrift som åpner mer info*/
+.trips details summary {
+
+    /* Tekst */
+    font-size: 1rem;
+    font-weight: bolder;
+
+    /* Størrelse og plassering */
+    margin: auto;
+    margin-left: -10px;
+    padding: 10px;
+
+    /* Interaksjon */
+    cursor: pointer;
+    user-select: none;
+}
+
+
+/* Lista som viser hvert ledd i reisen */
+.trips details ul {
+
+    /* Utseende */
+    list-style: disc;
+
+    /* Plassering */
+    position: relative;
+}
+
+
+/* Hvert ledd i reisen */
+.trips details ul li {
+
+    /* Plassering */
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+
+/* Linja som kobler alle liste-elementene sammen */
+.trips details ul li::before {
+
+    /* Utseende */
+    content: "";
+    width: 1px;
+    background: #000;
+
+    /* Plassering */
+    position: absolute;
+    left: -11px;
+    top: 10px;
+    bottom: -25px;
+}
+
+/* Fjerner treken fra siste element, slik at det ikke er en strek som ikke går noe sted */
+.trips details ul li:last-child::before {
+    display: none;
+}
