@@ -3,12 +3,14 @@ package no.lambda.controller;
 import no.lambda.Services.EnturService;
 import no.lambda.Services.IPlanTripService;
 import no.lambda.client.entur.Geocoder.EnturGeocoderClient;
+import no.lambda.client.entur.Reverse.EnturReverseClient;
 import no.lambda.client.entur.dto.TripPattern;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,16 +25,25 @@ public class PlanTripController {
             throw new RuntimeException(e);
         }
     }
-    private final IPlanTripService _enturService;
+    private final EnturService _enturService;
 
+    public PlanTripController() throws Exception {
+        this(new EnturService());
+    }
 
-    public PlanTripController(IPlanTripService enturService){
-        _enturService = enturService;
+    public PlanTripController(EnturService enturService) throws Exception {
+
+        this._enturService = enturService != null ? enturService : new EnturService();
     }
 
 
-    public List<EnturGeocoderClient.GeoHit> geoHits(String text) throws Exception{
+
+    public ArrayList<EnturGeocoderClient.GeoHit> geoHits(String text) throws Exception{
         return _enturService.getGeoHit(text);
+    }
+
+    public ArrayList<EnturReverseClient.RevereseHit> revereseHits(double lat, double lon, int boundaryCircleRadius, int size, String layers) throws Exception {
+        return _enturService.getReverseHit(lat, lon, boundaryCircleRadius, size, layers);
     }
 
 
@@ -49,7 +60,7 @@ public class PlanTripController {
                 "dateTime", dateTime,
                 "arriveBy", arriveBy);
 
-        var dto = _enturService.planATrip(tripQuery, variables);
+        var dto = _enturService.planATrip(variables);
 
         return dto.data.trip.tripPatterns;
     }

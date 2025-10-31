@@ -3,6 +3,7 @@ import no.lambda.Services.EnturService;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
 import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
+import no.lambda.client.entur.Reverse.EnturReverseClient;
 import no.lambda.model.Bruker;
 import no.lambda.model.Rute;
 import no.lambda.port.ReiseKlarPort;
@@ -33,12 +34,9 @@ public class Application {
         Connection dbConnection = database.startDB();
 
         // Konfigurerer klasse (for database-spørringer)
-        var reiseKlar = new ReiseKlarAdapter(dbConnection);
+        var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
 
-        var _client = new EnturGraphQLClient();
-        var _geocoder = new EnturGeocoderClient();
-        var service = new EnturService(_client, _geocoder, reiseKlar);
-        var _controller = new PlanTripController(service);
+        var _controller = new PlanTripController();
          
         //Etter en merge conflict vurderer jeg å fjerne denne, men lar den stå for nå og kommenterer ut.
         //EnturGraphQLClient client = new EnturGraphQLClient();
@@ -54,10 +52,10 @@ public class Application {
         // reiseKlar.createUser("John", "Doe");
 
         // Demonstrasjon av henting av data fra rader i databasen.
-        System.out.println("Henter favorittrute:\n" + reiseKlar.getFavoriteRoute(1) + "\n");
-        System.out.println("Henter en liste av fra og til verdier basert på favorittrute_id og bruker_id:\n" + reiseKlar.getToAndFromBasedOnFavoriteRouteIDAndUserID(1, 1) + "\n");
+        System.out.println("Henter favorittrute:\n" + reiseKlarAdapter.getFavoriteRoute(1) + "\n");
+        System.out.println("Henter en liste av fra og til verdier basert på favorittrute_id og bruker_id:\n" + reiseKlarAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserID(1, 1) + "\n");
         //1. fromLongitude 2. fromLatitude 3. toLongitude 4. toLatitude
-        System.out.println("Henter en liste av favorittrutekoordinater basert på bruker_id:\n" + reiseKlar.getFavoriteRoutesFromUserBasedOnId(1) + "\n");
+        System.out.println("Henter en liste av favorittrutekoordinater basert på bruker_id:\n" + reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(1) + "\n");
         
 
 
