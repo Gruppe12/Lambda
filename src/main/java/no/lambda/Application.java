@@ -29,6 +29,17 @@ public class Application {
 
     public static void main(String[] args) throws Exception {
 
+        // Logikk for oppstart av databasen vår
+        // Kommenterte ut denne for å teste frontend fordi jeg fikk en error, kunne ikke koble til DB
+        //connectToDatabase();
+
+        // Logikken for oppstart av nettside i Javalin
+        startWebsite();
+
+
+    }
+
+    public static void connectToDatabase() throws Exception{
         // Konfigurerer database
         MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
         Connection dbConnection = database.startDB();
@@ -36,8 +47,6 @@ public class Application {
         // Konfigurerer klasse (for database-spørringer)
         var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
 
-        var _controller = new PlanTripController();
-         
         //Etter en merge conflict vurderer jeg å fjerne denne, men lar den stå for nå og kommenterer ut.
         //EnturGraphQLClient client = new EnturGraphQLClient();
 
@@ -56,9 +65,15 @@ public class Application {
         System.out.println("Henter en liste av fra og til verdier basert på favorittrute_id og bruker_id:\n" + reiseKlarAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserID(1, 1) + "\n");
         //1. fromLongitude 2. fromLatitude 3. toLongitude 4. toLatitude
         System.out.println("Henter en liste av favorittrutekoordinater basert på bruker_id:\n" + reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(1) + "\n");
-        
+    }
 
 
+    // Logikken for oppstart av nettsiden
+    public static void startWebsite() throws Exception{
+
+
+        // Lager kontroller for SOMETHING
+        var _controller = new PlanTripController();
 
         // Makes the app object based on the HTML/CSS/JS in the public folder
         // We connect it a port, and start hosting it.

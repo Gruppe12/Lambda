@@ -2,14 +2,16 @@
 @import url("error.css");
 
 
-.input-wrapper{
+/* Wrapper som inneholder begge inputfield */
+.input-wrapper {
 
+    /* Plassering */
     margin: auto;
     display: grid;
 
+    /* Størrelse / spacing */
     row-gap: 30px;
 }
-
 
 /* Inneholder alle elementer til hver Input */
 .input-bar-container {

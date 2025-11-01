@@ -98,6 +98,12 @@ function buildTrips(trips) {
   // Lager et tomt element til å holde på HTML koden vi lager her
   let tripsHTML = ""
 
+  // Hvis trips er tom
+  if (!trips.length) {
+    document.getElementById("trips_wrapper").innerHTML = "<p> Det finnes ingen rute dit akkurat nå </p>";
+    return
+  }
+
 
   // Går igjennom trips listen og bygger ruter til hvert element.
   trips.forEach((trip, index) => {
