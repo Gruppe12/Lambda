@@ -11,8 +11,12 @@
 
     /* Størrelse og plassering */
     padding: 12px 20px;
-    max-width: 300px;
-    margin: 10px auto;
+    width: 225px;
+    position: absolute;
+    bottom: 125px;
+    left: 50%;         
+    transform: translateX(-50%); 
+
 
     /* Synlighet */
     opacity: 0;

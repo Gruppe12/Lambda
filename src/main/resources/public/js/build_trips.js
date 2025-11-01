@@ -45,14 +45,15 @@ function readHashFromURL(){
     // Vi dekoder også Hash, altså alle spesialtegn og mellomrom kommer tilbake
     return {
         from: decodeURIComponent(values[0]),
-        to: decodeURIComponent(values[1])
+        to: decodeURIComponent(values[1]),
+        time: decodeURIComponent(values[2])
     };
 }
 
 
 
 // Logikken for bygging av Trips på denne siden
-async function BuildTrips() {
+async function connectToAPI() {
 
 
   // Skaffer Til og Fra punkter fra URL hash-data
@@ -62,12 +63,10 @@ async function BuildTrips() {
   // Setter til og fra
   const from = startAndEndPoints["to"]
   const to = startAndEndPoints["from"]
-
-  // Setter tiden som er akkurat nå i rikitg format (AI-generert)
-  const localDateTime = new Date().toISOString().replace('Z', '');
+  const time = startAndEndPoints["time"]
 
   // Sender denne dataen til vår API
-  const response = await fetch(`/api/trips?from=${from}&to=${to}&time=${localDateTime}%2B02:00&arriveBy=false`)
+  const response = await fetch(`/api/trips?from=${from}&to=${to}&time=${time}%2B02:00&arriveBy=false`)
 
   // Gjør dataen om til noe lesbart
   const data = await response.json()

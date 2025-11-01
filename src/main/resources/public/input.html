@@ -28,7 +28,7 @@
 
                 <!-- Fra input-felt -->
                 <div class="input-bar-container">
-                    <span>Fra:</span>
+                    <span class="textBig">Fra:</span>
                     <input type="text" id="input_from">
                     <ul class="dropdown" id="dropdown_from">
                         <li onmousedown="readValueDropdown('input_from', this)">Sarpsborg</li>
@@ -39,7 +39,7 @@
 
                 <!-- Til input-felt -->
                 <div class="input-bar-container">
-                    <span>Til:</span>
+                    <span class="textBig">Til:</span>
                     <input type="text" id="input_to">
                     <ul class="dropdown" id="dropdown_to">
                         <li onmousedown="readValueDropdown('input_to', this)">Sarpsborg</li>
@@ -47,6 +47,12 @@
                         <li onmousedown="readValueDropdown('input_to', this)">Oslo</li>
                         <li onmousedown="readValueDropdown('input_to', this)">Råde</li>
                     </ul>
+                </div>
+                
+                <!-- Velg starttidspunkt -->
+                <div class="input-bar-container time-bar-container">
+                    <h3 class="textBig">Velg reisetidspunkt</h3>
+                    <input type="datetime-local" id="travelTime">
                 </div>
             </div>
 
@@ -58,7 +64,7 @@
             <button class="button" onclick="checkInput()">LAG RUTE</button>
 
             <!-- Error message -->
-            <p id="error_message" class="error-message">Boksene kan ikke være tomme</p>
+            <p id="error_message" class="error-message"></p>
                 
             
 

@@ -42,7 +42,11 @@
     border-top-left-radius: 10px;
     border: 3px solid var(--color-purple);
     border-right: none;
+}
 
+/* Alle overskrifter i input-siden (Til, Fra, Velg reisetidspunkt) */
+.textBig{
+    
     /* Tekst */
     font-size: 1.2rem;
     line-height: 45px;
@@ -53,6 +57,7 @@
     user-select: none;
     text-align: center;
 }
+
 
 /* Input-felt */
 input {
@@ -73,6 +78,39 @@ input {
     color: var(--color-purple);
     font-size: 1rem;
 }
+
+
+/* Wrapper som inneholder alle elementene til tidsvalg */
+.time-bar-container {
+
+    /* Plassering */
+    display: grid;
+    row-gap: 0px;
+    width: 100%;
+}
+
+/* Input-felt for reisetid */
+#travelTime {
+
+    /* Plassering */
+    margin: auto;
+
+    /* Størrelse */
+    width: 250px;
+
+    /* Utseende */
+    border-radius: 10px;
+    border: 3px solid var(--color-purple);
+}
+
+/* Overskrift for tidsvalg */
+h3 {
+
+    /* Plassering */
+    margin: auto;
+}
+
+
 
 /* Fjerner standard blå outline på input bar når man trykker på den */
 input:focus{

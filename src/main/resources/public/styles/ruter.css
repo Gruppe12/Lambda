@@ -97,3 +97,11 @@
 .trips details ul li:last-child::before {
     display: none;
 }
+
+
+/* Meldingen som kommer opp hvis det ikke finnes noen rute */
+p{
+    margin: auto;
+    text-align: center;
+    margin-top: 100px;
+}
