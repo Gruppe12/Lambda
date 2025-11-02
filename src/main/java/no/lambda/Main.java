@@ -72,6 +72,7 @@ public class Main {
 
         var reverHits = _controller.revereseHits(59.899146, 10.578622, 1, 10, "address,locality");
         var firstHit = reverHits.get(0);
+        System.out.println(reverHits);
         System.out.println(firstHit);
 
     }
