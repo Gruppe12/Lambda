@@ -1,7 +1,9 @@
 package no.lambda;
 import io.javalin.http.BadRequestResponse;
+import io.javalin.http.UnauthorizedResponse;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
+import no.lambda.autentisering.Roller;
 import no.lambda.model.Rute;
 
 import java.sql.Connection;
@@ -17,6 +19,9 @@ import io.javalin.validation.ValidationException;
 import no.lambda.client.entur.dto.TripPattern;
 import no.lambda.controller.PlanTripController;
 
+import static no.lambda.autentisering.Inlogging.getUserId;
+import static no.lambda.autentisering.Inlogging.getUserRole;
+
 
 public class Application {
     private final static String URL = "jdbc:mysql://itstud.hiof.no:3306/se25_G12";
@@ -29,6 +34,7 @@ public class Application {
     public static void main(String[] args) throws Exception {
 
         // Logikk for oppstart av databasen vår
+
         // Kommenterte ut denne for å teste frontend fordi jeg fikk en error, kunne ikke koble til DB
         //connectToDatabase();
 
@@ -78,12 +84,39 @@ public class Application {
         // We connect it a port, and start hosting it.
         Javalin app = Javalin.create(config -> {
             config.staticFiles.add("/public", Location.CLASSPATH);
-        }).start();
+        } ).start();
 
+
+
+        // sjekker inlogging
+        app.beforeMatched(ctx -> {
+            // Dette gjør at Mennesker kan se ui, whoops :P
+            if (ctx.routeRoles().isEmpty()){
+                return;
+            }
+
+            var role = getUserRole(ctx);
+
+//            if (ctx.routeRoles().contains(Roller.OPEN)){
+//                return;
+//            } else
+            if (!ctx.routeRoles().contains(role)) {
+                throw new UnauthorizedResponse();
+            }
+        });
 
         app.exception(ValidationException.class, (e, ctx) -> {
             ctx.status(400).json(e.getErrors());
         });
+
+        // eksempel: http://localhost:8080/api/favorits { headers: { "Bruker-id": "123" }
+        app.get("/api/favorits", ctx -> {
+//            var userId = getUserId();
+
+//            for
+            var reverHits = _controller.revereseHits(59.899146, 10.578622, 1, 1, "venue,address,locality");
+            ctx.json(reverHits);
+        }, Roller.LOGGED_IN);
 
         /*
          Query Parameter
