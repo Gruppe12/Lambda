@@ -1,10 +1,13 @@
 package no.lambda.controller;
 
+import com.github.dockerjava.api.exception.BadRequestException;
 import no.lambda.Services.EnturService;
-import no.lambda.Services.IPlanTripService;
+import no.lambda.Validator.TripValidator;
 import no.lambda.client.entur.Geocoder.EnturGeocoderClient;
 import no.lambda.client.entur.Reverse.EnturReverseClient;
 import no.lambda.client.entur.dto.TripPattern;
+import no.lambda.client.entur.dto.TripRequestDto;
+import no.lambda.client.entur.dto.TripRequestInputDto;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -30,13 +33,10 @@ public class PlanTripController {
     public PlanTripController() throws Exception {
         this(new EnturService());
     }
-
     public PlanTripController(EnturService enturService) throws Exception {
 
         this._enturService = enturService != null ? enturService : new EnturService();
     }
-
-
 
     public ArrayList<EnturGeocoderClient.GeoHit> geoHits(String text) throws Exception{
         return _enturService.getGeoHit(text);
@@ -47,18 +47,53 @@ public class PlanTripController {
     }
 
 
-    public List<TripPattern> planTrip(String fromName, double latitude, double longitude, String toName, String placeId, double toLatitude ,double toLongitude, int tripPatterns, OffsetDateTime dateTime, boolean arriveBy) throws Exception {
+    public List<TripPattern> planTrip(TripRequestInputDto request) throws Exception {
+        //Validerer input
+        List<String> errors = TripValidator.validateInputDto(request);
+        if (!errors.isEmpty()){
+           throw new BadRequestException(String.valueOf(errors));
+        }
+
+        //geocoder fra og til stedene
+        var fromFeatures = geoHits(request.getFrom());
+        var toFeatures = geoHits(request.getTo());
+
+        if (fromFeatures.isEmpty() || toFeatures.isEmpty()){
+            throw new BadRequestException("Locations not found");
+        }
+
+        //henter så førte POI/sted
+        var fromGeo = fromFeatures.get(0);
+        var toGeo = toFeatures.get(0);
+
+        //oppretter en dto som skal mappes med graphQL variablene.
+
+        var enrichedRequestDto = new TripRequestDto(fromGeo.label(),
+                fromGeo.latitude(),
+                fromGeo.longitude(),
+                toGeo.label(),
+                toGeo.placeId(),
+                toGeo.latitude(),
+                toGeo.longitude(),
+                5,
+                OffsetDateTime.parse(request.getTime()),
+                request.isArriveBy()
+                );
+
+        //her kan vi validere enrichedRequestDto, sjekke kordinatene osv..
+
+        //mapper input vardier til graphQL variablene
         Map<String, Object> variables = Map.of(
-                "fromName", fromName,
-                "latitude", latitude,
-                "longitude", longitude,
-                "toName", toName,
-                "placeId", placeId,
-                "toLatitude", toLatitude,
-                "toLongitude", toLongitude,
-                "tripPatterns", tripPatterns,
-                "dateTime", dateTime,
-                "arriveBy", arriveBy);
+                "fromName", enrichedRequestDto.getFromName(),
+                "latitude", enrichedRequestDto.getLatitude(),
+                "longitude", enrichedRequestDto.getLongitude(),
+                "toName", enrichedRequestDto.getToName(),
+                "placeId", enrichedRequestDto.getPlaceId(),
+                "toLatitude", enrichedRequestDto.getToLatitude(),
+                "toLongitude", enrichedRequestDto.getToLongitude(),
+                "tripPatterns", enrichedRequestDto.getTripPatterns(),
+                "dateTime", enrichedRequestDto.getDateTime(),
+                "arriveBy", enrichedRequestDto.isArriveBy());
 
         var dto = _enturService.planATrip(variables);
 

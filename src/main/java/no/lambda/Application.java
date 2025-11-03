@@ -1,25 +1,15 @@
 package no.lambda;
-import no.lambda.Services.EnturService;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
-import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
-import no.lambda.client.entur.Reverse.EnturReverseClient;
-import no.lambda.model.Bruker;
+import no.lambda.client.entur.dto.TripRequestInputDto;
 import no.lambda.model.Rute;
-import no.lambda.port.ReiseKlarPort;
 import java.sql.Connection;
 import io.javalin.http.staticfiles.Location;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import io.javalin.Javalin;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
-import no.lambda.Services.EnturService;
-import no.lambda.client.entur.Geocoder.EnturGeocoderClient;
-import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
 import no.lambda.client.entur.dto.TripPattern;
 import no.lambda.controller.PlanTripController;
+import no.lambda.client.entur.dto.TripRequestDto;
 
 
 public class Application {
@@ -87,30 +77,16 @@ public class Application {
         // ADVARSEL!! --- Tiden må være i formatet 2025-10-23T19:37:25.123%2B02:00 og kan ikke være tilbake i tid.
 
         app.get("/api/trips", ctx -> {
-            String from = ctx.queryParam("from");
-            String to = ctx.queryParam("to");
-            String time = ctx.queryParam("time");
-            boolean arriveBy = Boolean.parseBoolean(ctx.queryParam("arriveBy"));
 
-            var fromFeatures = _controller.geoHits(from);
-            var toFeatures = _controller.geoHits(to);
-
-            var fromGeoHit = fromFeatures.get(0);
-            var toGeoHit = toFeatures.get(0);
-
-
-            List<TripPattern> response = _controller.planTrip(
-                    fromGeoHit.label(),
-                    fromGeoHit.latitude(),
-                    fromGeoHit.longitude(),
-                    toGeoHit.label(),
-                    toGeoHit.placeId(),
-                    toGeoHit.latitude(),
-                    toGeoHit.longitude(),
-                    5,
-                    OffsetDateTime.parse(time), arriveBy
+            //opprettet TripRequestInputDto som sendes til controller.
+            //controller validerer inputen
+            var input = new TripRequestInputDto(ctx.queryParam("from"),
+                    ctx.queryParam("to"),
+                    ctx.queryParam("time"),
+                    Boolean.parseBoolean(ctx.queryParam("arriveBy"))
             );
 
+            List<TripPattern> response = _controller.planTrip(input);
             ctx.json(response);
         });
 
