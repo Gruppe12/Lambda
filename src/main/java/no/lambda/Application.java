@@ -1,6 +1,7 @@
 package no.lambda;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.UnauthorizedResponse;
+import io.javalin.http.util.NaiveRateLimit;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
 import no.lambda.autentisering.Roller;
@@ -9,6 +10,7 @@ import no.lambda.model.Rute;
 import java.sql.Connection;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 import io.javalin.Javalin;
@@ -117,6 +119,31 @@ public class Application {
             var reverHits = _controller.revereseHits(59.899146, 10.578622, 1, 1, "venue,address,locality");
             ctx.json(reverHits);
         }, Roller.LOGGED_IN);
+
+        /*
+         eksempel url: http://localhost:8080/api/trips?typedIn=Osl
+
+         rekommenderer å bygge en delay på 0.200sekunder eller noe på frontend så det føles mer smooth ut mellom inputs.
+        */
+
+        app.get("/api/autocomplete", ctx -> {
+            // Har lagt til denne så de kan ikke spamme servern alt for raskt.
+            NaiveRateLimit.requestPerTimeUnit(ctx, 5, TimeUnit.SECONDS);
+
+            String typedInForAutocomplete = ctx.queryParamAsClass("typedIn", String.class)
+                    .check( inputTypedIn -> !inputTypedIn.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTypedIn -> inputTypedIn.length() <= 60, "Allt for lang input")
+                    .check(inputTypedIn -> inputTypedIn.matches(allowedCharacters), "Ugyldige tegn")
+                    .get();
+
+            // enTur API som gjør autocomplete
+            // Hopper å få den til å gi bare navn.
+            var fromFeatures = _controller.geoHits(typedInForAutocomplete);
+
+
+            // Sender array som string
+            ctx.json(fromFeatures);
+        });
 
         /*
          Query Parameter
