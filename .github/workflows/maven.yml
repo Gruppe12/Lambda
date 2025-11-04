@@ -11,6 +11,7 @@ on:
     branches: [ "develop", "main" ]
 
 permissions:
+  actions: read
   contents: read
   checks: write
   security-events: write
