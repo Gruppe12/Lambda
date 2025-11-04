@@ -9,19 +9,18 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
     public class EnturGeocodeMock {
 
-        private MockWebServer server;
+        private static MockWebServer server;
 
         @BeforeAll
-        void start() throws IOException {
+        public static void start() throws IOException {
             server = new MockWebServer();
             server.start();
         }
 
         @AfterAll
-        void stop() throws IOException {
+        public static void stop() throws IOException {
             server.shutdown();
         }
 

@@ -2,7 +2,6 @@ package EnturGraphQLTest;
 
 import no.lambda.client.entur.Exceptions.EnturGraphQLExceptions;
 import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
-import no.lambda.client.entur.dto.TripResponseDto;
 import okhttp3.OkHttpClient;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
@@ -10,27 +9,22 @@ import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-
 import java.io.IOException;
-import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EnturGraphQLMock {
-    private MockWebServer server;
+    private static MockWebServer server;
 
     @BeforeAll
-    void start() throws IOException{
+    public static void start() throws IOException{
         server = new MockWebServer();
         server.start();
     }
 
     @AfterAll
-    void stop() throws IOException{
+    public static void stop() throws IOException{
         server.shutdown();
     }
 
