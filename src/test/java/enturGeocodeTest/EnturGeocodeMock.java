@@ -1,4 +1,4 @@
-package EnturGeocodeTest;
+package enturGeocodeTest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.lambda.client.entur.Exceptions.EnturGeocoderException;
 import no.lambda.client.entur.Geocoder.EnturGeocoderClient;

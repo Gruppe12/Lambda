@@ -1,4 +1,4 @@
-package EnturGraphQLTest;
+package enturGraphQLTest;
 
 import no.lambda.client.entur.Exceptions.EnturGraphQLExceptions;
 import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
