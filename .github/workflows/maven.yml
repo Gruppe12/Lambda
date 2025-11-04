@@ -38,10 +38,9 @@ jobs:
           java-version: ${{ matrix.java }}
           cache: maven
 
+      
       - name: Build & test
-        run: |
-          chmod +x mvnw || true
-          ./mvnw -B -ntp verify
+        run: mvn -B -ntp verify
 
       - name: Publish JUnit test results
         if: always()
