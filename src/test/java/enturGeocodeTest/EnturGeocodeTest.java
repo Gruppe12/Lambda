@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 
-    public class EnturGeocodeMock {
+    public class EnturGeocodeTest {
 
         private static MockWebServer server;
 

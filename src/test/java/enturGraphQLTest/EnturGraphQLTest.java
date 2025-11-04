@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EnturGraphQLMock {
+public class EnturGraphQLTest {
     private static MockWebServer server;
 
     @BeforeAll

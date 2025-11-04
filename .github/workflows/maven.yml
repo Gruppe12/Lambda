@@ -14,6 +14,8 @@ permissions:
   contents: read
   checks: write
   security-events: write
+  id-token: write
+  dependencies: write
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
