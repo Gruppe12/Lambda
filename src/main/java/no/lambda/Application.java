@@ -8,6 +8,7 @@ import no.lambda.model.Rute;
 
 import java.sql.Connection;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -110,13 +111,31 @@ public class Application {
         });
 
         // eksempel: http://localhost:8080/api/favorits { headers: { "Bruker-id": "123" }
-        app.get("/api/favorits", ctx -> {
-//            var userId = getUserId();
+        app.get("/api/getFavorites", ctx -> {
+            // sletter dissse sikkert for de burde bli plassert et annet sted men har dem har for nå
+            MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
+            Connection dbConnection = database.startDB();
+            var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
+            // -----------------------------------------------------------------------------------------------
 
-//            for
-            var reverHits = _controller.revereseHits(59.899146, 10.578622, 1, 1, "venue,address,locality");
-            ctx.json(reverHits);
+            // for  brukerId fra role classen
+            var userId = getUserId(ctx);
+
+            ArrayList<ArrayList<Double>> favoriteRoute = reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(userId);
+
+            // lagger liste som skall lagre navn vi får fra entur
+            ArrayList<Object> userFavorits = new ArrayList<>();
+
+            // kjører gjennom listen vi fikk fra databasen av brukers favoriter
+            // den henter listene en og en og sender de kordinater til å reversere gjennom entur.
+            for (ArrayList<Double> coordinates : favoriteRoute) {
+                var reversHits = _controller.revereseHits(coordinates.get(0), coordinates.get(1), 1, 1, "venue,address,locality");
+                // lagrer de verdiene vi for fra entur
+                userFavorits.add(reversHits);
+            }
+            ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
+        // bruker må vare pålogga til å få brukt denne api gjennom frontend
 
         /*
          Query Parameter
