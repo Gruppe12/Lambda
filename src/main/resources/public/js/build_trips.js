@@ -1,5 +1,4 @@
 
-
 // En engelsk-norsk ordbok til å oversetter Legs i reisen.
 // De kommer på engelsk, vi vil ha på norsk.
 // Dette er alle mulige metoder som kan komme tilbake fra EnTur sin API (2025)
@@ -22,6 +21,37 @@ const transportTranslations = {
   car: "bil",
   scooter: "sparkesykkel"
 };
+
+
+// Check for valid user id.
+// Sends you back to login page if not found.
+// Replace is used to the user cant press the back button in the browser
+function checkForLogin(){
+    let user_id = localStorage.getItem('user_id')   
+
+    if (user_id == null){
+        window.location.replace("login.html");
+    } else{
+
+        console.log("User check: OK")
+
+    }
+}
+
+
+// This is run when this page is loaded.
+// All page logic should be here.
+function allLogicForRuter(){
+
+    // Checks if we have a valid user id stored in local storage
+    // We are sent back to login if not.
+    checkForLogin();
+
+
+    // Any async API funcs should be called from here.
+    connectToAPI();
+}
+
 
 
 // Funksjon til å gi oss stor forbokstav i en string

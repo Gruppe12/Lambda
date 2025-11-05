@@ -1,5 +1,47 @@
 
 
+
+
+// This is run when this page is loaded.
+// All page logic should be here.
+function allLogicForInput(){
+
+    // Checks if we have a valid user id stored in local storage
+    // We are sent back to login if not.
+    checkForLogin();
+
+
+    // Any async API funcs should be called from here.
+}
+
+
+// Check for valid user id.
+// Sends you back to login page if not found.
+// Replace is used to the user cant press the back button in the browser
+function checkForLogin(){
+    let user_id = localStorage.getItem('user_id')   
+
+    if (user_id == null){
+        window.location.replace("login.html");
+    } else{
+
+        console.log("User check: OK")
+        console.log("User id: ", user_id)
+
+    }
+}
+
+
+// Clears local storage, removing stored user-id
+function logOut(){
+   // Clears local storage
+   localStorage.clear()
+
+   // Checks if we have a stored user-id and if not sends us back to login page
+   checkForLogin();
+}
+
+
 // Fjerner hastags fra inputteksten før vi gjør noe mer med det
 // I fremtiden kan vi legge til flere ulovlige tegn her
 function makeSafeText(text){
