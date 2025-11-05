@@ -1,0 +1,36 @@
+@import url("style.css");
+
+
+
+
+.login-wrapper{
+    width: 100%;
+    margin: auto;
+    margin-top: 120px;
+    display: grid;
+    row-gap: 40px;
+}
+
+
+
+.login-wrapper h3{
+    text-align: center;
+    margin: auto;
+    color: var(--color-purple);
+}
+
+
+.dropdown{
+
+    width: 60%;
+    height: 40px;
+
+    margin: auto;
+
+    background-color: var(--color-light-yellow);
+    text-align: center;
+    font-size: 1.1rem;
+    border: 3px solid var(--color-purple);
+    color: var(--color-purple);
+
+}
