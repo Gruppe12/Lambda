@@ -31,7 +31,7 @@ public class Application {
 
         // Logikk for oppstart av databasen vår
         // Kommenterte ut denne for å teste frontend fordi jeg fikk en error, kunne ikke koble til DB
-        //connectToDatabase();
+        connectToDatabase();
 
         // Logikken for oppstart av nettside i Javalin
         startWebsite();
