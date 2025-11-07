@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class EnturReverseClient {
     public record RevereseHit(String name){}
@@ -33,7 +34,7 @@ public class EnturReverseClient {
         var reverseHits = new ArrayList<RevereseHit>();
 
         String url = String.format(
-                "%s?point.lat=%.6f&point.lon=%.6f&boundary.circle.radius=%d&size=%d&layers=%s",
+                Locale.US ,"%s?point.lat=%.6f&point.lon=%.6f&boundary.circle.radius=%d&size=%d&layers=%s",
                 _baseUrl, lat, lon, boundaryCircleRadius, size, URLEncoder.encode(layers, StandardCharsets.UTF_8)
         );
 
