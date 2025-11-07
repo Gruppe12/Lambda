@@ -110,7 +110,7 @@ public class Application {
             ctx.status(400).json(e.getErrors());
         });
 
-        // eksempel: http://localhost:8080/api/favorits { headers: { "Bruker-id": "123" }
+        // eksempel: http://localhost:8080/api/getFavorites { headers: { "Bruker-id": "123" }
         app.get("/api/getFavorites", ctx -> {
             // sletter dissse sikkert for de burde bli plassert et annet sted men har dem har for nå
             MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
@@ -122,6 +122,7 @@ public class Application {
             var userId = getUserId(ctx);
 
             ArrayList<ArrayList<Double>> favoriteRoute = reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(userId);
+            System.out.println("list from db: " + favoriteRoute);
 
             // lagger liste som skall lagre navn vi får fra entur
             ArrayList<Object> userFavorits = new ArrayList<>();
@@ -129,9 +130,17 @@ public class Application {
             // kjører gjennom listen vi fikk fra databasen av brukers favoriter
             // den henter listene en og en og sender de kordinater til å reversere gjennom entur.
             for (ArrayList<Double> coordinates : favoriteRoute) {
-                var reversHits = _controller.revereseHits(coordinates.get(0), coordinates.get(1), 1, 1, "venue,address,locality");
+
+                System.out.println("List in for loop: " + coordinates);
+                var fromLon = coordinates.get(0);
+                var fromLat = coordinates.get(1);
+                var toLon = coordinates.get(2);
+                var toLat = coordinates.get(3);
+                var reversHitsFrom = _controller.revereseHits(fromLat, fromLon, 1, 1, "venue,address,locality");
+                var reversHitsTo = _controller.revereseHits(toLat, toLon, 1, 1, "venue,address,locality");
                 // lagrer de verdiene vi for fra entur
-                userFavorits.add(reversHits);
+                userFavorits.add(reversHitsFrom);
+                userFavorits.add(reversHitsTo);
             }
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
