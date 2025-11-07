@@ -57,9 +57,5 @@ public class EnturService implements IPlanTripService{
         var reverseHits = _reverseClient.reverse(lat, lon, boundaryCircleRadius, size, layers);
         return  reverseHits;
     }
-
-
-
-
 }
 

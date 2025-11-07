@@ -1,91 +1,95 @@
 package no.lambda.client.entur.Geocoder;
 import no.lambda.client.entur.Exceptions.EnturGeocoderException;
 import okhttp3.*;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.*; // Importerer Jackson for JSON-håndtering
 
 import java.io.IOException;
-import java.net.URLEncoder;
+import java.net.URLEncoder; // For URL-koding av søketekst
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+// Klient for Entur sin Geocoding/Autocomplete-API
 public class EnturGeocoderClient {
-    //Record for geo data for POI/addresse/Stop
+    // Record for geo data for POI/addresse/Stop. En uforanderlig data-holder.
     public record GeoHit(String label,String County ,double latitude, double longitude, String placeId){ }
 
-    private final OkHttpClient httpClient;
-    private final ObjectMapper mapper;
-    private final String baseUrl;
-    private final String clientName;
+    private final OkHttpClient httpClient; // HTTP-klient for nettverksforespørsler
+    private final ObjectMapper mapper; // Jackson for JSON-mapping
+    private final String baseUrl; // Grunn-URL for geocoder-APIet
+    private final String clientName; // Klientnavn for Entur-header
 
+    // Standard konstruktør (produksjon)
     public EnturGeocoderClient(){
-            this(new OkHttpClient(), new ObjectMapper(),
-            "https://api.entur.io/geocoder/v1/autocomplete",
-            "LambdaTechAS-SkoleProsjekt_HIOF2025");
+        this(new OkHttpClient(), new ObjectMapper(),
+                "https://api.entur.io/geocoder/v1/autocomplete",
+                "LambdaTechAS-SkoleProsjekt_HIOF2025");
     }
 
+    // Full konstruktør (brukes også for testing/tilpasset oppsett)
     public EnturGeocoderClient(OkHttpClient httpClient, ObjectMapper mapper, String baseUrl, String clientName){
 
+        // Initialiserer feltene med gitt verdi eller en standardinstans
         this.httpClient = httpClient != null ?  httpClient: new OkHttpClient();
         this.mapper = mapper != null ? mapper : new ObjectMapper();
         this.baseUrl = baseUrl != null ? baseUrl : "https://api.entur.io/geocoder/v1/autocomplete";
         this.clientName = clientName != null ? clientName : "LambdaTechAS-SkoleProsjekt_HIOF2025";
     }
 
-    //Metode for request til geocode api-et som returner en GeoHit object
+    // Utfører et geokodingsøk basert på gitt tekst og returnerer en liste over GeoHit-objekter
     public ArrayList<GeoHit> geoCode(String text) throws EnturGeocoderException {
         var hits = new ArrayList<GeoHit>();
 
-        //Entur geocoder API endepunktet
+        // Bygger URL-en for API-kallet, inkludert søketeksten URLEncoded
         String url = String.format("%s?lang=no&size=10&text=%s", baseUrl, URLEncoder.encode(text, StandardCharsets.UTF_8));
 
-        //bygger requesten med OKHTTP3
+        // Bygger HTTP GET-forespørselen
         var request = new Request.Builder()
                 .url(url)
-                //Entur krever følgende i headers
+                // Legger til den påkrevde klientnavn-headeren
                 .addHeader("ET-Client-Name", "LambdaTechAS-SkoleProsjekt_HIOF2025")
                 .build();
 
-
-        //bygger responsen med OKHTTP3
+        // Utfører API-kallet og sikrer at responsobjektet lukkes
         try (var response = httpClient.newCall(request).execute()){
 
             if (!response.isSuccessful()) {
+                // Kaster unntak ved HTTP-feil
                 throw new EnturGeocoderException("Geocoder error: " + response);
             }
 
             if (response.body() == null){
                 throw new EnturGeocoderException("Empty response body from Entur geocoder");
             }
-            //Leser selve responsen
+            // Leser hele JSON-responsen inn i et Jackson JsonNode-tre
             JsonNode root = mapper.readTree(response.body().string());
 
-            //Leser så "features" - er en Array som inneholder alle POI
+            // Finner "features"-noden som inneholder listen over treff
             JsonNode featuresNode = root.get("features");
 
             if (featuresNode == null || !featuresNode.isArray() || featuresNode.isEmpty()) {
                 throw new EnturGeocoderException("No geocoding results for: " + text);
             }
 
-            //oppretter en GeoHit objekt for hver feature i hits
+            // Itererer gjennom alle treffene ('features') i JSON-responsen
             for (JsonNode  node : featuresNode){
 
-                //JsonNode first = featuresNode.get(0);
-                //leser "geometry" noden og deretter "coordinates"
-                var coordinates = node.get("geometry").get("coordinates");
-                var properties = node.get("properties");
+                var coordinates = node.get("geometry").get("coordinates"); // Henter koordinatene (longitude, latitude)
+                var properties = node.get("properties"); // Henter egenskaper som label og county
 
                 hits.add(
                         new GeoHit(
-                                properties.get("label").asText(),
-                                properties.get("county").asText(),
-                                coordinates.get(1).asDouble(),
-                                coordinates.get(0).asDouble(),
+                                properties.get("label").asText(), // Navn på stedet/adressen
+                                properties.get("county").asText(), // Fylke
+                                coordinates.get(1).asDouble(), // Latitude (Indeks 1)
+                                coordinates.get(0).asDouble(), // Longitude (Indeks 0)
+                                // Henter ID hvis den finnes, ellers null
                                 properties.hasNonNull("id") ? properties.get("id").asText() : null
                         )
                 );
             }
             return hits;
         } catch (IOException e) {
+            // Håndterer feil under nettverkskommunikasjon eller JSON-parsing
             throw new EnturGeocoderException(e);
         }
     }
