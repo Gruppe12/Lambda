@@ -3,6 +3,7 @@ package no.lambda.client.entur.Reverse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import no.lambda.client.entur.Exceptions.EnturException;
+import no.lambda.client.entur.Exceptions.EnturReverseException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -30,14 +31,13 @@ public class EnturReverseClient {
         this._baseUrl = baseUrl != null ? baseUrl : "https://api.entur.io/geocoder/v1/reverse";
     }
 
-    public ArrayList<RevereseHit> reverse(double lat, double lon, int boundaryCircleRadius, int size, String layers) throws EnturException, IOException {
+    public ArrayList<RevereseHit> reverse(double lat, double lon, int boundaryCircleRadius, int size, String layers) throws EnturReverseException, IOException {
         var reverseHits = new ArrayList<RevereseHit>();
 
         String url = String.format(
                 Locale.US ,"%s?point.lat=%.6f&point.lon=%.6f&boundary.circle.radius=%d&size=%d&layers=%s",
                 _baseUrl, lat, lon, boundaryCircleRadius, size, URLEncoder.encode(layers, StandardCharsets.UTF_8)
         );
-
         var request = new Request.Builder()
                 .url(url)
                 .build();
@@ -45,10 +45,10 @@ public class EnturReverseClient {
         try(var response = _okHttpClient.newCall(request).execute()){
 
             if (!response.isSuccessful()){
-                throw new EnturException("Entur reverse request error: " + response);
+                throw new EnturReverseException("Entur reverse request error: " + response);
             }
             if (response.body() == null){
-                throw new EnturException("Empty response body from Entur reverse" );
+                throw new EnturReverseException("Empty response body from Entur reverse" );
             }
 
             JsonNode root = _mapper.readTree(response.body().string());
@@ -56,7 +56,7 @@ public class EnturReverseClient {
             JsonNode featuresNode = root.get("features");
 
             if (featuresNode == null || !featuresNode.isArray() || featuresNode.isEmpty()){
-                throw new EnturException("No reversing data for: " + lat + " " + lon);
+                throw new EnturReverseException("No reversing data for: " + lat + " " + lon);
             }
 
             for (JsonNode node : featuresNode){
@@ -67,12 +67,8 @@ public class EnturReverseClient {
                                 properties.get("label").asText()
                         )
                 );
-
             }
-
         }
         return reverseHits;
     }
-
-
 }
