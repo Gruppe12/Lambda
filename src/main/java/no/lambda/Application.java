@@ -82,6 +82,50 @@ public class Application {
         }).start();
 
 
+        // eksempel: http://localhost:8080/api/addToFavorites?fromCoords=59.28101884283402, 11.11584417329596&to=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
+        app.get("/api/addToFavorite", ctx -> {
+            // sletter dissse sikkert for de burde bli plassert et annet sted men har dem har for nå
+            MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
+            Connection dbConnection = database.startDB();
+            var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
+            // -----------------------------------------------------------------------------------------------
+
+            // for  brukerId fra role Klassen
+            var userId = getUserId(ctx);
+
+            // Kjekker inputs fra frontend
+            String fromCoords = ctx.queryParamAsClass("fromCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+            String toCoords = ctx.queryParamAsClass("toCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+
+            // Splitter inputene som vi for fra front end til 2
+            String[] splitFromCoords = fromCoords.split(",");
+            double fromLat =  Double.parseDouble(splitFromCoords[0].strip());
+            double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
+
+            String[] splitToCoords = toCoords.split(",");
+            double toLat =  Double.parseDouble(splitFromCoords[0].strip());
+            double toLon =  Double.parseDouble(splitFromCoords[1].strip());
+
+
+            // legger dem inni databasen
+            Rute addToFavorites = new Rute(1, userId, fromLon, fromLat, toLon, toLat, 1);
+            reiseKlar.createFavoriteRoute(addToFavorites);
+
+        }, Roller.LOGGED_IN);
+
+
         // Query Parameters
         // example url: http://localhost:8080/api/trips?from=Oslo&to=Bergen&time=2025-10-23T19:37:25.123%2B02:00&arriveBy=false
         // ADVARSEL!! --- Tiden må være i formatet 2025-10-23T19:37:25.123%2B02:00 og kan ikke være tilbake i tid.
