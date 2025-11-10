@@ -38,6 +38,11 @@ public class SQLStringAdapter implements SQLStringPort {
                 "FROM Favorittrute\n" +
                 "WHERE bruker_id = "+brukerId;
     }
+
+    @Override
+    public String deleteUserBasedOnFavoriteRouteIdSQLQuery(int favorittruteId) throws MySQLDatabaseException {
+        return "DELETE FROM Favorittrute WHERE favorittrute_id = "+favorittruteId;
+    }
 }
 
 

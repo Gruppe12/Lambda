@@ -39,8 +39,6 @@ public class EnturService implements IPlanTripService{
         this._planTripQuery = planTripQuery != null ? planTripQuery : Files.readString(Path.of("src/main/resources/grapql/entur/plan_trip.graphql"));
     }
 
-
-
     public TripResponseDto planATrip( Map<String, Object> variables) throws Exception{
             TripResponseDto dto = _graphQLClient.execute(_planTripQuery, variables);
 
@@ -59,9 +57,5 @@ public class EnturService implements IPlanTripService{
         var reverseHits = _reverseClient.reverse(lat, lon, boundaryCircleRadius, size, layers);
         return  reverseHits;
     }
-
-
-
-
 }
 
