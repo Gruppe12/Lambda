@@ -146,7 +146,7 @@ public class Application {
                 userFavorit.add(reversHitsTo);
                 userFavorit.add(favoriteId);
 
-                userFavorits.add(userFavorits);
+                userFavorits.add(userFavorit);
             }
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
