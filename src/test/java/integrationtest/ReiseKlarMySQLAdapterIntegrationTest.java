@@ -5,6 +5,8 @@ import no.lambda.model.Rute;
 import database.H2TestDatabase;
 import org.junit.jupiter.api.*;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 //Ulike tester for metoder man kan bruke mot testdatabasen.
 public class ReiseKlarMySQLAdapterIntegrationTest {
@@ -62,6 +64,14 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
     public void hentFavorittrute_favorittruteErHentetRiktig() throws Exception {
         //Arrange
         int favorittRuteId = 1;
+        ArrayList<ArrayList<Double>> favoritesList = new ArrayList<>();
+        ArrayList<Double> favoriteItem = new ArrayList<>();
+        favoriteItem.add(20.4);
+        favoriteItem.add(10.5);
+        favoriteItem.add(49.3);
+        favoriteItem.add(31.9);
+        favoriteItem.add(1.0);
+        favoritesList.add(favoriteItem);
 
         //Act
         Rute hentetFavorittrute = reiseKlar.getFavoriteRoute(favorittRuteId);
@@ -75,6 +85,27 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         Assertions.assertEquals(49.3, hentetFavorittrute.getTo_longitude());
         Assertions.assertEquals(31.9, hentetFavorittrute.getTo_latitude());
         Assertions.assertEquals(3, hentetFavorittrute.getTo_place_id());
+        //
+        Assertions.assertEquals(favoritesList, reiseKlar.getFavoriteRoutesFromUserBasedOnId(1));
+    }
+
+    //Tester om en favorittrute blir slettet på korrekt vis.
+    @Test
+    public void slettFavorittrute_favorittruteErSlettetRiktig() throws Exception {
+        //Arrange
+        Rute rute1 = new Rute(3, 1, 10, 15, 4, 20, 1);
+        Rute rute2 = new Rute(4, 2, 12, 13, 8, 19, 1);
+        Rute rute3 = new Rute(5, 2, 16, 11, 5, 18, 1);
+
+        //Act
+        reiseKlar.createFavoriteRoute(rute1);
+        reiseKlar.createFavoriteRoute(rute2);
+        reiseKlar.createFavoriteRoute(rute3);
+        reiseKlar.deleteUserBasedOnFavoriteRouteId(4);
+
+        //Assert
+        //Tester om antall rader i databasen er det som forventet etter at en rad er slettet fra den.
+        Assertions.assertEquals(3, testDB.countRowsInTable(("Favorittrute")));
     }
 }
 

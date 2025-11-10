@@ -127,11 +127,25 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
                 coordinates.add(resultSet.getDouble(5));
                 //toLatitude
                 coordinates.add(resultSet.getDouble(6));
+                //favorittrute_id
+                coordinates.add(resultSet.getDouble(1));
                 amountOfFavorites.add(coordinates);
             }
             return amountOfFavorites;
         } catch (SQLException e) {
             throw new EnTurException("Could not get favorite routes based on Id", e);
+        }
+    }
+
+    @Override
+    public void deleteUserBasedOnFavoriteRouteId(int favorittruteId) throws MySQLDatabaseException {
+        //Sletter en rad fra Favorittrute-tabellen basert på favorittruteId
+        String sql = sqlStringAdapter.deleteUserBasedOnFavoriteRouteIdSQLQuery(favorittruteId);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new EnTurException("Could not delete favorite route", e);
         }
     }
 }
