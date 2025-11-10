@@ -37,7 +37,7 @@ public class Application {
         // Logikk for oppstart av databasen vår
 
         // Kommenterte ut denne for å teste frontend fordi jeg fikk en error, kunne ikke koble til DB
-        // connectToDatabase();
+        connectToDatabase();
 
         // Logikken for oppstart av nettside i Javalin
         startWebsite();
@@ -77,6 +77,13 @@ public class Application {
     // Logikken for oppstart av nettsiden
     public static void startWebsite() throws Exception{
 
+        // Konfigurerer database
+        MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
+        Connection dbConnection = database.startDB();
+
+        // Konfigurerer klasse (for database-spørringer)
+        var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
+
 
         // Lager kontroller for SOMETHING
         var _controller = new PlanTripController();
@@ -109,14 +116,47 @@ public class Application {
         app.exception(ValidationException.class, (e, ctx) -> {
             ctx.status(400).json(e.getErrors());
         });
+      
+              // eksempel: http://localhost:8080/api/addToFavorites?fromCoords=59.28101884283402, 11.11584417329596&to=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
+        app.get("/api/addToFavorite", ctx -> {
+
+            // for  brukerId fra role Klassen
+            var userId = getUserId(ctx);
+
+            // Kjekker inputs fra frontend
+            String fromCoords = ctx.queryParamAsClass("fromCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+            String toCoords = ctx.queryParamAsClass("toCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+
+            // Splitter inputene som vi for fra front end til 2
+            String[] splitFromCoords = fromCoords.split(",");
+            double fromLat =  Double.parseDouble(splitFromCoords[0].strip());
+            double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
+
+            String[] splitToCoords = toCoords.split(",");
+            double toLat =  Double.parseDouble(splitFromCoords[0].strip());
+            double toLon =  Double.parseDouble(splitFromCoords[1].strip());
+
+
+            // legger dem inni databasen
+            Rute addToFavorites = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
+            reiseKlarAdapter.createFavoriteRoute(addToFavorites);
+
+        }, Roller.LOGGED_IN);
 
         // eksempel: http://localhost:8080/api/getFavorites { headers: { "Bruker-id": "123" }
         app.get("/api/getFavorites", ctx -> {
-            // sletter dissse sikkert for de burde bli plassert et annet sted men har dem har for nå
-            MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
-            Connection dbConnection = database.startDB();
-            var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
-            // -----------------------------------------------------------------------------------------------
 
             // for  brukerId fra role classen
             var userId = getUserId(ctx);
@@ -145,7 +185,8 @@ public class Application {
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
         // bruker må vare pålogga til å få brukt denne api gjennom frontend
-
+      
+      
         /*
          Query Parameter
          eksempel url: http://localhost:8080/api/trips?from=Oslo&to=Bergen&time=2025-10-23T19:37:25.123%2B02:00&arriveBy=false
