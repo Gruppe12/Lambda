@@ -43,20 +43,29 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
     public void lagFavorittrute_favorittruteErLagetRiktig() throws Exception {
         //Arrange
         Rute rute = new Rute(2, 2, 20.1, 14.7, 46.5, 70.0, 4);
+        Rute rute2 = new Rute(3, 2, 20.2, 14.8, 46.6, 70.1, 5);
 
         //Act
         reiseKlar.createFavoriteRoute(rute);
+        reiseKlar.createFavoriteRouteWithoutFavoriteId(rute2);
 
         //Assert
         //Tester om antall rader i databasen er det som forventet.
-        Assertions.assertEquals(2, testDB.countRowsInTable(("Favorittrute")));
-        //Tester om raden i databasen inneholder de forventede verdiene basert på gitt favorittruteId.
+        Assertions.assertEquals(3, testDB.countRowsInTable(("Favorittrute")));
+        //Tester om raden i databasen inneholder de forventede verdiene fra rute basert på gitt favorittruteId.
         Assertions.assertEquals("2", testDB.getValueFromColumnBasedOnFavoriteId("bruker_id", 2));
         Assertions.assertEquals("20.1", testDB.getValueFromColumnBasedOnFavoriteId("from_longitude", 2));
         Assertions.assertEquals("14.7", testDB.getValueFromColumnBasedOnFavoriteId("from_latitude", 2));
         Assertions.assertEquals("46.5", testDB.getValueFromColumnBasedOnFavoriteId("to_longitude", 2));
         Assertions.assertEquals("70.0", testDB.getValueFromColumnBasedOnFavoriteId("to_latitude", 2));
         Assertions.assertEquals("4", testDB.getValueFromColumnBasedOnFavoriteId("to_place_id", 2));
+        //Tester om raden i databasen inneholder de forventede verdiene fra rute2 basert på gitt favorittruteId.
+        Assertions.assertEquals("2", testDB.getValueFromColumnBasedOnFavoriteId("bruker_id", 3));
+        Assertions.assertEquals("20.2", testDB.getValueFromColumnBasedOnFavoriteId("from_longitude", 3));
+        Assertions.assertEquals("14.8", testDB.getValueFromColumnBasedOnFavoriteId("from_latitude", 3));
+        Assertions.assertEquals("46.6", testDB.getValueFromColumnBasedOnFavoriteId("to_longitude", 3));
+        Assertions.assertEquals("70.1", testDB.getValueFromColumnBasedOnFavoriteId("to_latitude", 3));
+        Assertions.assertEquals("5", testDB.getValueFromColumnBasedOnFavoriteId("to_place_id", 3));
     }
 
     //Tester om en favorittrute er hentet fra databasen og riktig verdier er returnert.

@@ -42,6 +42,24 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
     }
 
     @Override
+    public void createFavoriteRouteWithoutFavoriteId(Rute rute) throws MySQLDatabaseException {
+        //Lager en ny rad i 'Favorittrute' tabellen basert på verdier inneholdt i et ruteobjekt uten å må legge til favorittrute_id.
+        String sql = "INSERT INTO Favorittrute(bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, rute.getBruker_id());
+            preparedStatement.setDouble(2, rute.getFrom_longitude());
+            preparedStatement.setDouble(3, rute.getFrom_latitude());
+            preparedStatement.setDouble(4, rute.getTo_longitude());
+            preparedStatement.setDouble(5, rute.getTo_latitude());
+            preparedStatement.setInt(6, rute.getTo_place_id());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new EnTurException("Could not create favorite route without f_id", e);
+        }
+    }
+
+    @Override
     public void createUser(String fornavn, String etternavn) throws MySQLDatabaseException {
         //Lager en ny rad i 'Bruker' tabellen basert på verdier inneholdt i et ruteobjekt.
         String sql = sqlStringAdapter.createUserSQLQuery(fornavn, etternavn);
@@ -127,8 +145,8 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
                 coordinates.add(resultSet.getDouble(5));
                 //toLatitude
                 coordinates.add(resultSet.getDouble(6));
-                //favorittrute_id
-                coordinates.add(resultSet.getDouble(1));
+                //bruker_id
+                coordinates.add(resultSet.getDouble(2));
                 amountOfFavorites.add(coordinates);
             }
             return amountOfFavorites;
