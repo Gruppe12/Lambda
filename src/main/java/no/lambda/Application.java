@@ -77,6 +77,13 @@ public class Application {
     // Logikken for oppstart av nettsiden
     public static void startWebsite() throws Exception{
 
+        // Konfigurerer database
+        MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
+        Connection dbConnection = database.startDB();
+
+        // Konfigurerer klasse (for database-spørringer)
+        var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
+
 
         // Lager kontroller for SOMETHING
         var _controller = new PlanTripController();
@@ -144,7 +151,7 @@ public class Application {
 
             // legger dem inni databasen
             Rute addToFavorites = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
-            reiseKlar.createFavoriteRoute(addToFavorites);
+            reiseKlarAdapter.createFavoriteRoute(addToFavorites);
 
         }, Roller.LOGGED_IN);
 
