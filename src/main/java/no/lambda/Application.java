@@ -170,17 +170,23 @@ public class Application {
             // kjører gjennom listen vi fikk fra databasen av brukers favoriter
             // den henter listene en og en og sender de kordinater til å reversere gjennom entur.
             for (ArrayList<Double> coordinates : favoriteRoute) {
+                ArrayList<Object> userFavorit = new ArrayList<>();
 
                 System.out.println("List in for loop: " + coordinates);
                 var fromLon = coordinates.get(0);
                 var fromLat = coordinates.get(1);
                 var toLon = coordinates.get(2);
                 var toLat = coordinates.get(3);
+                var favoriteId = coordinates.get(4);
+
                 var reversHitsFrom = _controller.revereseHits(fromLat, fromLon, 1, 1, "venue,address,locality");
                 var reversHitsTo = _controller.revereseHits(toLat, toLon, 1, 1, "venue,address,locality");
                 // lagrer de verdiene vi for fra entur
-                userFavorits.add(reversHitsFrom);
-                userFavorits.add(reversHitsTo);
+                userFavorit.add(reversHitsFrom);
+                userFavorit.add(reversHitsTo);
+                userFavorit.add(favoriteId);
+
+                userFavorits.add(userFavorits);
             }
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
