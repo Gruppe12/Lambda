@@ -120,7 +120,7 @@ public class Application {
 
 
             // legger dem inni databasen
-            Rute addToFavorites = new Rute(1, userId, fromLon, fromLat, toLon, toLat, 1);
+            Rute addToFavorites = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
             reiseKlar.createFavoriteRoute(addToFavorites);
 
         }, Roller.LOGGED_IN);
