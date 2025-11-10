@@ -182,3 +182,24 @@ input:focus{
     /* Utseende */
     background-color: var(--color-orange);
 }
+
+
+/* Wrapper som inneholder alle knappene */
+.button-wrapper {
+
+    /* Plassering */
+    display: grid;
+    margin: auto;
+    margin-top: -10px;
+
+    /* Størrelse / spacing */
+    gap: 30px;
+}
+
+/* Favoritt-knapp */
+.fav-button {
+
+    /* Størrelse */
+    width: 250px;
+    height: 30px;
+}
