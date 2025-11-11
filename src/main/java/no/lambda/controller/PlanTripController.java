@@ -108,6 +108,6 @@ public class PlanTripController {
     }
 
     public void deleteUserBasedOnFavoriteRouteId(int favorittruteId){
-        reiseKlarAdapter.deleteUserBasedOnFavoriteRouteId(favorittruteId);
+        reiseKlarAdapter.deleteFavoriteRouteBasedOnFavoriteRouteId(favorittruteId);
     }
 }
