@@ -173,7 +173,6 @@ public class Application {
             var userId = getUserId(ctx);
 
             ArrayList<ArrayList<Double>> favoriteRoute = reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(userId);
-            System.out.println("list from db: " + favoriteRoute);
 
             // lagger liste som skall lagre navn vi får fra entur
             ArrayList<Object> userFavorits = new ArrayList<>();

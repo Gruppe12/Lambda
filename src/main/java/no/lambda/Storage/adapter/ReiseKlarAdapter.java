@@ -146,7 +146,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
                 //toLatitude
                 coordinates.add(resultSet.getDouble(6));
                 //bruker_id
-                coordinates.add(resultSet.getDouble(2));
+                coordinates.add(resultSet.getDouble(1));
                 amountOfFavorites.add(coordinates);
             }
             return amountOfFavorites;
