@@ -8,10 +8,6 @@ import java.util.List;
     public long duration;
     public double walkDistance;
     public List<Leg> legs;
-    public double FromtoLatitude;
-    public double FromtoLongitude;
-    public double toLatitude;
-    public double toLongitude;
 
 
      @Override
