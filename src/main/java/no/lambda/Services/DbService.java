@@ -27,8 +27,8 @@ public class DbService {
         var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
 
         //Demonstrasjon av opprettelser av nye rader i databasen.
-        //Rute eksempelRute1 = new Rute(1, 60.0, 120.0, 40.0, 80.0, 3);
-        //Rute eksempelRute2 = new Rute(2, 35.0, 41.0, 57.0, 55.0, 5);
+        //Rute eksempelRute1 = new Rute(1, 1, 60.0, 120.0, 40.0, 80.0, 3);
+        //Rute eksempelRute2 = new Rute(2, 1, 35.0, 41.0, 57.0, 55.0, 5);
         //reiseKlarAdapter.createFavoriteRouteWithoutFavoriteId(eksempelRute1);
         //reiseKlarAdapter.createFavoriteRouteWithoutFavoriteId(eksempelRute2);
         //reiseKlarAdapter.createUser("John", "Doe");
