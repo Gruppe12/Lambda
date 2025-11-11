@@ -22,8 +22,9 @@ const transportTranslations = {
   scooter: "sparkesykkel"
 };
 
-
-
+// Where coordinates for "FRA" and "TIL" is saved in case we want to 
+// save this route as a favorite
+let savedCoordinates = []
 
 // This is run when this page is loaded.
 // All page logic should be here.
@@ -92,8 +93,16 @@ async function connectToAPI() {
   // "Fra - Til"
   makeHeader(startAndEndPoints)
 
+
+  // Makes button visible
+  document.getElementById("favButton").style.display = "block";
+
+  // Lagrer koordinatene slik at vi kan bruke de hvis vi vil legge til som favoritt
+  savedCoordinates = data[1].slice();
+  console.log("Saved Coordinates: ", savedCoordinates)
+
   // Bygger trips til HTML
-  buildTrips(data)
+  buildTrips(data[0])
 
 }
 
@@ -153,8 +162,22 @@ function buildTrips(trips) {
 
 async function addFavorite(){
 
-  // Store id in empty variable
-  // Get based on id: temp_storage
-  // Send to api
+  // Skaffer dataen rundt koordinater
+  const fromLat = savedCoordinates[0];
+  const fromLon = savedCoordinates[1];
+  const toLat = savedCoordinates[2];
+  const toLon = savedCoordinates[3];
+
+  // Legger de opp slik som API vil ha de
+  const fromCoords = `${fromLat},${fromLon}`;
+  const toCoords = `${toLat},${toLon}`;
+
+  console.log("Trying to save these coords:")
+  console.log("   - From: ", fromCoords)
+  console.log("   - To:   ", toCoords)
+
+  // Sender info til API
+  const response = await fetch(`/api/addToFavorites?fromCoords=${fromCoords}&to=${toCoords}`);
+  console.log(response)
 
 }

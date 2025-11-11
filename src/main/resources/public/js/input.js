@@ -80,6 +80,7 @@ function errorMessage(errorText){
   // Henter Feilmeldings-elementet
   const msg = document.getElementById('error_message');
   msg.innerText = errorText;
+  
 
   // Fader inn feilmeldingen og ut igjen etter 3 sekunder
   msg.style.opacity = 0;                         // Gjør den usynlig

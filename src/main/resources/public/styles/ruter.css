@@ -2,25 +2,54 @@
 @import url("loading.css");
 
 
+.loader{
+    margin-top: 70%;
+}
+
 
 /* Overskriften som viser hvor du reiser fra og til */
 .title{
 
     /* Plassering */
     margin: auto;
+    
 
     /* Utseende */
-    padding-top: 40px;
-    margin-bottom: -20px;
+    margin-top: 30px;
+    margin-bottom: 0px;
 
 }
+
+
+/* Knapp for å legge til favoritt */
+.add-fav-button {
+
+    /* Plassering */
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0;
+
+    /* Størrelse */
+    width: 70%;
+    height: 20px;
+
+    /* Tekst */
+    font-size: 0.8rem;
+    font-weight: 100;
+
+    /* Synlighet */
+    display: none;
+}
+
 
 /* Inneholder alle elementer på denne siden */
 .trips {
 
     /* Størrelse og plassering */
-    display: grid;
-    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    padding-bottom: 20px;
 }
 
 
@@ -99,14 +128,13 @@
 }
 
 
-/* Meldingen som kommer opp hvis det ikke finnes noen rute */
-p{
+/* Meldingen som vises når det ikke finnes noen rute */
+p {
+
+    /* Plassering */
     margin: auto;
-    text-align: center;
     margin-top: 100px;
+    text-align: center;
 }
 
-.add-fav-button{
-    margin: auto;
-    width = 80%;
-}
+
