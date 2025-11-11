@@ -13,27 +13,12 @@ function allLogicForFavorites(){
 }
 
 
-
-
-// Check for valid user id.
-// Sends you back to login page if not found.
-// Replace is used to the user cant press the back button in the browser
-function checkForLogin(){
-    let user_id = localStorage.getItem('user_id')
-
-    if (user_id == null){
-        window.location.replace("login.html");
-    } else{
-
-        console.log("User check: OK")
-        console.log("User id: ", user_id)
-    }
-}
-
+// Gets all favorites from a user from the API
+// Then sends the data to a func that builds it on the page.
 async function getFavoritesFromAPI(){
 
     // Henter API data
-    const response = await fetch('http://localhost:8080/api/getFavorites', {headers: {"Bruker-id": 2}});
+    const response = await fetch('http://localhost:8080/api/getFavorites', {headers: {"Bruker-id": getUserId()}});
     console.log("API trip data", response)
 
     // Gjør dataen om til noe lesbart
@@ -78,28 +63,26 @@ function buildFavorites(data) {
 }
 
 
-// Test-funksjon som sender testdata i riktig format
-function testFavorites() {
-  const testData = [
-    ["Oslo", "Drammen", 1],
-    ["Fredrikstad", "Moss", 2],
-    ["Sarpsborg", "Halden", 3],
-    ["Moss", "Råde", 4],
-    ["Rygge", "Oslo", 5],
-    ["Råde", "SKjeberg", 6]
-  ];
-
-  buildFavorites(testData);
-}
-
-
+// A func that deletes a favorite item to a User from the database.
+// It also removes it from the frontend
 async function deleteFavorite(fav_id){
     console.log("Delete Favorite: ", fav_id)
 }
 
-
+// A func that goes to the trip builder page.
+// This adds the correct hash to the link before going there.
+// The page then reads the hash.
 function makeRoute(from, to){
-    console.log("Build Trips: ")
-    console.log("   -", from)
-    console.log("   -", to)
+
+  // For testing:
+  console.log("Build Trips: ")
+  console.log("   -", from)
+  console.log("   -", to)
+
+  // Skaffer nåværende tid i riktig format.
+  let time = getCurrentTime();
+
+
+  // Går til rute-siden. Vi legger til verdiene fra input-feltene som hash-verdier som leses i neste fane
+  window.location.href = 'ruter.html' + makeHash(from, to, time);
 }

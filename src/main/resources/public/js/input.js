@@ -10,68 +10,12 @@ function allLogicForInput(){
     // We are sent back to login if not.
     checkForLogin();
 
-
     // Any async API funcs should be called from here.
 }
 
 
-// Check for valid user id.
-// Sends you back to login page if not found.
-// Replace is used to the user cant press the back button in the browser
-function checkForLogin(){
-    let user_id = localStorage.getItem('user_id')   
-
-    if (user_id == null){
-        window.location.replace("login.html");
-    } else{
-
-        console.log("User check: OK")
-        console.log("User id: ", user_id)
-
-    }
-}
 
 
-// Clears local storage, removing stored user-id
-function logOut(){
-   // Clears local storage
-   localStorage.clear()
-
-   // Checks if we have a stored user-id and if not sends us back to login page
-   checkForLogin();
-}
-
-
-// Fjerner hastags fra inputteksten før vi gjør noe mer med det
-// I fremtiden kan vi legge til flere ulovlige tegn her
-function makeSafeText(text){
-
-  const forbiddenChars = ['#', '+'];
-
-  // Går igjennom alle forbudte symboler
-  forbiddenChars.forEach(char => {
-
-    // Fjerner alle forekomster av hvert symbol
-    text = text.split(char).join(''); 
-  });
-
-  return text; 
-}
-
-
-// Denne funksjonen lager en "hash" verdi som kan settes etter url.
-// Denne leses i neste vindu og det blir slik vi sender data fra denne fanen til neste
-function makeHash(from, to, time) {
-
-  // Fjerner hastags fra selve input-teksten da dette ødelegger overføringen av data mellom nettsidene.
-  from = makeSafeText(from);
-  to = makeSafeText(to);
-
-  // Denne funk gjør at navnene vi sender er trygge for bruk i URL
-  // Altså, fjerner spesialtegn og mellomrom (Hello There --> hello%there)
-  const hashValue = "#" + encodeURIComponent(from) + '+' + encodeURIComponent(to) + '+' + encodeURIComponent(time);
-  return hashValue
-}
 
 
 // Logikken for hva som skjer når du trykker på "LAG RUTE"-knappen. 
@@ -116,8 +60,8 @@ function getInputTime(){
     // Sjekker om klokke-data og/eller dato er tom
     if (!inputValue) {
         // Setter tiden som er akkurat nå i rikitg format (AI-generert)
-        const currentDateTime = new Date().toLocaleString('sv-SE').replace(' ', 'T');
-        return currentDateTime
+        const currentDateTime = getCurrentTime();
+        return currentDateTime;
     }
 
     // Lager et dato-variabel basert på inputen

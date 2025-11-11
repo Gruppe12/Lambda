@@ -23,20 +23,6 @@ const transportTranslations = {
 };
 
 
-// Check for valid user id.
-// Sends you back to login page if not found.
-// Replace is used to the user cant press the back button in the browser
-function checkForLogin(){
-    let user_id = localStorage.getItem('user_id')   
-
-    if (user_id == null){
-        window.location.replace("login.html");
-    } else{
-
-        console.log("User check: OK")
-
-    }
-}
 
 
 // This is run when this page is loaded.
