@@ -130,26 +130,30 @@ function buildTrips(trips) {
   }
 
 
-  // Går igjennom trips listen og bygger ruter til hvert element.
-  trips.forEach((trip, index) => {
+// Går igjennom trips listen og bygger ruter til hvert element.
+trips.forEach((trip, index) => {
 
     // Lager toppen av listen
     // Vi deler tid på 60 for å få minutter (den er i sekunder orginalt)
     tripsHTML += `
       <details>
         <summary>Rute ${index + 1} (${(trip.duration / 60).toFixed(2)} minutter)</summary>
-        <ul>`
+        <ul>`;
 
     // Lager hvert "leg" i reisen
     // Vi deler distanse på 1000 for å få km (den er i meter orginalt)
-    trip.legs.forEach(leg => 
-      tripsHTML += `<li>${capitalize(transportTranslations[leg.mode])}   ${(leg.distance / 1000).toFixed(2)} km </li>`
-    )
+    trip.legs.forEach(leg => {
+        if (leg.mode === "foot") {
+            tripsHTML += `<li><strong>${capitalize(transportTranslations[leg.mode])}</strong> <br> ${(leg.distance / 1000).toFixed(2)} km</li>`;
+        } else {
+            tripsHTML += `<li> <strong>${capitalize(transportTranslations[leg.mode])}</strong> ${leg.line.id} <br> ${(leg.distance / 1000).toFixed(2)} km </li>`;
+        }
+    });
 
-    // Lager slutten av resien
+    // Lager slutten av reisen
     tripsHTML += `</ul>
-                  </details>`
-  })
+      </details>`;
+});
 
 
 
