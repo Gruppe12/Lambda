@@ -60,8 +60,8 @@ public class Application {
         // EnturService enturService = new EnturService(client, reiseKlar);
 
         // Demonstrasjon av opprettelser av nye rader i databasen.
-        Rute eksempelRute1 = new Rute(2, 1, 60.0, 120.0, 40.0, 80.0, 3);
-        Rute eksempelRute2 = new Rute(3, 2, 35.0, 41.0, 57.0, 55.0, 5);
+        Rute eksempelRute1 = new Rute( 1, 60.0, 120.0, 40.0, 80.0, 3);
+        Rute eksempelRute2 = new Rute( 2, 35.0, 41.0, 57.0, 55.0, 5);
         // reiseKlar.createFavoriteRoute(eksempelRute1);
         // reiseKlar.createFavoriteRoute(eksempelRute2);
         // reiseKlar.createUser("John", "Doe");
@@ -162,9 +162,9 @@ public class Application {
 
 
             // legger dem inni databasen
-            Rute addToFavorites = new createFavoriteRouteWithoutFavoriteId(userId, fromLon, fromLat, toLon, toLat, 1);
-            reiseKlarAdapter.createFavoriteRoute(addToFavorites);
-
+            //int bruker_id, double from_longitude, double from_latitude, double to_longitude, double to_latitude, int to_place_id
+            Rute rute = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
+            _controller.createFavoriteRouteWithoutFavoriteId(rute);
         }, Roller.LOGGED_IN);
 
         // eksempel: http://localhost:8080/api/getFavorites { headers: { "Bruker-id": "123" }
@@ -308,7 +308,6 @@ public class Application {
                 toLongitude = Double.parseDouble(splitTo[1].strip());
             }
 
-
             List<TripPattern> response = _controller.planTrip(
                     fromLabel,
                     fromLatitude,
@@ -321,7 +320,16 @@ public class Application {
                     OffsetDateTime.parse(time), arriveBy
             );
 
+            //sender koordinater til
+            ArrayList<Double> cords = new ArrayList<>();
+            cords.add(fromLatitude);
+            cords.add(fromLongitude);
+            cords.add(toLatitude);
+            cords.add(toLongitude);
+
+
             ctx.json(response);
+            ctx.json(cords);
 
             /*
 
