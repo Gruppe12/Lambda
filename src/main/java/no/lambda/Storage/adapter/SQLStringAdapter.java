@@ -40,7 +40,7 @@ public class SQLStringAdapter implements SQLStringPort {
     }
 
     @Override
-    public String deleteUserBasedOnFavoriteRouteIdSQLQuery(int favorittruteId) throws MySQLDatabaseException {
+    public String deleteFavoriteRouteBasedOnFavoriteRouteIdSQLQuery(int favorittruteId) throws MySQLDatabaseException {
         return "DELETE FROM Favorittrute WHERE favorittrute_id = "+favorittruteId;
     }
 }

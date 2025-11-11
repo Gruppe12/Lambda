@@ -102,5 +102,23 @@ public abstract class TestDatabase {
             return resultSet.getString(1);
         }
     }
+
+    //Returnerer verdier basert på gitt brukerId.
+    public String getValuesBasedOnUserId(int brukerId) throws Exception {
+        String sql = "SELECT from_longitude, from_latitude, to_longitude, to_latitude, to_place_id FROM Favorittrute WHERE bruker_id="+ brukerId;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            String resultString = "";
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                resultString += resultSet.getString(1) + " ";
+                resultString += resultSet.getString(2) + " ";
+                resultString += resultSet.getString(3) + " ";
+                resultString += resultSet.getString(4) + " ";
+                resultString += resultSet.getString(5) + " ";
+            }
+            return resultString;
+        }
+    }
 }
 

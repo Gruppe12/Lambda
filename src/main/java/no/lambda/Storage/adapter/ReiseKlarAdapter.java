@@ -156,9 +156,9 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
     }
 
     @Override
-    public void deleteUserBasedOnFavoriteRouteId(int favorittruteId) throws MySQLDatabaseException {
+    public void deleteFavoriteRouteBasedOnFavoriteRouteId(int favorittruteId) throws MySQLDatabaseException {
         //Sletter en rad fra Favorittrute-tabellen basert på favorittruteId
-        String sql = sqlStringAdapter.deleteUserBasedOnFavoriteRouteIdSQLQuery(favorittruteId);
+        String sql = sqlStringAdapter.deleteFavoriteRouteBasedOnFavoriteRouteIdSQLQuery(favorittruteId);
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.executeUpdate();

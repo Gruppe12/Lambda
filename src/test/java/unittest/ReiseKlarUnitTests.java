@@ -27,7 +27,7 @@ public class ReiseKlarUnitTests {
         String stringText2 = sqlStringAdapter.createFavoriteRouteSQLQuery(1, 10, 20, 30, 40, 1);
         String stringText3 = sqlStringAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(1, 1);
         String stringText4 = sqlStringAdapter.getFavoriteRoutesFromUserBasedOnIdSQLQuery(1);
-        String stringText5 = sqlStringAdapter.deleteUserBasedOnFavoriteRouteIdSQLQuery(1);
+        String stringText5 = sqlStringAdapter.deleteFavoriteRouteBasedOnFavoriteRouteIdSQLQuery(1);
 
         //Assert
         Assertions.assertEquals(("INSERT INTO Bruker(fornavn, etternavn)\n" + "VALUES ('Jane', 'Doe')"), stringText1);

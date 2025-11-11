@@ -8,5 +8,5 @@ public interface SQLStringPort {
     String createUserSQLQuery(String fornavn, String etternavn) throws MySQLDatabaseException;
     String getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(int favorittruteId, int brukerId) throws MySQLDatabaseException;
     String getFavoriteRoutesFromUserBasedOnIdSQLQuery(int brukerId) throws MySQLDatabaseException;
-    String deleteUserBasedOnFavoriteRouteIdSQLQuery(int favorittruteId) throws MySQLDatabaseException;
+    String deleteFavoriteRouteBasedOnFavoriteRouteIdSQLQuery(int favorittruteId) throws MySQLDatabaseException;
 }

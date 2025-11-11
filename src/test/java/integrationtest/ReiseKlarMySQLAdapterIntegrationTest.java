@@ -59,13 +59,8 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         Assertions.assertEquals("46.5", testDB.getValueFromColumnBasedOnFavoriteId("to_longitude", 2));
         Assertions.assertEquals("70.0", testDB.getValueFromColumnBasedOnFavoriteId("to_latitude", 2));
         Assertions.assertEquals("4", testDB.getValueFromColumnBasedOnFavoriteId("to_place_id", 2));
-        //Tester om raden i databasen inneholder de forventede verdiene fra rute2 basert på gitt favorittruteId.
-        Assertions.assertEquals("2", testDB.getValueFromColumnBasedOnFavoriteId("bruker_id", 3));
-        Assertions.assertEquals("20.2", testDB.getValueFromColumnBasedOnFavoriteId("from_longitude", 3));
-        Assertions.assertEquals("14.8", testDB.getValueFromColumnBasedOnFavoriteId("from_latitude", 3));
-        Assertions.assertEquals("46.6", testDB.getValueFromColumnBasedOnFavoriteId("to_longitude", 3));
-        Assertions.assertEquals("70.1", testDB.getValueFromColumnBasedOnFavoriteId("to_latitude", 3));
-        Assertions.assertEquals("5", testDB.getValueFromColumnBasedOnFavoriteId("to_place_id", 3));
+        //Tester om raden i databasen inneholder de forventede verdiene fra rute2 basert på gitt brukerId.
+        Assertions.assertEquals("20.1 14.7 46.5 70.0 4 20.2 14.8 46.6 70.1 5 ", testDB.getValuesBasedOnUserId( 2));
     }
 
     //Tester om en favorittrute er hentet fra databasen og riktig verdier er returnert.
@@ -110,7 +105,7 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         reiseKlar.createFavoriteRoute(rute1);
         reiseKlar.createFavoriteRoute(rute2);
         reiseKlar.createFavoriteRoute(rute3);
-        reiseKlar.deleteUserBasedOnFavoriteRouteId(4);
+        reiseKlar.deleteFavoriteRouteBasedOnFavoriteRouteId(4);
 
         //Assert
         //Tester om antall rader i databasen er det som forventet etter at en rad er slettet fra den.
