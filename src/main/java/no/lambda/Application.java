@@ -117,7 +117,8 @@ public class Application {
             ctx.status(400).json(e.getErrors());
         });
 
-        app.get("/api/slettFavorite", ctx -> {
+        // eksempel: http://localhost:8080/api/removeFavorite?favoritId=3 { headers: { "Bruker-id": "123" }
+        app.get("/api/removeFavorite", ctx -> {
             var userId = getUserId(ctx);
 
             Integer favoritId = ctx.queryParamAsClass("favoritId", Integer.class)
@@ -127,9 +128,11 @@ public class Application {
 
 
 
+
+
         }, Roller.LOGGED_IN);
 
-                  // eksempel: http://localhost:8080/api/addToFavorite?fromCoords=59.28101884283402, 11.11584417329596&toCoords=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
+        // eksempel: http://localhost:8080/api/addToFavorite?fromCoords=59.28101884283402, 11.11584417329596&toCoords=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
         app.get("/api/addToFavorite", ctx -> {
 
             // for  brukerId fra role Klassen
