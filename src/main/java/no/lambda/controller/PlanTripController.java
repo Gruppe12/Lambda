@@ -84,7 +84,7 @@ public class PlanTripController {
 
 
     public void createFavoriteRoute(Rute rute) throws Exception{
-        reiseKlarAdapter.createFavoriteRoute(rute);
+        reiseKlarAdapter.createFavoriteRouteWithoutFavoriteId(rute);
     }
 
     public void createFavoriteRouteWithoutFavoriteId(Rute rute) throws Exception{

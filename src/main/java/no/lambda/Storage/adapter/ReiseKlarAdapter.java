@@ -22,6 +22,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
         this.connection = connection;
     }
 
+    /*
     @Override
     public void createFavoriteRoute(Rute rute) throws MySQLDatabaseException {
         //Lager en ny rad i 'Favorittrute' tabellen basert på verdier inneholdt i et ruteobjekt.
@@ -40,6 +41,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
             throw new EnTurException("Could not create favorite route", e);
         }
     }
+    */
 
     @Override
     public void createFavoriteRouteWithoutFavoriteId(Rute rute) throws MySQLDatabaseException {

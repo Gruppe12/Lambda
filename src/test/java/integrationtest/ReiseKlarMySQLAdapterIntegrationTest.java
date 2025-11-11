@@ -46,20 +46,13 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         Rute rute2 = new Rute(3, 2, 20.2, 14.8, 46.6, 70.1, 5);
 
         //Act
-        reiseKlar.createFavoriteRoute(rute);
+        reiseKlar.createFavoriteRouteWithoutFavoriteId(rute);
         reiseKlar.createFavoriteRouteWithoutFavoriteId(rute2);
 
         //Assert
         //Tester om antall rader i databasen er det som forventet.
         Assertions.assertEquals(3, testDB.countRowsInTable(("Favorittrute")));
-        //Tester om raden i databasen inneholder de forventede verdiene fra rute basert på gitt favorittruteId.
-        Assertions.assertEquals("2", testDB.getValueFromColumnBasedOnFavoriteId("bruker_id", 2));
-        Assertions.assertEquals("20.1", testDB.getValueFromColumnBasedOnFavoriteId("from_longitude", 2));
-        Assertions.assertEquals("14.7", testDB.getValueFromColumnBasedOnFavoriteId("from_latitude", 2));
-        Assertions.assertEquals("46.5", testDB.getValueFromColumnBasedOnFavoriteId("to_longitude", 2));
-        Assertions.assertEquals("70.0", testDB.getValueFromColumnBasedOnFavoriteId("to_latitude", 2));
-        Assertions.assertEquals("4", testDB.getValueFromColumnBasedOnFavoriteId("to_place_id", 2));
-        //Tester om raden i databasen inneholder de forventede verdiene fra rute2 basert på gitt brukerId.
+        //Tester om radene i databasen inneholder de forventede verdiene fra rutene basert på gitt brukerId.
         Assertions.assertEquals("20.1 14.7 46.5 70.0 4 20.2 14.8 46.6 70.1 5 ", testDB.getValuesBasedOnUserId( 2));
     }
 
@@ -102,9 +95,9 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         Rute rute3 = new Rute(5, 2, 16, 11, 5, 18, 1);
 
         //Act
-        reiseKlar.createFavoriteRoute(rute1);
-        reiseKlar.createFavoriteRoute(rute2);
-        reiseKlar.createFavoriteRoute(rute3);
+        reiseKlar.createFavoriteRouteWithoutFavoriteId(rute1);
+        reiseKlar.createFavoriteRouteWithoutFavoriteId(rute2);
+        reiseKlar.createFavoriteRouteWithoutFavoriteId(rute3);
         reiseKlar.deleteFavoriteRouteBasedOnFavoriteRouteId(4);
 
         //Assert

@@ -92,6 +92,7 @@ public abstract class TestDatabase {
         }
     }
 
+    /*
     //Returnerer en eller flere spesifikke verdier fra databasen gitt som første parameter basert på gitt favorittruteId gitt i andre parameter.
     public String getValueFromColumnBasedOnFavoriteId(String column, int favorittruteId) throws Exception {
         String sql = "SELECT "+column+" FROM Favorittrute WHERE favorittrute_id="+ favorittruteId;
@@ -102,6 +103,7 @@ public abstract class TestDatabase {
             return resultSet.getString(1);
         }
     }
+    */
 
     //Returnerer verdier basert på gitt brukerId.
     public String getValuesBasedOnUserId(int brukerId) throws Exception {

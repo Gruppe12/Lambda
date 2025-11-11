@@ -150,8 +150,8 @@ public class Application {
 
 
             // legger dem inni databasen
-            Rute addToFavorites = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
-            reiseKlarAdapter.createFavoriteRoute(addToFavorites);
+            //Rute addToFavorites = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
+            //reiseKlarAdapter.createFavoriteRoute(addToFavorites);
 
         }, Roller.LOGGED_IN);
 
