@@ -148,3 +148,13 @@ function buildTrips(trips) {
   document.getElementById("trips_wrapper").innerHTML = tripsHTML
 
 }
+
+
+
+async function addFavorite(){
+
+  // Store id in empty variable
+  // Get based on id: temp_storage
+  // Send to api
+
+}
