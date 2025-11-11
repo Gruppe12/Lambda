@@ -308,7 +308,7 @@ public class Application {
                 toLongitude = Double.parseDouble(splitTo[1].strip());
             }
 
-            List<TripPattern> response = _controller.planTrip(
+            List<TripPattern> trip = _controller.planTrip(
                     fromLabel,
                     fromLatitude,
                     fromLongitude,
@@ -327,9 +327,11 @@ public class Application {
             cords.add(toLatitude);
             cords.add(toLongitude);
 
+            List<List<?>> response = new ArrayList<>();
 
+            response.add(trip);
+            response.add(cords);
             ctx.json(response);
-            ctx.json(cords);
 
             /*
 
