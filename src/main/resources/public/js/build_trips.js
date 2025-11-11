@@ -175,13 +175,14 @@ async function addFavorite(){
   // Legger de opp slik som API vil ha de
   const fromCoords = `${fromLat},${fromLon}`;
   const toCoords = `${toLat},${toLon}`;
+  const userId = getUserId()
 
   console.log("Trying to save these coords:")
   console.log("   - From: ", fromCoords)
   console.log("   - To:   ", toCoords)
 
   // Sender info til API
-  const response = await fetch(`/api/addToFavorites?fromCoords=${fromCoords}&to=${toCoords}`);
+  const response = await fetch(`/api/addToFavorite?fromCoords=${fromCoords}&toCoords=${toCoords}`, {headers: {"Bruker-id": userId}});
   console.log(response)
 
 }

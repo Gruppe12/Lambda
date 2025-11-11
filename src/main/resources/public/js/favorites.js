@@ -66,7 +66,12 @@ function buildFavorites(data) {
 // A func that deletes a favorite item to a User from the database.
 // It also removes it from the frontend
 async function deleteFavorite(fav_id){
-    console.log("Delete Favorite: ", fav_id)
+
+    const userId = getUserId()
+
+    const response = await fetch(`http://localhost:8080/api/removeFavorite?favoritId=${fav_id}`, { headers: { "Bruker-id": userId } })
+    console.log(response);
+
 }
 
 // A func that goes to the trip builder page.
