@@ -93,11 +93,10 @@ public abstract class TestDatabase {
     }
 
     //Returnerer en eller flere spesifikke verdier fra databasen gitt som første parameter basert på gitt favorittruteId gitt i andre parameter.
-    public String getValueFromColumnBasedOnFavoriteId(String column, int favorittruteId) throws Exception{
-        String sql = "SELECT "+column+" FROM Favorittrute WHERE favorittrute_id=?";
+    public String getValueFromColumnBasedOnFavoriteId(String column, int favorittruteId) throws Exception {
+        String sql = "SELECT "+column+" FROM Favorittrute WHERE favorittrute_id="+ favorittruteId;
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setInt(1, favorittruteId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getString(1);

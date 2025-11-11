@@ -60,7 +60,10 @@
 
             <!-- Knappen som sender deg videre -->
             <!-- CheckInput, sjekker om det finnes noe i input-feltene eller ikke -->
-            <button class="button" onclick="checkInput()">LAG RUTE</button>
+            <div class="button-wrapper">
+                <button class="button" onclick="checkInput()">LAG RUTE</button>
+                <button class="button fav-button" onclick="location.href='favorites.html';">SE DINE FAVORITTER</button>
+            </div>
 
             <!-- Error message -->
             <p id="error_message" class="error-message"></p>

@@ -28,10 +28,21 @@
             <button class="button back" onclick="location.href='input.html';">Tilbake</button>
 
             <h3 class="title" id="title"></h3>
+            <button class="button add-fav-button" onclick="addFavorite">Lagre rute som favoritt</button>
             
             <!-- Boksen som alle trips blir lagt inn i (via JS) -->
             <div class="trips" id="trips_wrapper">
                 <span class="loader"></span>
+
+                <!-- Slik ser ferdig rute ut: 
+                 <details> 
+                    <summary>Rute 1 (10 minutter)</summary> 
+                    <ul> 
+                        <li>Go to place</li> 
+                        <li>Use the buss</li> 
+                        <li>Walk the rest</li> 
+                    </ul> 
+                </details> -->
 
             </div>
 

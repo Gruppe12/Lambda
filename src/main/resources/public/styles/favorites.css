@@ -1,1 +1,101 @@
+/* Importerer felles stilark */
 @import url("style.css");
+@import url("loading.css");
+
+
+/* Wrapper som inneholder alle favoritt-elementer */
+.favs-wrapper {
+
+    /* Størrelse og plassering */
+    display: grid;
+    flex: 1;
+    row-gap: 20px;
+    padding-bottom: 50px;
+}
+
+
+/* Hvert favoritt-element */
+.favorite-item {
+
+    /* Plassering */
+    margin: auto;
+    display: grid;
+
+    /* Størrelse */
+    width: 80%;
+    min-height: 100px;
+
+    /* Utseende */
+    background-color: var(--color-light-yellow);
+    border: 3px solid var(--color-purple);
+    border-radius: 10px;
+}
+
+
+/* Wrapper som inneholder informasjonen i hver favoritt */
+.favorite-info-wrapper {
+
+    /* Plassering */
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+
+    /* Størrelse / spacing */
+    height: 50px;
+    padding: 5px;
+}
+
+
+/* Tekstinformasjon i hver favoritt */
+.favorite-info-wrapper p {
+
+    /* Plassering */
+    display: flex;
+    align-items: center;
+    margin: 0;
+
+    /* Størrelse / spacing */
+    flex: 1;
+    padding-left: 5px;
+}
+
+
+/* Wrapper som inneholder knappene i favoritter */
+.favorite-button-wrapper {
+
+    /* Plassering */
+    display: flex;
+
+    /* Størrelse / spacing */
+    padding: 10px;
+}
+
+
+/* Knapp for å bygge favoritt på nytt */
+.fav-build-button {
+
+    /* Størrelse */
+    width: 150px;
+    height: 35px;
+
+    /* Plassering */
+    margin: auto;
+
+    /* Tekst */
+    font-size: 1rem;
+}
+
+
+/* Knapp for å slette favoritt */
+.fav-delete-button {
+
+    /* Størrelse */
+    width: 40px;
+    height: 35px;
+
+    /* Plassering */
+    margin: auto;
+
+    /* Tekst */
+    font-size: 0.6rem;
+}
