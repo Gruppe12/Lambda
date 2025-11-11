@@ -116,7 +116,19 @@ public class Application {
         app.exception(ValidationException.class, (e, ctx) -> {
             ctx.status(400).json(e.getErrors());
         });
-      
+
+        app.get("/api/slettFavorite", ctx -> {
+            var userId = getUserId(ctx);
+
+            Integer favoritId = ctx.queryParamAsClass("favoritId", Integer.class)
+                    .check( inputTo -> inputTo.describeConstable().isPresent(), "Dette felte kan ikke vare blank!")
+                    .get();
+
+
+
+
+        }, Roller.LOGGED_IN);
+
               // eksempel: http://localhost:8080/api/addToFavorites?fromCoords=59.28101884283402, 11.11584417329596&to=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
         app.get("/api/addToFavorite", ctx -> {
 
@@ -150,7 +162,7 @@ public class Application {
 
 
             // legger dem inni databasen
-            Rute addToFavorites = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
+            Rute addToFavorites = new createFavoriteRouteWithoutFavoriteId(userId, fromLon, fromLat, toLon, toLat, 1);
             reiseKlarAdapter.createFavoriteRoute(addToFavorites);
 
         }, Roller.LOGGED_IN);
