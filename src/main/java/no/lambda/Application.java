@@ -129,7 +129,7 @@ public class Application {
 
         }, Roller.LOGGED_IN);
 
-              // eksempel: http://localhost:8080/api/addToFavorites?fromCoords=59.28101884283402, 11.11584417329596&to=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
+                  // eksempel: http://localhost:8080/api/addToFavorite?fromCoords=59.28101884283402, 11.11584417329596&toCoords=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
         app.get("/api/addToFavorite", ctx -> {
 
             // for  brukerId fra role Klassen
@@ -157,8 +157,8 @@ public class Application {
             double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
 
             String[] splitToCoords = toCoords.split(",");
-            double toLat =  Double.parseDouble(splitFromCoords[0].strip());
-            double toLon =  Double.parseDouble(splitFromCoords[1].strip());
+            double toLat =  Double.parseDouble(splitToCoords[0].strip());
+            double toLon =  Double.parseDouble(splitToCoords[1].strip());
 
 
             // legger dem inni databasen
