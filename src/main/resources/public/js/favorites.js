@@ -38,14 +38,14 @@ function buildFavorites(data) {
 
   // Hvis data-listen er tom
   if (!data.length) {
-    document.getElementById("favs").innerHTML = "<p>Du har ingen lagrede favoritter enda.</p>";
+    document.getElementById("favs").innerHTML = '<p class="empty-fav" >Du har ingen lagrede favoritter enda.</p>';
     return;
   }
 
 
   data.forEach(([from, to, id]) => {
     favoritesHTML += `
-      <div class="favorite-item">
+      <div class="favorite-item" id="fav_${id}">
         <div class="favorite-info-wrapper">
             <p><strong>Fra:</strong>&nbsp;${from[0].name}</p>
             <p><strong>Til:</strong>&nbsp;${to[0].name}</p>
@@ -67,10 +67,22 @@ function buildFavorites(data) {
 // It also removes it from the frontend
 async function deleteFavorite(fav_id){
 
+    // Gets id of current user
     const userId = getUserId()
 
+    // Removes favorite from database
     const response = await fetch(`http://localhost:8080/api/removeFavorite?favoritId=${fav_id}`, { headers: { "Bruker-id": userId } })
     console.log(response);
+
+    // Removes the element from the frontend as well
+    document.getElementById(`fav_${fav_id}`).remove();
+
+    // Checks if empty, if so then adds a message about not having any favs
+    const favs = document.getElementById('favs');
+
+    if (favs.innerHTML.trim() === '') {
+      favs.innerHTML = '<p class="empty-fav" >Du har ingen lagrede favoritter enda.</p>';
+    } 
 
 }
 

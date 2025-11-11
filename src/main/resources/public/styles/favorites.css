@@ -106,3 +106,11 @@
     /* Tekst */
     font-size: 0.6rem;
 }
+
+
+.empty-fav{
+    margin: auto;
+    margin-top: 60px;
+    color: var(--color-purple);
+    font-weight: bold;
+}
