@@ -55,3 +55,11 @@ async function makeTripAPI(from, to, time) {
     return response;
 }
 
+
+// Får noen stedsnavn forslag baser på teksten vi sender inn
+async function autoCompleteAPI(text) {
+    
+    const response = await fetch(`http://localhost:8080/api/autocomplete?typedIn=${encodeURIComponent(text)}`)
+
+    return response;
+}

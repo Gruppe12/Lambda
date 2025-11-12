@@ -40,10 +40,12 @@ function checkInput() {
 
 
 // Logikk for å sjekke om vi trykker på liste elementene i Dropdown menyen
-function readValueDropdown(input_id,listElement){
+function readValueDropdown(input_id, listElement){
   
   // Skriver over teksten i input-feltet basert på verdien
   document.getElementById(input_id).value = listElement.textContent;
+
+  //console.log("Clicked: ", listElement.textContent, input_id)
 
 }
 
