@@ -166,6 +166,26 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
             throw new EnTurException("Could not delete favorite route", e);
         }
     }
+
+    @Override
+    public int checkIfFavoriteRouteAlreadyExists(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude) {
+        //Sjekker om en favorittrute eksisterer for en bruker.
+        int routeExists;
+        String sql = sqlStringAdapter.checkIfFavoriteRouteAlreadyExistsSQLQuery(brukerId, fromLongitude, fromLatitude, ToLongitude, ToLatitude);
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next() == true) {
+                routeExists = 1;
+                return routeExists;
+            } else {
+                routeExists = 0;
+                return routeExists;
+            }
+        } catch (SQLException e) {
+            throw new EnTurException("Could not get favorite routes based on Id", e);
+        }
+    }
 }
 
 

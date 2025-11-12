@@ -92,6 +92,7 @@ public abstract class TestDatabase {
         }
     }
 
+    /*
     //Returnerer en eller flere spesifikke verdier fra databasen gitt som første parameter basert på gitt favorittruteId gitt i andre parameter.
     public String getValueFromColumnBasedOnFavoriteId(String column, int favorittruteId) throws Exception {
         String sql = "SELECT "+column+" FROM Favorittrute WHERE favorittrute_id="+ favorittruteId;
@@ -100,6 +101,25 @@ public abstract class TestDatabase {
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             return resultSet.getString(1);
+        }
+    }
+    */
+
+    //Returnerer verdier basert på gitt brukerId.
+    public String getValuesBasedOnUserId(int brukerId) throws Exception {
+        String sql = "SELECT from_longitude, from_latitude, to_longitude, to_latitude, to_place_id FROM Favorittrute WHERE bruker_id="+ brukerId;
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            String resultString = "";
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                resultString += resultSet.getString(1) + " ";
+                resultString += resultSet.getString(2) + " ";
+                resultString += resultSet.getString(3) + " ";
+                resultString += resultSet.getString(4) + " ";
+                resultString += resultSet.getString(5) + " ";
+            }
+            return resultString;
         }
     }
 }
