@@ -17,6 +17,7 @@
     /* Utseende */
     margin-top: 30px;
     margin-bottom: 0px;
+    color: var(--color-purple);
 
 }
 
@@ -48,8 +49,10 @@
     /* Størrelse og plassering */
     display: flex;
     flex-direction: column;
-
     padding-bottom: 20px;
+
+    /* Utseende */
+    color: var(--color-purple);
 }
 
 
@@ -83,8 +86,50 @@
     /* Interaksjon */
     cursor: pointer;
     user-select: none;
+
+    display: flex;
 }
 
+
+/* Wrapper som inneholder all info som skal vises når en rute er "lukket" */
+.trips summary div {
+
+    /* Plassering */
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-left: 5px;
+}
+
+
+/* Pilen som viser om en rute er lukket eller åpen */
+.arrow {
+
+    /* Plassering */
+    margin: auto;
+    margin-left: 0px;
+    margin-right: 0px;
+
+    /* Animasjon */
+    transition: transform 0.2s;
+}
+
+/* Rotasjon av pilen når ruten er åpen */
+details[open] .arrow {
+    transform: rotate(90deg);
+}
+
+
+/* Rute tittelen (Eks: Rute 1) */
+/*.summary-title{
+
+}*/
+
+/* Den lille teksten under rute tittel (viser bare minutter for nå) */
+.summary-small-text {
+  font-size: 0.6em; 
+  line-height: 1.2; 
+}
 
 /* Lista som viser hvert ledd i reisen */
 .trips details ul {
@@ -135,6 +180,20 @@ p {
     margin: auto;
     margin-top: 100px;
     text-align: center;
+
+    /* Utseende */
+    color: var(--color-purple);
 }
 
 
+
+
+.remove-btn{
+    background-color: var(--color-purple);
+    color: var(--color-light-yellow);
+    cursor: pointer;
+    user-select: none;
+    pointer-events: none;
+    box-shadow: none;
+    font-weight: none;
+}

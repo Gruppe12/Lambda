@@ -1,6 +1,7 @@
 package no.lambda;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.UnauthorizedResponse;
+import io.javalin.http.util.NaiveRateLimit;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
 import no.lambda.autentisering.Roller;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 import io.javalin.Javalin;
@@ -117,6 +119,48 @@ public class Application {
             ctx.status(400).json(e.getErrors());
         });
 
+        // eksempel: http://localhost:8080/api/checkIfFavorite??fromCoords=59.28101884283402,11.11584417329596&toCoords=59.28281465078122,11.108229734377803{ headers: { "Bruker-id": "123" }
+        app.get("/api/checkIfFavorite", ctx -> {
+            var userId = getUserId(ctx);
+
+            String fromCoords = ctx.queryParamAsClass("fromCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+            String toCoords = ctx.queryParamAsClass("toCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+            // Splitter inputene som vi for fra front end til 2
+            String[] splitFromCoords = fromCoords.split(",");
+            double fromLat =  Double.parseDouble(splitFromCoords[0].strip());
+            double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
+
+            String[] splitToCoords = toCoords.split(",");
+            double toLat =  Double.parseDouble(splitToCoords[0].strip());
+            double toLon =  Double.parseDouble(splitToCoords[1].strip());
+
+            int exists = _controller.checkIfFavoriteRouteAlreadyExists(userId, fromLon, fromLat, toLon, toLat);
+
+
+            // Chekcs the respons from the database if it's 1 then True blah blah, But i belive this thing should be changed up
+            if (exists == 1) {
+                boolean respons = true;
+                ctx.json(respons);
+            } else {
+                boolean respons = false;
+                ctx.json(respons);
+            }
+
+
+        }, Roller.LOGGED_IN);
+
         // eksempel: http://localhost:8080/api/removeFavorite?favoritId=13 { headers: { "Bruker-id": "123" }
         app.get("/api/removeFavorite", ctx -> {
             var userId = getUserId(ctx);
@@ -201,6 +245,34 @@ public class Application {
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
         // bruker må vare pålogga til å få brukt denne api gjennom frontend
+
+
+        // eksempel : http://localhost:8080/api/autocomplete?typedIn=Osl
+        app.get("/api/autocomplete", ctx -> {
+            // Har lagt til denne så de kan ikke spamme servern alt for raskt.
+            NaiveRateLimit.requestPerTimeUnit(ctx, 5, TimeUnit.SECONDS);
+
+            String typedInForAutocomplete = ctx.queryParamAsClass("typedIn", String.class)
+                    .check( inputTypedIn -> !inputTypedIn.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTypedIn -> inputTypedIn.length() <= 60, "Allt for lang input")
+                    .check(inputTypedIn -> inputTypedIn.matches(allowedCharacters), "Ugyldige tegn")
+                    .get();
+
+            // enTur API som gjør autocomplete
+            // Hopper å få den til å gi bare navn.
+            var suggestions = _controller.geoHits(typedInForAutocomplete);
+            ArrayList<ArrayList<String>> response = new ArrayList<>();
+
+            for (var suggested : suggestions) {
+                ArrayList<String> pair = new ArrayList<>();
+                pair.add(suggested.label());
+                pair.add(suggested.County());
+                response.add(pair);
+            }
+
+
+            ctx.json(response);
+        });
       
       
         /*

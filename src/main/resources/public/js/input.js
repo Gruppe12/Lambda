@@ -10,11 +10,9 @@ function allLogicForInput(){
     // We are sent back to login if not.
     checkForLogin();
 
-    // Any async API funcs should be called from here.
+    // Updates name text ontop of the screen
+    document.getElementById("currentUser").textContent = getUserName();
 }
-
-
-
 
 
 
@@ -42,10 +40,12 @@ function checkInput() {
 
 
 // Logikk for å sjekke om vi trykker på liste elementene i Dropdown menyen
-function readValueDropdown(input_id,listElement){
+function readValueDropdown(input_id, listElement){
   
   // Skriver over teksten i input-feltet basert på verdien
   document.getElementById(input_id).value = listElement.textContent;
+
+  //console.log("Clicked: ", listElement.textContent, input_id)
 
 }
 

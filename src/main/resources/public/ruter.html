@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reiseklar MVP - Ruter</title>
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
 
     <link rel="stylesheet" href="styles/ruter.css">
 
     <script src="js/localStorage.js"></script>
-    <script src="js/build_trips.js"></script>
+    <script src="js/API.js"></script>
+    <script src="js/ruter.js"></script>
 
 </head>
 
@@ -28,9 +30,10 @@
 
             <!-- Tilbake knappen -->
             <button class="button back" onclick="location.href='input.html';">Tilbake</button>
+            <h4 class="current-user" id="currentUser">Ikke pålogget</h4>
 
             <h3 class="title" id="title"></h3>
-            <button class="button add-fav-button" id="favButton" onclick="addFavorite()">Lagre rute som favoritt</button>
+            <button class="button add-fav-button" id="favButton"></button>
             
             <!-- Boksen som alle trips blir lagt inn i (via JS) -->
             <div class="trips" id="trips_wrapper">

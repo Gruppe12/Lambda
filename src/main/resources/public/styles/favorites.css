@@ -3,14 +3,27 @@
 @import url("loading.css");
 
 
+.title{
+    color: var(--color-purple);
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.loader{
+
+    margin-top: 150px;
+
+}
+
 /* Wrapper som inneholder alle favoritt-elementer */
 .favs-wrapper {
 
     /* Størrelse og plassering */
-    display: grid;
-    flex: 1;
-    row-gap: 20px;
+    display: flex;
+    flex-direction: column;
     padding-bottom: 50px;
+    row-gap: 20px;
 }
 
 
