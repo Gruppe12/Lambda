@@ -1,6 +1,7 @@
 package no.lambda;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.UnauthorizedResponse;
+import io.javalin.http.util.NaiveRateLimit;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
 import no.lambda.autentisering.Roller;
@@ -10,6 +11,7 @@ import java.sql.Connection;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 import io.javalin.Javalin;
@@ -201,6 +203,34 @@ public class Application {
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
         // bruker må vare pålogga til å få brukt denne api gjennom frontend
+
+
+        // eksempel : http://localhost:8080/api/autocomplete?typedIn=Osl
+        app.get("/api/autocomplete", ctx -> {
+            // Har lagt til denne så de kan ikke spamme servern alt for raskt.
+            NaiveRateLimit.requestPerTimeUnit(ctx, 5, TimeUnit.SECONDS);
+
+            String typedInForAutocomplete = ctx.queryParamAsClass("typedIn", String.class)
+                    .check( inputTypedIn -> !inputTypedIn.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTypedIn -> inputTypedIn.length() <= 60, "Allt for lang input")
+                    .check(inputTypedIn -> inputTypedIn.matches(allowedCharacters), "Ugyldige tegn")
+                    .get();
+
+            // enTur API som gjør autocomplete
+            // Hopper å få den til å gi bare navn.
+            var suggestions = _controller.geoHits(typedInForAutocomplete);
+            ArrayList<ArrayList<String>> response = new ArrayList<>();
+
+            for (var suggested : suggestions) {
+                ArrayList<String> pair = new ArrayList<>();
+                pair.add(suggested.label());
+                pair.add(suggested.County());
+                response.add(pair);
+            }
+
+
+            ctx.json(response);
+        });
       
       
         /*
