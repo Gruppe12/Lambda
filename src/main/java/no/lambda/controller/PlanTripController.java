@@ -110,4 +110,9 @@ public class PlanTripController {
     public void deleteUserBasedOnFavoriteRouteId(int favorittruteId){
         reiseKlarAdapter.deleteUserBasedOnFavoriteRouteId(favorittruteId);
     }
+
+    public int checkIfFavoriteRouteAlreadyExists(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude){
+        int respons = reiseKlarAdapter.checkIfFavoriteRouteAlreadyExists(brukerId, fromLongitude, fromLatitude, ToLongitude, ToLatitude);
+        return respons;
+    }
 }
