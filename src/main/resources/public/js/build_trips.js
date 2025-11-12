@@ -111,7 +111,7 @@ async function connectToAPI() {
 function makeHeader(dict){
 
   // Setter H3 elementet på siden til å bli dette
-  document.getElementById("title").innerHTML = capitalize(dict["from"]) + " - " + capitalize(dict["to"])
+  document.getElementById("title").textContent = capitalize(dict["from"]) + " - " + capitalize(dict["to"])
 
 
 }
