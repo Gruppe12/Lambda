@@ -79,9 +79,9 @@ async function makeRouteAPI() {
   const startAndEndPoints = readHashFromURL()
   console.log("Hash data: ", startAndEndPoints)
 
-  // Setter til og fra
-  const from = startAndEndPoints["to"]
-  const to = startAndEndPoints["from"]
+  // Setter til, fra og tid fra dataen vi leste fra URL hash-data
+  const from = startAndEndPoints["from"]
+  const to = startAndEndPoints["to"]
   const time = startAndEndPoints["time"]
 
   // Sender denne dataen til vår API
