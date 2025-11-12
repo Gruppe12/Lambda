@@ -177,11 +177,21 @@ function buildTrips(trips) {
         // Lager hvert "leg" i reisen
         // Vi deler distanse på 1000 for å få km (den er i meter orginalt)
         trip.legs.forEach(leg => {
-            if (leg.mode === "foot") {
-                tripsHTML += `<li><strong>${capitalize(transportTranslations[leg.mode])}</strong> <br> ${(leg.distance / 1000).toFixed(2)} km</li>`;
-            } else {
-                tripsHTML += `<li> <strong>${capitalize(transportTranslations[leg.mode])}</strong> ${leg.line.id} <br> ${(leg.distance / 1000).toFixed(2)} km </li>`;
-            }
+
+            let temp_id = "";
+
+            // Å gå har ingen line.id, så ville ført til en krasj. 
+            // Dette stopper oss fra å sjekke en undefined verdi.
+            if (leg.line && leg.line.id != null) {
+                temp_id = `<p>${leg.line.publicCode}</p>`; // Eks: VYG:Line:RE20 
+            } 
+
+            // Så bygger vi innholdet i hver rute
+            tripsHTML += `
+            <li> 
+               <span> <strong>${capitalize(transportTranslations[leg.mode])}</strong> ${temp_id} </span> 
+               <span class="li-route-distance"> ${(leg.distance / 1000).toFixed(2)} km </span> 
+            </li>`;
         });
 
         // Lager slutten av reisen
