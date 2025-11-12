@@ -205,7 +205,11 @@ public class Application {
         // bruker må vare pålogga til å få brukt denne api gjennom frontend
 
 
-        // eksempel : http://localhost:8080/api/autocomplete?typedIn=Osl
+        /*
+         eksempel url: http://localhost:8080/api/trips?typedIn=Osl
+
+         rekommenderer å bygge en delay på 0.200sekunder eller noe på frontend så det føles mer smooth ut mellom inputs.
+        */
         app.get("/api/autocomplete", ctx -> {
             // Har lagt til denne så de kan ikke spamme servern alt for raskt.
             NaiveRateLimit.requestPerTimeUnit(ctx, 5, TimeUnit.SECONDS);
@@ -231,35 +235,9 @@ public class Application {
 
             ctx.json(response);
         });
-      
-      
-        /*
-         eksempel url: http://localhost:8080/api/trips?typedIn=Osl
-
-         rekommenderer å bygge en delay på 0.200sekunder eller noe på frontend så det føles mer smooth ut mellom inputs.
-        */
-
-        app.get("/api/autocomplete", ctx -> {
-            // Har lagt til denne så de kan ikke spamme servern alt for raskt.
-            NaiveRateLimit.requestPerTimeUnit(ctx, 5, TimeUnit.SECONDS);
-
-            String typedInForAutocomplete = ctx.queryParamAsClass("typedIn", String.class)
-                    .check( inputTypedIn -> !inputTypedIn.isBlank(), "Dette felte kan ikke vare blank!")
-                    .check(inputTypedIn -> inputTypedIn.length() <= 60, "Allt for lang input")
-                    .check(inputTypedIn -> inputTypedIn.matches(allowedCharacters), "Ugyldige tegn")
-                    .get();
-
-            // enTur API som gjør autocomplete
-            // Hopper å få den til å gi bare navn.
-            var fromFeatures = _controller.geoHits(typedInForAutocomplete);
-
-
-            // Sender array som string
-            ctx.json(fromFeatures);
-        });
 
         /*
-         eksempel url: http://localhost:8080/api/trips?typedIn=Osl
+         eksempel url: http://localhost:8080/api/autocomplet?typedIn=Osl
 
          rekommenderer å bygge en delay på 0.200sekunder eller noe på frontend så det føles mer smooth ut mellom inputs.
         */
