@@ -1,0 +1,33 @@
+/* Feilmelding */
+.error-message {
+
+    /* Utseende */
+    background-color: #ff4d4f;
+    color: white;
+    border-left: 5px solid #a70000;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+
+    /* Størrelse og plassering */
+    padding: 12px 20px;
+    width: 225px;
+    position: absolute;
+    bottom: 125px;
+    left: 50%;         
+    transform: translateX(-50%); 
+
+
+    /* Synlighet */
+    opacity: 0;
+    user-select: none;    
+    pointer-events: none;    
+}
+
+/* Animasjon for feilmelding */
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    10% { opacity: 1; }
+    83% { opacity: 1; }
+    100% { opacity: 0; }
+}

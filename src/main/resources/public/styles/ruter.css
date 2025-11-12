@@ -1,0 +1,140 @@
+@import url("style.css");
+@import url("loading.css");
+
+
+.loader{
+    margin-top: 70%;
+}
+
+
+/* Overskriften som viser hvor du reiser fra og til */
+.title{
+
+    /* Plassering */
+    margin: auto;
+    
+
+    /* Utseende */
+    margin-top: 30px;
+    margin-bottom: 0px;
+
+}
+
+
+/* Knapp for å legge til favoritt */
+.add-fav-button {
+
+    /* Plassering */
+    margin: auto;
+    margin-top: 10px;
+    margin-bottom: 0;
+
+    /* Størrelse */
+    width: 70%;
+    height: 20px;
+
+    /* Tekst */
+    font-size: 0.8rem;
+    font-weight: 100;
+
+    /* Synlighet */
+    display: none;
+}
+
+
+/* Inneholder alle elementer på denne siden */
+.trips {
+
+    /* Størrelse og plassering */
+    display: flex;
+    flex-direction: column;
+
+    padding-bottom: 20px;
+}
+
+
+/* Boksen som inneholder rutene som er generert */
+.trips details {
+
+    /* Størrelse og plassering */
+    width: 70%;
+    margin: 50px auto 0 auto;
+    padding: 0 20px;
+
+    /* Utseende */
+    border: 2px solid var(--color-purple);
+    border-radius: 10px;
+    background-color: var(--color-light-yellow);
+}
+
+
+/* Trykkbar overskrift som åpner mer info*/
+.trips details summary {
+
+    /* Tekst */
+    font-size: 1rem;
+    font-weight: bolder;
+
+    /* Størrelse og plassering */
+    margin: auto;
+    margin-left: -10px;
+    padding: 10px;
+
+    /* Interaksjon */
+    cursor: pointer;
+    user-select: none;
+}
+
+
+/* Lista som viser hvert ledd i reisen */
+.trips details ul {
+
+    /* Utseende */
+    list-style: disc;
+
+    /* Plassering */
+    position: relative;
+}
+
+
+/* Hvert ledd i reisen */
+.trips details ul li {
+
+    /* Plassering */
+    position: relative;
+    padding-left: 10px;
+    margin-bottom: 15px;
+}
+
+
+/* Linja som kobler alle liste-elementene sammen */
+.trips details ul li::before {
+
+    /* Utseende */
+    content: "";
+    width: 1px;
+    background: #000;
+
+    /* Plassering */
+    position: absolute;
+    left: -11px;
+    top: 10px;
+    bottom: -25px;
+}
+
+/* Fjerner treken fra siste element, slik at det ikke er en strek som ikke går noe sted */
+.trips details ul li:last-child::before {
+    display: none;
+}
+
+
+/* Meldingen som vises når det ikke finnes noen rute */
+p {
+
+    /* Plassering */
+    margin: auto;
+    margin-top: 100px;
+    text-align: center;
+}
+
+

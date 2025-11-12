@@ -1,0 +1,29 @@
+
+
+/* Loading-spinner animasjonen */
+.loader {
+
+    /* Størrelse */
+    width: 48px;
+    height: 48px;
+
+    /* Utseende */
+    border: 5px solid var(--color-light-yellow);
+    border-bottom-color: var(--color-purple);
+    border-radius: 50%;
+    box-sizing: border-box;
+
+    /* Oppsett */
+    display: inline-block;
+    margin: auto;
+
+    /* Animasjon */
+    animation: rotation 1s linear infinite;
+}
+
+
+/* Animasjonen som gjør at loadingen spinner */
+@keyframes rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,163 @@
+
+/* Standard greier */
+*{
+    padding: 0;
+}
+
+
+/* Importerer Fonten vi har lastet ned */
+@font-face {
+  font-family: 'ErasITCBold';
+  src: url('../assets/fonts/eras-itc-bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+
+
+/* Variabler som kan brukes på tvers av CSS-filer */
+:root{
+
+    /* Lengden på hjem-skjermen */
+    --home-screen-width: 310px;
+    --home-screen-height: 675px;
+
+    /* App størrelse */
+    --app-size: 50px;
+
+    /* Reiseklar-app plassering. Slik at den alligner med shortcut menu appene under */
+    --app-location-left: 93px;
+    --app-location-top: 250px;
+
+    /* Farger */
+    --color-light-yellow: #E9E3B4;
+    --color-orange: #f39b6d;
+    --color-purple: #6a3e7e;
+    --text-color: black;
+
+    /* Tekst */
+    --text-type-bold: 'ErasITCBold';
+    --text-type-normal: Arial, Helvetica, sans-serif;
+    
+}
+
+/* Denne trenger vi ikke å røre mer, da all logikk foregår inne i en Section inne i Body */
+body{
+
+    /* Oppsett */
+    display: flex;
+
+    /* Utseende */
+    background-color: rgb(66, 66, 66);
+
+    font-family: var(--text-type-normal)
+    
+}
+
+/* Selve telefon-vinduet */
+.phone-screen{
+    
+    /* Størrelse og plassering */
+    width: var(--home-screen-width);
+    height: var(--home-screen-height);
+    margin: auto;
+
+    /* Utseende */
+    background: linear-gradient(180deg,rgba(233, 227, 180, 1) 0%, rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
+    border-radius: 10px;
+
+    /* Oppsett */
+    display: grid;
+    position: relative;
+
+    /* Overflow */
+    overflow-y: hidden;    
+    overflow-x: hidden;
+    
+}
+
+
+/* Selve app-vinduet */
+.page-content{
+
+    /* Plassering */
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    
+    /* Overflow */
+    overflow-y: scroll;    
+}
+
+
+/* Tlf statusbar helt øverst på telefonen */
+.phone-status-bar {
+    
+    /* Plassering */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+/* Logo øverst på skjermen*/
+.logo-main-image {
+
+    /* Størrelse og plassering */
+    width: 275px;
+    height: auto;
+    margin: 50px auto 0 auto;
+}
+
+
+/* Utseende knapp */
+.button {
+
+    /* Størrelse og plassering */
+    width: 150px;
+    height: 50px;
+    margin: auto;
+
+    /* Utseende */
+    background-color: var(--color-orange);
+    border: none;
+    border-radius: 3px;
+    box-shadow: 5px 5px 0px var(--color-purple);
+
+    /* Tekst */
+    color: var(--color-purple);
+    font-weight: bolder;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    font-family: var(--text-type-bold);
+
+    /* Interaksjon */
+    cursor: pointer;
+}
+
+
+
+/* Tilbake-knapp finnes i de fleste undersider */
+.back {
+
+    /* Størrelse */
+    width: 40px;
+    height: 10px;
+
+    /* Tekst */
+    font-size: 0.5rem;
+    font-family: var(--text-type-normal);
+
+    /* Utseende */
+    box-shadow: 2px 2px 0px var(--color-purple);
+
+    /* Plassering */
+    position: absolute;
+    top: 25px;
+    left: 5px;
+}

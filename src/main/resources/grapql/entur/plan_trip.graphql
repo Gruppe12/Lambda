@@ -1,0 +1,45 @@
+query planTrip($fromName: String!,$latitude: Float!,
+    $longitude: Float! ,$toName: String!, $placeId: String!,
+    $toLatitude: Float!, $toLongitude: Float!,$tripPatterns: Int!,
+    $dateTime: DateTime!, $arriveBy: Boolean){
+    trip(
+        from: {
+            name: $fromName
+            coordinates: {
+                latitude : $latitude
+                longitude: $longitude
+            }
+        }
+        to: {
+            name: $toName
+            place : $placeId
+            coordinates: {
+                latitude : $toLatitude
+                longitude: $toLongitude
+            }
+        }
+        numTripPatterns: $tripPatterns
+        dateTime: $dateTime
+        arriveBy: $arriveBy){
+        tripPatterns {
+            expectedStartTime
+            expectedEndTime
+            duration
+            walkDistance
+            legs {
+                mode
+                distance
+                line {
+                    id
+                    publicCode
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+

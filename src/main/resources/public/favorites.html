@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reiseklar MVP - Ruter</title>
+
+    <link rel="stylesheet" href="styles/favorites.css">
+
+    <script src="js/localStorage.js"></script>
+    <script src="js/hashLogic.js"></script>
+    <script src="js/favorites.js"></script>
+
+</head>
+
+
+<body onload="allLogicForFavorites()">
+
+    <main class="phone-screen" >
+
+        <!-- Bilde av en telefon statusbar som ligger øverst på telefonen -->
+        <img src="assets/phone-icons/status-bar.png" class="phone-status-bar">
+
+        <!-- Appen sitt vindu; Alt under statusbaren -->
+        <section class="page-content">
+
+            <!-- Hovedlogo-bildet øvsert på appen -->
+            <img src="assets/main_logo.png" class="logo-main-image" alt="logo">
+
+            <!-- Tilbake knappen -->
+            <button class="button back" onclick="location.href='input.html';">Tilbake</button>
+
+            <h3 class="title" id="title"></h3>
+            
+            <!-- Boksen som alle trips blir lagt inn i (via JS) -->
+            <div class="favs-wrapper" id="favs">
+               <span class="loader"></span>
+
+               
+            <!-- Eksempel på hvordan det kommer til å se ut 
+            <div class="favorite-item">
+                <div class="favorite-info-wrapper">
+                    <p><strong>Fra:</strong>&nbsp;${from}</p>
+                    <p><strong>Til:</strong>&nbsp;${to}</p>
+                </div>
+                <div class="favorite-button-wrapper">
+                    <button class="fav-build-button button" onclick="makeRoute('${from}', '${to}')">Lag rute</button>
+                    <button class="fav-delete-button button" onclick="deleteFavorite(${id})">Slett</button>
+                </div>
+            </div>-->
+
+               
+
+            </div>
+
+        </section>
+
+    </main>
+    
+</body>
+</html>

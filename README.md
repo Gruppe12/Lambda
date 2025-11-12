@@ -10,10 +10,7 @@ Innhold
 - Forutsetninger
 - Komme i gang (bygge, kjøre, teste)
 - Prosjektstruktur
-- Bidra
-- Kodekvalitet og testing
-- Vanlige problemer
-- Lisens og kontakt
+- kontakt
 
 Om prosjektet
 ----------------
@@ -47,19 +44,15 @@ Klon repositoryet:
 
 Bygge prosjektet:
 
-  mvn clean package
+N/A
 
 Kjør tester:
 
-  mvn test
+N/A
 
-Kjør applikasjonen (hvis prosjektet produserer en kjørbar JAR):
+Kjør applikasjonen :
+N/A 
 
-  java -jar target/<artifact-name>.jar
-
-Merk: Erstatt <artifact-name>.jar med det faktiske artefaktet som genereres av Maven. Alternativt, hvis prosjektet er et Spring Boot-prosjekt, kan du bruke:
-
-  mvn spring-boot:run
 
 Prosjektstruktur
 ----------------
@@ -71,31 +64,15 @@ Dette prosjektet følger standard Maven-struktur:
 - pom.xml            -> Maven-konfigurasjon
 - .mvn/              -> Maven wrapper (inkludert slik at bygg fungerer uten global mvn-installasjon)
 
-Hvis du trenger mer detaljert arkitekturoversikt (klasser, pakker, ansvar), legg inn en issue eller be om en arkitektur-README med diagrammer.
-
-Bidra
-----------------
-Vi oppfordrer til samarbeid:
-- Lag en issue for nye funksjoner eller bugs.
-- Opprett en feature-branch: git checkout -b feature/short-description
-- Lag en PR med beskrivende tittel og referanse til relevante issues.
-
 Kodingstil
 - Følg Java-kodekonvensjoner (navngivning, pakker, etc.).
 - Skriv enhetstester for ny funksjonalitet.
 - Sørg for at mvn test kjører grønt før du lager en PR.
 
-Kodekvalitet og testing
-----------------
-- Enhetstester kjøres med mvn test.
-- For CI: Vi anbefaler å sette opp GitHub Actions for automatisk bygg og test.
-
-Vanlige problemer
-----------------
-- Feil versjon av Java: Sjekk java -version og oppdater om nødvendig.
-- Maven cache-problemer: Prøv mvn -U clean package for å oppdatere avhengigheter.
-
-
 Kontakt:
-- Gruppe12
+- kristoki@hiof.no
+- tadasv@hiof.no
+- danielpk@hiof.no
+- khalily@hiof.no
+
 - Repository: https://github.com/Gruppe12/Lambda

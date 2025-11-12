@@ -1,31 +1,61 @@
 package no.lambda.Services;
 import  com.fasterxml.jackson.databind.JsonNode;
 import kotlin.text.UStringsKt;
-import no.lambda.client.entur.EnturGraphQLClient;
+import no.lambda.Storage.adapter.ReiseKlarAdapter;
+import no.lambda.client.entur.Reverse.EnturReverseClient;
+import no.lambda.port.ReiseKlarPort;
+import no.lambda.client.entur.Geocoder.EnturGeocoderClient;
+import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
+import no.lambda.client.entur.dto.TripResponseDto;
+import no.lambda.client.entur.GraphQL.EnturGraphQLClient;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Date;
+import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+      
+public class EnturService implements IPlanTripService{
+    private final String _planTripQuery;
+    private final EnturGraphQLClient _graphQLClient;
+    private final EnturGeocoderClient _geocoderClient;
+    private final EnturReverseClient _reverseClient;
 
-
-public class EnturService {
-    private final EnturGraphQLClient client;
-    private final String searchStopQuery;
-    private final String planTripQuery;
-
-    public EnturService(EnturGraphQLClient client) throws Exception{
-        this.client = client;
-        this.searchStopQuery = Files.readString(Path.of("src/main/resources/graphql/entur/stop_search.graphql"));
-        this.planTripQuery = Files.readString(Path.of("src/main/resources/graphql/entur/plan_trip.graphql"));
+    public EnturService() throws Exception {
+        this(
+                Files.readString(Path.of("src/main/resources/grapql/entur/plan_trip.graphql")),
+                new EnturGraphQLClient(),
+                new EnturGeocoderClient(),
+                new EnturReverseClient()
+                );
     }
-    //eksempel på en metode som søker etter stopp
-    public JsonNode searchStop(String id) throws Exception{
-        return client.execute(searchStopQuery, Map.of("id", id));
 
+    public EnturService(String planTripQuery,EnturGraphQLClient graphQLClient, EnturGeocoderClient geocoderClient, EnturReverseClient reverseClient) throws Exception{
+        this._graphQLClient = graphQLClient != null ? graphQLClient : new EnturGraphQLClient();
+        this._geocoderClient = geocoderClient != null ? geocoderClient : new EnturGeocoderClient();
+        this._reverseClient = reverseClient != null ? reverseClient : new EnturReverseClient();
+        this._planTripQuery = planTripQuery != null ? planTripQuery : Files.readString(Path.of("src/main/resources/grapql/entur/plan_trip.graphql"));
     }
-    public JsonNode planATrip(String fromName, String toName, int tripPatterns, Date dateTime, boolean arriveBy) throws Exception{
-        return client.execute(planTripQuery, Map.of("fromName", fromName, "toName", toName, "tripPatterns", tripPatterns, "dateTime", dateTime, "arriveBy", arriveBy));
+
+    public TripResponseDto planATrip( Map<String, Object> variables) throws Exception{
+            TripResponseDto dto = _graphQLClient.execute(_planTripQuery, variables);
+
+            if (dto == null || dto.data == null || dto.data.trip.tripPatterns == null){
+                throw new RuntimeException("Error: Trip response is null");
+            }
+        return dto;
+    }
+
+    public ArrayList<EnturGeocoderClient.GeoHit> getGeoHit(String text) throws Exception{
+        var geoHits = _geocoderClient.geoCode(text);
+        return geoHits;
+    }
+
+    public ArrayList<EnturReverseClient.RevereseHit> getReverseHit(double lat, double lon, int boundaryCircleRadius, int size, String layers) throws IOException {
+        var reverseHits = _reverseClient.reverse(lat, lon, boundaryCircleRadius, size, layers);
+        return  reverseHits;
     }
 }
 
