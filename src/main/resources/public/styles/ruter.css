@@ -50,6 +50,9 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
+    margin-top: 20px;
+    height: 100%;
+
 
     /* Utseende */
     color: var(--color-purple);
@@ -61,7 +64,7 @@
 
     /* Størrelse og plassering */
     width: 70%;
-    margin: 50px auto 0 auto;
+    margin: 30px auto 0 auto;
     padding: 0 20px;
 
     /* Utseende */
@@ -149,7 +152,35 @@ details[open] .arrow {
     position: relative;
     padding-left: 10px;
     margin-bottom: 15px;
+    display: list-item; /* restores bullets */
 }
+
+.li-route-distance{
+  font-size: 0.7em; 
+  line-height: 1.2;
+}
+
+
+.trips details ul li span{
+    display: flex;
+}
+
+.trips details ul li span strong{
+    background-color: none;
+}
+
+.trips details ul li span p{
+  display: inline; /* or inline-block, if you need width control */
+  margin: auto;
+  margin-left: 5px;
+  font-size: .8rem;
+  border: 1px solid var(--color-purple);
+  border-radius: 3px;
+  padding: 2px;
+  background-color: var(--color-purple);
+  color: var(--color-light-yellow);
+}
+
 
 
 /* Linja som kobler alle liste-elementene sammen */
@@ -157,17 +188,18 @@ details[open] .arrow {
 
     /* Utseende */
     content: "";
-    width: 1px;
-    background: #000;
+    width: 2px;
+    background: var(--color-purple);
 
     /* Plassering */
     position: absolute;
-    left: -11px;
+    left: -12px;
     top: 10px;
     bottom: -25px;
+   
 }
 
-/* Fjerner treken fra siste element, slik at det ikke er en strek som ikke går noe sted */
+/* Fjerner streken fra siste element, slik at det ikke er en strek som ikke går noe sted */
 .trips details ul li:last-child::before {
     display: none;
 }
@@ -197,3 +229,5 @@ p {
     box-shadow: none;
     font-weight: none;
 }
+
+
