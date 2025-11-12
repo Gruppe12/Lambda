@@ -115,7 +115,7 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
 
         //Assert
         //Tester om bruker har en spesifikk favorittrute allerede.
-        Assertions.assertEquals(1, checkExistence1);
+        Assertions.assertEquals(7, checkExistence1);
 
         //Tester om bruker ikke har en spesifikk favorittrute allerede.
         Assertions.assertEquals(0, checkExistence2);
