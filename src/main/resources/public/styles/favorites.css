@@ -41,7 +41,7 @@
     margin-top: auto;
 
     /* Størrelse / spacing */
-    height: 50px;
+    height: fit-content;
     padding: 5px;
 }
 
@@ -51,12 +51,19 @@
 
     /* Plassering */
     display: flex;
-    align-items: center;
+    align-items: flex-start; /* ENDRET: top-align for multi-line text */
     margin: 0;
 
     /* Størrelse / spacing */
     flex: 1;
     padding-left: 5px;
+    padding-top: 10px;
+}
+
+/* Styler labelene (strong) */
+.favorite-info-wrapper p strong {
+    display: inline-block; /* gjør det lettere å gi bredde */
+    padding-right: 5px;
 }
 
 
@@ -98,4 +105,12 @@
 
     /* Tekst */
     font-size: 0.6rem;
+}
+
+
+.empty-fav{
+    margin: auto;
+    margin-top: 60px;
+    color: var(--color-purple);
+    font-weight: bold;
 }

@@ -20,6 +20,8 @@
 
     /* Synlighet */
     opacity: 0;
+    user-select: none;    
+    pointer-events: none;    
 }
 
 /* Animasjon for feilmelding */

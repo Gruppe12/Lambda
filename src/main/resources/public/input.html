@@ -6,7 +6,11 @@
     <title>Reiseklar MVP - Main</title>
 
     <link rel="stylesheet" href="styles/input.css">
-    <script src="js/input.js" defer></script>
+
+    <script src="js/localStorage.js"></script>
+    <script src="js/hashLogic.js"></script>
+    <script src="js/input.js"></script>
+    
 
 </head>
 <body onload="allLogicForInput()">
@@ -21,6 +25,9 @@
 
             <!-- Hovedlogo-bildet øvsert på appen -->
             <img src="assets/main_logo.png" class="logo-main-image" alt="logo">
+
+            <!-- Logg ut knappen -->
+            <button class="button back" onclick="logOut()">Logg ut</button>
 
 
             <div class="input-wrapper">

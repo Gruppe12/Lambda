@@ -60,17 +60,17 @@ public class Application {
         // EnturService enturService = new EnturService(client, reiseKlar);
 
         // Demonstrasjon av opprettelser av nye rader i databasen.
-        Rute eksempelRute1 = new Rute(2, 1, 60.0, 120.0, 40.0, 80.0, 3);
-        Rute eksempelRute2 = new Rute(3, 2, 35.0, 41.0, 57.0, 55.0, 5);
+        Rute eksempelRute1 = new Rute( 1, 60.0, 120.0, 40.0, 80.0, 3);
+        Rute eksempelRute2 = new Rute( 2, 35.0, 41.0, 57.0, 55.0, 5);
         // reiseKlar.createFavoriteRoute(eksempelRute1);
         // reiseKlar.createFavoriteRoute(eksempelRute2);
         // reiseKlar.createUser("John", "Doe");
 
         // Demonstrasjon av henting av data fra rader i databasen.
-        System.out.println("Henter favorittrute:\n" + reiseKlarAdapter.getFavoriteRoute(1) + "\n");
-        System.out.println("Henter en liste av fra og til verdier basert på favorittrute_id og bruker_id:\n" + reiseKlarAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserID(1, 1) + "\n");
+        //System.out.println("Henter favorittrute:\n" + reiseKlarAdapter.getFavoriteRoute(1) + "\n");
+        //System.out.println("Henter en liste av fra og til verdier basert på favorittrute_id og bruker_id:\n" + reiseKlarAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserID(1, 1) + "\n");
         //1. fromLongitude 2. fromLatitude 3. toLongitude 4. toLatitude
-        System.out.println("Henter en liste av favorittrutekoordinater basert på bruker_id:\n" + reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(1) + "\n");
+        //System.out.println("Henter en liste av favorittrutekoordinater basert på bruker_id:\n" + reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(1) + "\n");
     }
 
 
@@ -116,8 +116,19 @@ public class Application {
         app.exception(ValidationException.class, (e, ctx) -> {
             ctx.status(400).json(e.getErrors());
         });
-      
-              // eksempel: http://localhost:8080/api/addToFavorites?fromCoords=59.28101884283402, 11.11584417329596&to=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
+
+        // eksempel: http://localhost:8080/api/removeFavorite?favoritId=13 { headers: { "Bruker-id": "123" }
+        app.get("/api/removeFavorite", ctx -> {
+            var userId = getUserId(ctx);
+
+            Integer favoritId = ctx.queryParamAsClass("favoritId", Integer.class)
+                    .check( inputTo -> inputTo.describeConstable().isPresent(), "Dette felte kan ikke vare blank!")
+                    .get();
+
+            _controller.deleteUserBasedOnFavoriteRouteId(favoritId);
+        }, Roller.LOGGED_IN);
+
+        // eksempel: http://localhost:8080/api/addToFavorite?fromCoords=59.28101884283402, 11.11584417329596&toCoords=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
         app.get("/api/addToFavorite", ctx -> {
 
             // for  brukerId fra role Klassen
@@ -145,14 +156,14 @@ public class Application {
             double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
 
             String[] splitToCoords = toCoords.split(",");
-            double toLat =  Double.parseDouble(splitFromCoords[0].strip());
-            double toLon =  Double.parseDouble(splitFromCoords[1].strip());
+            double toLat =  Double.parseDouble(splitToCoords[0].strip());
+            double toLon =  Double.parseDouble(splitToCoords[1].strip());
 
 
             // legger dem inni databasen
-            Rute addToFavorites = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
-            reiseKlarAdapter.createFavoriteRoute(addToFavorites);
-
+            //int bruker_id, double from_longitude, double from_latitude, double to_longitude, double to_latitude, int to_place_id
+            Rute rute = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
+            _controller.createFavoriteRouteWithoutFavoriteId(rute);
         }, Roller.LOGGED_IN);
 
         // eksempel: http://localhost:8080/api/getFavorites { headers: { "Bruker-id": "123" }
@@ -162,7 +173,6 @@ public class Application {
             var userId = getUserId(ctx);
 
             ArrayList<ArrayList<Double>> favoriteRoute = reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(userId);
-            System.out.println("list from db: " + favoriteRoute);
 
             // lagger liste som skall lagre navn vi får fra entur
             ArrayList<Object> userFavorits = new ArrayList<>();
@@ -296,8 +306,7 @@ public class Application {
                 toLongitude = Double.parseDouble(splitTo[1].strip());
             }
 
-
-            List<TripPattern> response = _controller.planTrip(
+            List<TripPattern> trip = _controller.planTrip(
                     fromLabel,
                     fromLatitude,
                     fromLongitude,
@@ -309,6 +318,17 @@ public class Application {
                     OffsetDateTime.parse(time), arriveBy
             );
 
+            //sender koordinater til
+            ArrayList<Double> cords = new ArrayList<>();
+            cords.add(fromLatitude);
+            cords.add(fromLongitude);
+            cords.add(toLatitude);
+            cords.add(toLongitude);
+
+            List<List<?>> response = new ArrayList<>();
+
+            response.add(trip);
+            response.add(cords);
             ctx.json(response);
 
             /*

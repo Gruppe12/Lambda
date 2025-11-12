@@ -9,7 +9,6 @@ og om den er lagret som en favorittrute av den samme brukeren.
 */
 public class Rute {
 
-    private int favorittrute_id;
     private int bruker_id;
     private double from_longitude;
     private double from_latitude;
@@ -17,8 +16,7 @@ public class Rute {
     private double to_latitude;
     private int to_place_id;
 
-    public Rute(int favorittrute_id, int bruker_id, double from_longitude, double from_latitude, double to_longitude, double to_latitude, int to_place_id) {
-        this.favorittrute_id = favorittrute_id;
+    public Rute(int bruker_id, double from_longitude, double from_latitude, double to_longitude, double to_latitude, int to_place_id) {
         this.bruker_id = bruker_id;
         this.from_longitude = from_longitude;
         this.from_latitude = from_latitude;
@@ -28,13 +26,6 @@ public class Rute {
     }
 
     public Rute() {};
-
-    public int getFavorittrute_id() {
-        return favorittrute_id;
-    }
-    public void setFavorittrute_id(int favorittrute_id) {
-        this.favorittrute_id = favorittrute_id;
-    }
 
     public int getBruker_id() {
         return bruker_id;
@@ -80,7 +71,7 @@ public class Rute {
 
     @Override
     public String toString() {
-        return Integer.toString(getFavorittrute_id()) + " " +
+        return
                 Integer.toString(getBruker_id()) + " " +
                 Double.toString(getFrom_longitude()) + " " +
                 Double.toString(getFrom_latitude()) + " " +

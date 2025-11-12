@@ -22,7 +22,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
         this.connection = connection;
     }
 
-    @Override
+   /* @Override
     public void createFavoriteRoute(Rute rute) throws MySQLDatabaseException {
         //Lager en ny rad i 'Favorittrute' tabellen basert på verdier inneholdt i et ruteobjekt.
         String sql = "INSERT INTO Favorittrute(favorittrute_id, bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -39,7 +39,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
         } catch (SQLException e) {
             throw new EnTurException("Could not create favorite route", e);
         }
-    }
+    } */
 
     @Override
     public void createFavoriteRouteWithoutFavoriteId(Rute rute) throws MySQLDatabaseException {
@@ -92,7 +92,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
                 double toLatitude = resultSet.getDouble("to_latitude");
                 int toPlaceId = resultSet.getInt("to_place_id");
 
-                favorittRute.setFavorittrute_id(favorittruteId);
+                //favorittRute.setFavorittrute_id(favorittruteId);
                 favorittRute.setBruker_id(brukerId);
                 favorittRute.setFrom_longitude(fromLongitude);
                 favorittRute.setFrom_latitude(fromLatitude);
@@ -146,7 +146,7 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
                 //toLatitude
                 coordinates.add(resultSet.getDouble(6));
                 //bruker_id
-                coordinates.add(resultSet.getDouble(2));
+                coordinates.add(resultSet.getDouble(1));
                 amountOfFavorites.add(coordinates);
             }
             return amountOfFavorites;

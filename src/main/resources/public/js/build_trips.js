@@ -22,22 +22,9 @@ const transportTranslations = {
   scooter: "sparkesykkel"
 };
 
-
-// Check for valid user id.
-// Sends you back to login page if not found.
-// Replace is used to the user cant press the back button in the browser
-function checkForLogin(){
-    let user_id = localStorage.getItem('user_id')   
-
-    if (user_id == null){
-        window.location.replace("login.html");
-    } else{
-
-        console.log("User check: OK")
-
-    }
-}
-
+// Where coordinates for "FRA" and "TIL" is saved in case we want to 
+// save this route as a favorite
+let savedCoordinates = []
 
 // This is run when this page is loaded.
 // All page logic should be here.
@@ -106,8 +93,16 @@ async function connectToAPI() {
   // "Fra - Til"
   makeHeader(startAndEndPoints)
 
+
+  // Makes button visible
+  document.getElementById("favButton").style.display = "block";
+
+  // Lagrer koordinatene slik at vi kan bruke de hvis vi vil legge til som favoritt
+  savedCoordinates = data[1].slice();
+  console.log("Saved Coordinates: ", savedCoordinates)
+
   // Bygger trips til HTML
-  buildTrips(data)
+  buildTrips(data[0])
 
 }
 
@@ -135,30 +130,59 @@ function buildTrips(trips) {
   }
 
 
-  // Går igjennom trips listen og bygger ruter til hvert element.
-  trips.forEach((trip, index) => {
+// Går igjennom trips listen og bygger ruter til hvert element.
+trips.forEach((trip, index) => {
 
     // Lager toppen av listen
     // Vi deler tid på 60 for å få minutter (den er i sekunder orginalt)
     tripsHTML += `
       <details>
         <summary>Rute ${index + 1} (${(trip.duration / 60).toFixed(2)} minutter)</summary>
-        <ul>`
+        <ul>`;
 
     // Lager hvert "leg" i reisen
     // Vi deler distanse på 1000 for å få km (den er i meter orginalt)
-    trip.legs.forEach(leg => 
-      tripsHTML += `<li>${capitalize(transportTranslations[leg.mode])}   ${(leg.distance / 1000).toFixed(2)} km </li>`
-    )
+    trip.legs.forEach(leg => {
+        if (leg.mode === "foot") {
+            tripsHTML += `<li><strong>${capitalize(transportTranslations[leg.mode])}</strong> <br> ${(leg.distance / 1000).toFixed(2)} km</li>`;
+        } else {
+            tripsHTML += `<li> <strong>${capitalize(transportTranslations[leg.mode])}</strong> ${leg.line.id} <br> ${(leg.distance / 1000).toFixed(2)} km </li>`;
+        }
+    });
 
-    // Lager slutten av resien
+    // Lager slutten av reisen
     tripsHTML += `</ul>
-                  </details>`
-  })
+      </details>`;
+});
 
 
 
   // Setter inn den nye HTML koden der den skal være
   document.getElementById("trips_wrapper").innerHTML = tripsHTML
+
+}
+
+
+
+async function addFavorite(){
+
+  // Skaffer dataen rundt koordinater
+  const fromLat = savedCoordinates[0];
+  const fromLon = savedCoordinates[1];
+  const toLat = savedCoordinates[2];
+  const toLon = savedCoordinates[3];
+
+  // Legger de opp slik som API vil ha de
+  const fromCoords = `${fromLat},${fromLon}`;
+  const toCoords = `${toLat},${toLon}`;
+  const userId = getUserId()
+
+  console.log("Trying to save these coords:")
+  console.log("   - From: ", fromCoords)
+  console.log("   - To:   ", toCoords)
+
+  // Sender info til API
+  const response = await fetch(`/api/addToFavorite?fromCoords=${fromCoords}&toCoords=${toCoords}`, {headers: {"Bruker-id": userId}});
+  console.log(response)
 
 }
