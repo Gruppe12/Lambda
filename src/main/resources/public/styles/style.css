@@ -161,3 +161,14 @@ body{
     top: 25px;
     left: 5px;
 }
+
+.current-user{
+    /* Plassering */
+    position: absolute;
+    top: 13px;
+    right: 5px;
+
+    font-weight: none;
+    color: var(--color-purple);
+    font-size: .6rem;
+}

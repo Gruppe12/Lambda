@@ -9,4 +9,5 @@ public interface SQLStringPort {
     String getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(int favorittruteId, int brukerId) throws MySQLDatabaseException;
     String getFavoriteRoutesFromUserBasedOnIdSQLQuery(int brukerId) throws MySQLDatabaseException;
     String deleteUserBasedOnFavoriteRouteIdSQLQuery(int favorittruteId) throws MySQLDatabaseException;
+    String checkIfFavoriteRouteAlreadyExistsSQLQuery(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude);
 }

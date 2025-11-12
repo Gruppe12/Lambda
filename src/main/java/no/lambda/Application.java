@@ -119,6 +119,48 @@ public class Application {
             ctx.status(400).json(e.getErrors());
         });
 
+        // eksempel: http://localhost:8080/api/checkIfFavorite??fromCoords=59.28101884283402,11.11584417329596&toCoords=59.28281465078122,11.108229734377803{ headers: { "Bruker-id": "123" }
+        app.get("/api/checkIfFavorite", ctx -> {
+            var userId = getUserId(ctx);
+
+            String fromCoords = ctx.queryParamAsClass("fromCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+            String toCoords = ctx.queryParamAsClass("toCoords", String.class)
+                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
+                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
+                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
+                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
+                    .get();
+
+            // Splitter inputene som vi for fra front end til 2
+            String[] splitFromCoords = fromCoords.split(",");
+            double fromLat =  Double.parseDouble(splitFromCoords[0].strip());
+            double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
+
+            String[] splitToCoords = toCoords.split(",");
+            double toLat =  Double.parseDouble(splitToCoords[0].strip());
+            double toLon =  Double.parseDouble(splitToCoords[1].strip());
+
+            int exists = _controller.checkIfFavoriteRouteAlreadyExists(userId, fromLon, fromLat, toLon, toLat);
+
+
+            // Chekcs the respons from the database if it's 1 then True blah blah, But i belive this thing should be changed up
+            if (exists == 1) {
+                boolean respons = true;
+                ctx.json(respons);
+            } else {
+                boolean respons = false;
+                ctx.json(respons);
+            }
+
+
+        }, Roller.LOGGED_IN);
+
         // eksempel: http://localhost:8080/api/removeFavorite?favoritId=13 { headers: { "Bruker-id": "123" }
         app.get("/api/removeFavorite", ctx -> {
             var userId = getUserId(ctx);

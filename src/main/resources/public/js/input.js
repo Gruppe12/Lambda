@@ -10,11 +10,9 @@ function allLogicForInput(){
     // We are sent back to login if not.
     checkForLogin();
 
-    // Any async API funcs should be called from here.
+    // Updates name text ontop of the screen
+    document.getElementById("currentUser").textContent = getUserName();
 }
-
-
-
 
 
 

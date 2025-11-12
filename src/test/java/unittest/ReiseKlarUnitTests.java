@@ -28,6 +28,7 @@ public class ReiseKlarUnitTests {
         String stringText3 = sqlStringAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(1, 1);
         String stringText4 = sqlStringAdapter.getFavoriteRoutesFromUserBasedOnIdSQLQuery(1);
         String stringText5 = sqlStringAdapter.deleteUserBasedOnFavoriteRouteIdSQLQuery(1);
+        String stringText6 = sqlStringAdapter.checkIfFavoriteRouteAlreadyExistsSQLQuery(1,  11.044138, 59.953532, 11.384822, 59.119946);
 
         //Assert
         Assertions.assertEquals(("INSERT INTO Bruker(fornavn, etternavn)\n" + "VALUES ('Jane', 'Doe')"), stringText1);
@@ -40,6 +41,7 @@ public class ReiseKlarUnitTests {
                 "FROM Favorittrute\n" +
                 "WHERE bruker_id = "+1), stringText4);
         Assertions.assertEquals("DELETE FROM Favorittrute WHERE favorittrute_id = " + 1, stringText5);
+        Assertions.assertEquals("SELECT * FROM Favorittrute WHERE bruker_id = "+1+" AND from_longitude = "+11.044138+" AND from_latitude = "+59.953532+" AND to_longitude = "+11.384822+" AND to_latitude = "+59.119946, stringText6);
     }
 }
 

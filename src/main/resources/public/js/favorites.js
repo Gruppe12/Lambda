@@ -8,22 +8,26 @@ function allLogicForFavorites(){
     checkForLogin();
 
 
-    // Any async API funcs should be called from here.
-    getFavoritesFromAPI();
+    // Updates name text ontop of the screen
+    document.getElementById("currentUser").textContent = getUserName();
+
+
+    // Gets all the favorites and builds the page based on that data
+    getFavorites();
 }
 
 
 // Gets all favorites from a user from the API
 // Then sends the data to a func that builds it on the page.
-async function getFavoritesFromAPI(){
+async function getFavorites(){
 
     // Henter API data
-    const response = await fetch('http://localhost:8080/api/getFavorites', {headers: {"Bruker-id": getUserId()}});
-    console.log("API trip data", response)
+    const response = await getFavoritesFromAPI()
+    console.log("API data: ", response)
 
     // Gjør dataen om til noe lesbart
     const data = await response.json()
-    console.log("API trip data", data)
+    console.log("API trip data: ", data)
 
     // Bygger trips til HTML
     buildFavorites(data)
@@ -71,8 +75,7 @@ async function deleteFavorite(fav_id){
     const userId = getUserId()
 
     // Removes favorite from database
-    const response = await fetch(`http://localhost:8080/api/removeFavorite?favoritId=${fav_id}`, { headers: { "Bruker-id": userId } })
-    console.log(response);
+    const response = await removeFavoriteAPI(fav_id)
 
     // Removes the element from the frontend as well
     document.getElementById(`fav_${fav_id}`).remove();

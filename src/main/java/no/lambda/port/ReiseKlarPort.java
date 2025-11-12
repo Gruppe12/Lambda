@@ -15,6 +15,7 @@ public interface ReiseKlarPort {
     ArrayList<Double> getToAndFromBasedOnFavoriteRouteIDAndUserID(int favorittruteId, int brukerId) throws MySQLDatabaseException;
     ArrayList<ArrayList<Double>> getFavoriteRoutesFromUserBasedOnId(int brukerId) throws MySQLDatabaseException;
     void deleteUserBasedOnFavoriteRouteId(int favorittruteId) throws MySQLDatabaseException;
+    int checkIfFavoriteRouteAlreadyExists(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude);
 }
 
 

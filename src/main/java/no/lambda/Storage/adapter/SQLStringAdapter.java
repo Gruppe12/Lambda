@@ -43,6 +43,11 @@ public class SQLStringAdapter implements SQLStringPort {
     public String deleteUserBasedOnFavoriteRouteIdSQLQuery(int favorittruteId) throws MySQLDatabaseException {
         return "DELETE FROM Favorittrute WHERE favorittrute_id = "+favorittruteId;
     }
+
+    @Override
+    public String checkIfFavoriteRouteAlreadyExistsSQLQuery(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude) {
+        return "SELECT * FROM Favorittrute WHERE bruker_id = "+brukerId+" AND from_longitude = "+fromLongitude+" AND from_latitude = "+fromLatitude+" AND to_longitude = "+ToLongitude+" AND to_latitude = "+ToLatitude;
+    }
 }
 
 
