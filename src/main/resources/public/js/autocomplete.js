@@ -36,8 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Funksjon som oppdaterer dropdown options basert på input
     async function updateOptions(input_name, dropdown_name) {
 
-        console.log("YES")
-
         // Henter ut riktig dropdown table slik at vi kan lett manipulere den
         const dropdown = document.getElementById(dropdown_name);
 
