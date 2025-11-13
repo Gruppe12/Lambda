@@ -1,6 +1,5 @@
 package no.lambda;
 import io.javalin.http.BadRequestResponse;
-import io.javalin.http.UnauthorizedResponse;
 import io.javalin.http.util.NaiveRateLimit;
 import no.lambda.Storage.adapter.ReiseKlarAdapter;
 import no.lambda.Storage.database.MySQLDatabase;
@@ -15,15 +14,14 @@ import java.util.concurrent.TimeUnit;
 
 
 import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
-import io.javalin.validation.ValidationException;
 
 
 import no.lambda.client.entur.dto.TripPattern;
 import no.lambda.controller.PlanTripController;
+import no.lambda.presentation.javalin.JavalinServer;
+import no.lambda.presentation.javalin.ServerConfig;
 
 import static no.lambda.autentisering.Inlogging.getUserId;
-import static no.lambda.autentisering.Inlogging.getUserRole;
 
 
 public class Application {
@@ -92,32 +90,9 @@ public class Application {
 
         // Makes the app object based on the HTML/CSS/JS in the public folder
         // We connect it a port, and start hosting it.
-        Javalin app = Javalin.create(config -> {
-            config.staticFiles.add("/public", Location.CLASSPATH);
-        } ).start();
+        Javalin app = JavalinServer.create().start(8080);
 
-
-
-        // sjekker inlogging
-        app.beforeMatched(ctx -> {
-            // Dette gjør at Mennesker kan se ui, whoops :P
-            if (ctx.routeRoles().isEmpty()){
-                return;
-            }
-
-            var role = getUserRole(ctx);
-
-//            if (ctx.routeRoles().contains(Roller.OPEN)){
-//                return;
-//            } else
-            if (!ctx.routeRoles().contains(role)) {
-                throw new UnauthorizedResponse();
-            }
-        });
-
-        app.exception(ValidationException.class, (e, ctx) -> {
-            ctx.status(400).json(e.getErrors());
-        });
+        ServerConfig.registerCommon(app);
 
         // eksempel: http://localhost:8080/api/checkIfFavorite??fromCoords=59.28101884283402,11.11584417329596&toCoords=59.28281465078122,11.108229734377803{ headers: { "Bruker-id": "123" }
         app.get("/api/checkIfFavorite", ctx -> {
