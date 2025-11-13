@@ -125,10 +125,11 @@ async function checkIfFavorite(){
 
     // Sjekker om denne ruten er en favoritt fra før eller ikke
     const response = await checkIfFavoriteAPI(fromLat, fromLon, toLat, toLon)
+    console.log("Fav checker:", response)
 
     // Gjør dataen om til noe lesbart
     const data = await response.json()
-    console.log("Does it alreadt exist in database? --> ", data)
+    console.log("Fav id: ", data)
 
     // Lager enten "legg til"-knappen, eller "fjern"-knappen
     changeFavButton(data)
@@ -217,33 +218,52 @@ async function addFavorite(){
 
   // Sender info til API
   const response = await addToFavoriteAPI(fromLat, fromLon, toLat, toLon)
-  console.log(response)
+  console.log("Adding to favorite response", response)
+
+  // Skaffer den nye fav_id til elementet
+  const response2 = await checkIfFavoriteAPI(fromLat, fromLon, toLat, toLon)
+  console.log("Check new fav-id response: ", response2)
+
+  // Gjør dataen om til noe lesbart (int fav_id)
+  const data = await response2.json()
+  console.log("Fav id: ", data)
 
   // Gjør om på "legg til favoritt"-knappen
   // true=den finnes i favoritter, false=den finnes ikke i favoritter
-  changeFavButton(true)
+  changeFavButton(data)
 
 }
 
 
 // Gjør om knappen til enten "legg til fav" eller "fjern fra fav", basert på true/false
-function changeFavButton(state){
+async function changeFavButton(fav_id){
 
     // Skaffer add/remove fav knappen som et element vi kan gjøre om på
     const btn = document.getElementById("favButton");
 
     // Hvis den finnes i databasen fra før så legger vi til en "fjern" knapp
-    if (state == true){
-      btn.removeAttribute("onclick");
+    if (fav_id != 0){
+      btn.setAttribute("onclick", `removeFavorite(${fav_id})`);
       btn.classList.add("remove-btn");
-      btn.textContent = "Dette er en favoritt rute!";
+      btn.textContent = "Fjern rute fra favoritter";
     }
 
     // Hvis den ikke finnes i databasen fra før legger vi til en "legg til" knapp
-    if (state == false){
+   else{
       btn.setAttribute("onclick", "addFavorite()");
       btn.classList.remove("remove-btn");
       btn.textContent = "Lagre rute som favoritt";
     }
 
+}
+
+
+async function removeFavorite(fav_id) {
+
+    // Removes favorite from database
+    const response = await removeFavoriteAPI(fav_id);
+    console.log("Removing favorite respone: ", response)
+
+    // Changes the button to "Legg til favoritter"
+    changeFavButton(0);
 }

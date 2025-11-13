@@ -220,14 +220,16 @@ p {
 
 
 
-.remove-btn{
+/* Knapp for å fjerne elementer fra favoritter */
+.remove-btn {
+
+    /* Utseende */
     background-color: var(--color-purple);
     color: var(--color-light-yellow);
-    cursor: pointer;
-    user-select: none;
-    pointer-events: none;
     box-shadow: none;
-    font-weight: none;
+
+    /* Tekst */
+    font-weight: normal;
 }
 
 

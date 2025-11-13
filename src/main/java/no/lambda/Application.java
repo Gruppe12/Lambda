@@ -149,14 +149,7 @@ public class Application {
             int exists = _controller.checkIfFavoriteRouteAlreadyExists(userId, fromLon, fromLat, toLon, toLat);
 
 
-            // Chekcs the respons from the database if it's 1 then True blah blah, But i belive this thing should be changed up
-            if (exists == 1) {
-                boolean respons = true;
-                ctx.json(respons);
-            } else {
-                boolean respons = false;
-                ctx.json(respons);
-            }
+            ctx.json(exists);
 
 
         }, Roller.LOGGED_IN);
