@@ -200,7 +200,12 @@ public class Application {
             // legger dem inni databasen
             //int bruker_id, double from_longitude, double from_latitude, double to_longitude, double to_latitude, int to_place_id
             Rute rute = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
-            _controller.createFavoriteRouteWithoutFavoriteId(rute);
+
+            int fav_id = _controller.createFavoriteRouteWithoutFavoriteId(rute);
+
+            ctx.json(fav_id);
+
+
         }, Roller.LOGGED_IN);
 
         // eksempel: http://localhost:8080/api/getFavorites { headers: { "Bruker-id": "123" }

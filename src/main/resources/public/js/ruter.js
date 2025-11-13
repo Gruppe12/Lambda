@@ -233,12 +233,8 @@ async function addFavorite(){
   const response = await addToFavoriteAPI(fromLat, fromLon, toLat, toLon)
   console.log("Adding to favorite response", response)
 
-  // Skaffer den nye fav_id til elementet
-  const response2 = await checkIfFavoriteAPI(fromLat, fromLon, toLat, toLon)
-  console.log("Check new fav-id response: ", response2)
-
   // Gjør dataen om til noe lesbart (int fav_id)
-  const data = await response2.json()
+  const data = await response.json()
   console.log("Fav id: ", data)
 
   // Gjør om på "legg til favoritt"-knappen
