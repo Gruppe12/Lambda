@@ -246,8 +246,8 @@ public class Application {
 
             ctx.json(response);
         });
-      
-      
+
+
         /*
          Query Parameter
          eksempel url: http://localhost:8080/api/trips?from=Oslo&to=Bergen&time=2025-10-23T19:37:25.123%2B02:00&arriveBy=false
