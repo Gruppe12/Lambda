@@ -44,6 +44,7 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         //Arrange
         Rute rute = new Rute(2, 20.1, 14.7, 46.5, 70.0, 4);
         Rute rute2 = new Rute(2, 20.2, 14.8, 46.6, 70.1, 5);
+        Rute rute3 = new Rute(2, 20.3, 14.9, 46.9, 70.2, 6);
 
         //Act
         reiseKlar.createFavoriteRouteWithoutFavoriteId(rute);
@@ -52,6 +53,8 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         //Assert
         //Tester om antall rader i databasen er det som forventet.
         Assertions.assertEquals(3, testDB.countRowsInTable(("Favorittrute")));
+        //Tester om den henter en favorittrute_id når en rute opprettes.
+        Assertions.assertEquals(7, reiseKlar.createFavoriteRouteWithoutFavoriteId(rute3));
     }
 
     //Tester om en favorittrute er hentet fra databasen og riktig verdier er returnert.
@@ -114,8 +117,8 @@ public class ReiseKlarMySQLAdapterIntegrationTest {
         int checkExistence2 = reiseKlar.checkIfFavoriteRouteAlreadyExists(2, 12, 17, 6, 21);
 
         //Assert
-        //Tester om bruker har en spesifikk favorittrute allerede.
-        Assertions.assertEquals(1, checkExistence1);
+        //Tester om bruker har en spesifikk favorittrute allerede, og om favorittrute_id returneres.
+        Assertions.assertEquals(8, checkExistence1);
 
         //Tester om bruker ikke har en spesifikk favorittrute allerede.
         Assertions.assertEquals(0, checkExistence2);

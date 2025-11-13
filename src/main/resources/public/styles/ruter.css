@@ -12,14 +12,55 @@
 
     /* Plassering */
     margin: auto;
+    display: grid;
+    width: fit-content;
+    max-width: 80%;
     
 
     /* Utseende */
     margin-top: 30px;
     margin-bottom: 0px;
     color: var(--color-purple);
-
+    row-gap: 10px;
+    padding-bottom: 5px;
+    font-size: 1.1rem;
 }
+
+
+/* Wrapper for titteltekst */
+.title span {
+
+    /* Plassering */
+    display: flex;
+    margin: auto;
+
+    /* Størrelse */
+    width: 100%;
+}
+
+
+/* Uthevet tekst i tittelen */
+.title span strong {
+
+    /* Plassering */
+    margin: auto;
+    margin-top: 0;
+    margin-left: 0;
+}
+
+
+/* Vanlig tekst i tittelen */
+.title span p {
+
+    /* Plassering */
+    margin: auto;
+    margin-left: 5px;
+    text-align: left;
+
+    /* Størrelse */
+    width: 100%;
+}
+
 
 
 /* Knapp for å legge til favoritt */
@@ -50,6 +91,9 @@
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
+    margin-top: 5px;
+    height: 100%;
+
 
     /* Utseende */
     color: var(--color-purple);
@@ -61,7 +105,7 @@
 
     /* Størrelse og plassering */
     width: 70%;
-    margin: 50px auto 0 auto;
+    margin: 30px auto 0 auto;
     padding: 0 20px;
 
     /* Utseende */
@@ -149,7 +193,54 @@ details[open] .arrow {
     position: relative;
     padding-left: 10px;
     margin-bottom: 15px;
+    display: list-item; /* restores bullets */
 }
+
+/* Viser distansen til ruten */
+.li-route-distance {
+
+    /* Tekst */
+    font-size: 0.7em;
+    line-height: 1.2;
+}
+
+
+/* Wrapper for elementene i hver rute, altså hver rad med info i hvert ledd i reisen*/
+.trips details ul li span {
+
+    /* Plassering */
+    display: flex;
+}
+
+
+/* Transportmiddel navn (Eks: Gå)*/
+.trips details ul li span strong {
+
+    /* Utseende */
+    background-color: transparent; /*denne er bare her for fyll. Gjør egentlig ingen ting. */
+}
+
+
+/* Rute teksten (eks. bussrute: 111) */
+.trips details ul li span p {
+
+    /* Plassering */
+    display: inline; 
+    margin: auto;
+    margin-left: 5px;
+
+    /* Tekst */
+    font-size: 0.8rem;
+    color: var(--color-light-yellow);
+
+    /* Utseende */
+    background-color: var(--color-purple);
+    border: 1px solid var(--color-purple);
+    border-radius: 3px;
+    padding: 2px;
+}
+
+
 
 
 /* Linja som kobler alle liste-elementene sammen */
@@ -157,17 +248,18 @@ details[open] .arrow {
 
     /* Utseende */
     content: "";
-    width: 1px;
-    background: #000;
+    width: 2px;
+    background: var(--color-purple);
 
     /* Plassering */
     position: absolute;
-    left: -11px;
+    left: -12px;
     top: 10px;
     bottom: -25px;
+   
 }
 
-/* Fjerner treken fra siste element, slik at det ikke er en strek som ikke går noe sted */
+/* Fjerner streken fra siste element, slik at det ikke er en strek som ikke går noe sted */
 .trips details ul li:last-child::before {
     display: none;
 }
@@ -188,12 +280,16 @@ p {
 
 
 
-.remove-btn{
+/* Knapp for å fjerne elementer fra favoritter */
+.remove-btn {
+
+    /* Utseende */
     background-color: var(--color-purple);
     color: var(--color-light-yellow);
-    cursor: pointer;
-    user-select: none;
-    pointer-events: none;
     box-shadow: none;
-    font-weight: none;
+
+    /* Tekst */
+    font-weight: normal;
 }
+
+

@@ -71,9 +71,6 @@ function buildFavorites(data) {
 // It also removes it from the frontend
 async function deleteFavorite(fav_id){
 
-    // Gets id of current user
-    const userId = getUserId()
-
     // Removes favorite from database
     const response = await removeFavoriteAPI(fav_id)
 

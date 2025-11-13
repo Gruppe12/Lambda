@@ -5,6 +5,7 @@ import no.lambda.exception.EnTurException;
 
 public interface SQLStringPort {
     String createFavoriteRouteSQLQuery(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude, int ToPlaceId) throws MySQLDatabaseException;
+    String getFavoriteRouteIdSQLQuery(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude) throws MySQLDatabaseException;
     String createUserSQLQuery(String fornavn, String etternavn) throws MySQLDatabaseException;
     String getToAndFromBasedOnFavoriteRouteIDAndUserIDSQLQuery(int favorittruteId, int brukerId) throws MySQLDatabaseException;
     String getFavoriteRoutesFromUserBasedOnIdSQLQuery(int brukerId) throws MySQLDatabaseException;

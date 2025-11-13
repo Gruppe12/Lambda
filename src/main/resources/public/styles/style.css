@@ -13,6 +13,17 @@
   font-style: normal;
 }
 
+/* Gjemmer scrollbar */
+.scroll-hidden {
+  -ms-overflow-style: none;     /* IE and Edge */
+  scrollbar-width: none;        /* Firefox */
+}
+
+/* Chrome, Edge (WebKit/Blink), Safari */
+.scroll-hidden::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
 
 
 
@@ -64,7 +75,7 @@ body{
     margin: auto;
 
     /* Utseende */
-    background: linear-gradient(180deg,rgba(233, 227, 180, 1) 0%, rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
+    background: linear-gradient(rgba(233, 227, 180, 1) 21%, rgba(62, 105, 144, 1) 100%);
     border-radius: 10px;
 
     /* Oppsett */
@@ -109,7 +120,7 @@ body{
 .logo-main-image {
 
     /* Størrelse og plassering */
-    width: 275px;
+    width: 255px;
     height: auto;
     margin: 50px auto 0 auto;
 }

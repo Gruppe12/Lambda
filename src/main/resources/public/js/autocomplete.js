@@ -9,17 +9,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputFrom = document.getElementById("input_from");
     const inputTo = document.getElementById("input_to");
 
+    // Holder styr på delayen slik at vi ikke legger til flere counters i køen.
+
+    let timeoutFrom;
+    let timeoutTo;
+
     const millis = 200;
 
     // Lager en eventlistener som ser etter input-update fra de.
     // Logikken er den samme, så de deler funksjon, men vi må sende
     // inn ID til dropdown menyen som skal oppdateres
     inputFrom.addEventListener("input", () => {
-        setTimeout(() => updateOptions("input_from", "dropdown_from"), millis);
+
+        // Resetter timeout, så vi ikke kan spam skrive
+        clearTimeout(timeoutFrom);
+        timeoutFrom = setTimeout(() => updateOptions("input_from", "dropdown_from"), millis);
     });
 
     inputTo.addEventListener("input", () => {
-        setTimeout(() => updateOptions("input_to", "dropdown_to"), millis); 
+
+        // Resetter timeout, så vi ikke kan spam skrive
+        clearTimeout(timeoutTo);
+        timeoutTo = setTimeout(() => updateOptions("input_to", "dropdown_to"), millis);
     });
 
     // Funksjon som oppdaterer dropdown options basert på input
