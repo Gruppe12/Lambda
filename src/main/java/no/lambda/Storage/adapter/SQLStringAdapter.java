@@ -17,6 +17,12 @@ public class SQLStringAdapter implements SQLStringPort {
     }
 
     @Override
+    public String getFavoriteRouteIdSQLQuery(int brukerId, double fromLongitude, double fromLatitude, double ToLongitude, double ToLatitude) throws MySQLDatabaseException {
+        //Hente favorittrute_id basert på bruker_id og koordinater
+        return "SELECT favorittrute_id FROM Favorittrute WHERE bruker_id = "+brukerId+" AND from_longitude = "+fromLongitude+" AND from_latitude = "+fromLatitude+" AND to_longitude = "+ToLongitude+" AND to_latitude = "+ToLatitude;
+    }
+
+    @Override
     public String createUserSQLQuery(String fornavn, String etternavn) throws MySQLDatabaseException {
         //Opprette bruker, "ID er generert automatisk."
         return "INSERT INTO Bruker(fornavn, etternavn)\n" +

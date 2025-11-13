@@ -42,9 +42,10 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
     } */
 
     @Override
-    public void createFavoriteRouteWithoutFavoriteId(Rute rute) throws MySQLDatabaseException {
-        //Lager en ny rad i 'Favorittrute' tabellen basert på verdier inneholdt i et ruteobjekt uten å må legge til favorittrute_id.
+    public int createFavoriteRouteWithoutFavoriteId(Rute rute) throws MySQLDatabaseException {
+        //Lager en ny rad i 'Favorittrute' tabellen basert på verdier inneholdt i et ruteobjekt uten å må legge til favorittrute_id, og returnerer den favorittrute_id hvis den fins.
         String sql = "INSERT INTO Favorittrute(bruker_id, from_longitude, from_latitude, to_longitude, to_latitude, to_place_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql2 = sqlStringAdapter.getFavoriteRouteIdSQLQuery(rute.getBruker_id(), rute.getFrom_longitude(), rute.getFrom_latitude(), rute.getTo_longitude(), rute.getTo_latitude());
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, rute.getBruker_id());
@@ -56,6 +57,14 @@ public class ReiseKlarAdapter implements ReiseKlarPort {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new EnTurException("Could not create favorite route without f_id", e);
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql2)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return resultSet.getInt(1);
+        } catch (SQLException e) {
+            throw new EnTurException("Could not get f_id", e);
         }
     }
 
