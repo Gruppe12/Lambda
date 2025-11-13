@@ -18,6 +18,7 @@ import io.javalin.Javalin;
 
 import no.lambda.client.entur.dto.TripPattern;
 import no.lambda.controller.PlanTripController;
+import no.lambda.presentation.javalin.AutocompleteAPI;
 import no.lambda.presentation.javalin.JavalinServer;
 import no.lambda.presentation.javalin.ServerConfig;
 
@@ -93,6 +94,12 @@ public class Application {
         Javalin app = JavalinServer.create().start(8080);
 
         ServerConfig.registerCommon(app);
+
+        // ---- API-er ----
+
+        AutocompleteAPI.configure(app, _controller);
+
+        // -- With logg-in
 
         // eksempel: http://localhost:8080/api/checkIfFavorite??fromCoords=59.28101884283402,11.11584417329596&toCoords=59.28281465078122,11.108229734377803{ headers: { "Bruker-id": "123" }
         app.get("/api/checkIfFavorite", ctx -> {
@@ -218,34 +225,6 @@ public class Application {
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
         // bruker må vare pålogga til å få brukt denne api gjennom frontend
-
-
-        // eksempel : http://localhost:8080/api/autocomplete?typedIn=Osl
-        app.get("/api/autocomplete", ctx -> {
-            // Har lagt til denne så de kan ikke spamme servern alt for raskt.
-            NaiveRateLimit.requestPerTimeUnit(ctx, 5, TimeUnit.SECONDS);
-
-            String typedInForAutocomplete = ctx.queryParamAsClass("typedIn", String.class)
-                    .check( inputTypedIn -> !inputTypedIn.isBlank(), "Dette felte kan ikke vare blank!")
-                    .check(inputTypedIn -> inputTypedIn.length() <= 60, "Allt for lang input")
-                    .check(inputTypedIn -> inputTypedIn.matches(allowedCharacters), "Ugyldige tegn")
-                    .get();
-
-            // enTur API som gjør autocomplete
-            // Hopper å få den til å gi bare navn.
-            var suggestions = _controller.geoHits(typedInForAutocomplete);
-            ArrayList<ArrayList<String>> response = new ArrayList<>();
-
-            for (var suggested : suggestions) {
-                ArrayList<String> pair = new ArrayList<>();
-                pair.add(suggested.label());
-                pair.add(suggested.County());
-                response.add(pair);
-            }
-
-
-            ctx.json(response);
-        });
 
 
         /*
