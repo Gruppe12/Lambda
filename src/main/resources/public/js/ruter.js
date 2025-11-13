@@ -50,6 +50,17 @@ function capitalize(str) {
 }
 
 
+// En funksjon for å escape HTML spesialtegn, for å hindre XSS
+function escapeHTML(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 // En funksjon som leser "hash" verdiene fra URL-en og gir os en Fra og Til verdi
 function readHashFromURL(){
 
@@ -145,12 +156,12 @@ function makeHeader(dict){
   
         <span>
             <strong>Fra:</strong>
-            <p>${capitalize(dict["from"])}</p>
+            <p>${escapeHTML(capitalize(dict["from"]))}</p>
         </span>
 
         <span>
             <strong>Til:</strong>
-            <p>${capitalize(dict["to"])}</p>
+            <p>${escapeHTML(capitalize(dict["to"]))}</p>
         </span>
 
   `
