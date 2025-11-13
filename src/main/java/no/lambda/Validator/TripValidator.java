@@ -3,6 +3,7 @@ package no.lambda.Validator;
 import no.lambda.client.entur.dto.TripRequestDto;
 import no.lambda.client.entur.dto.TripRequestInputDto;
 
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,23 @@ public class TripValidator {
 
         //her kan vi legge til flere validation regler
 
+
         return errors;
+    }
+
+    // Tids validering
+
+    public static boolean validTime(String value) {
+        if (value == null) {
+            return false;
+        }
+
+        try {
+            OffsetDateTime.parse(value);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
 

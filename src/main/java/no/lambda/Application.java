@@ -21,6 +21,7 @@ import no.lambda.controller.PlanTripController;
 import no.lambda.presentation.javalin.AutocompleteAPI;
 import no.lambda.presentation.javalin.JavalinServer;
 import no.lambda.presentation.javalin.ServerConfig;
+import no.lambda.presentation.javalin.TripsAPI;
 
 import static no.lambda.autentisering.Inlogging.getUserId;
 
@@ -98,6 +99,8 @@ public class Application {
         // ---- API-er ----
 
         AutocompleteAPI.configure(app, _controller);
+
+        TripsAPI.configure(app, _controller);
 
         // -- With logg-in
 
@@ -225,152 +228,6 @@ public class Application {
             ctx.json(userFavorits);
         }, Roller.LOGGED_IN);
         // bruker må vare pålogga til å få brukt denne api gjennom frontend
-
-
-        /*
-         Query Parameter
-         eksempel url: http://localhost:8080/api/trips?from=Oslo&to=Bergen&time=2025-10-23T19:37:25.123%2B02:00&arriveBy=false
-         ADVARSEL!! --- Tiden må være i formatet 2025-10-23T19:37:25.123%2B02:00 og kan ikke være tilbake i tid.
-        */
-
-        app.get("/api/trips", ctx -> {
-
-            // leser "from" som frontend har lagt i URL, that's what queryParam is. med queryParmAsString henter og validerer.
-            String from = ctx.queryParamAsClass("from", String.class) // String.class sier til Javalin hvilken type den skal bruke
-
-                    // Her sjekker vi brukerens input. Hvis feltet er tomt, lengre enn 60 tegn
-                    // eller inneholder tegn som ikke er tillatt, så stopper vi inputen
-                    .check( inputFrom -> !inputFrom.isBlank(), "Dette felte kan ikke vare blank!")
-
-                    /* Disse funker omtrent som if. Vi sjekker input, og hvis den matcher
-                    det vi forventer er det true, hvis ikke false. blah blah */
-                    .check(inputFrom -> inputFrom.length() <= 60, "Allt for lang input")
-                    .check(inputFrom -> inputFrom.matches(allowedCharacters), "Ugyldige tegn")
-                    // Henter input etter alle sjekker eller sender til exception 400
-                    .get();
-
-            String to = ctx.queryParamAsClass("to", String.class)
-                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
-                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
-                    .check(inputTo -> inputTo.matches(allowedCharacters), "Ugyldige tegn")
-                    .get();
-
-
-            String time = ctx.queryParamAsClass("time", String.class)
-                    // Igjen lager variabel og ser om det er mulig å gjøre det til den forventet tid format
-                    .check(inputTime -> {
-                        try {
-                            OffsetDateTime.parse(inputTime);
-                            return true;
-                        } catch (Exception error) {
-                            return false;
-                        }
-                    }, "Ugyldig tidsformat")
-                    .get();
-
-            // Det finnes sikkert andre mulige sjekker og sånt, you just have to be not me to figure them all out.
-
-            boolean arriveBy = Boolean.parseBoolean(ctx.queryParam("arriveBy"));
-
-
-            String fromLabel = "";
-            double fromLatitude;
-            double fromLongitude;
-
-            // Fra her er det så mange mulig sjekk som må gjøres, NOPE.
-
-            // Theres got to be a better way to check for cordinates ;-; ser om det er bare tall og ., hvis ikke kjører
-            if (!from.strip().matches("^[0-9 .,]+$")){
-                // Finner kordinater ved bruk av enTur autocomplete
-                var fromFeatures = _controller.geoHits(from);
-                var fromGeoHit = fromFeatures.get(0);
-
-                fromLabel = fromGeoHit.label();
-                fromLatitude = fromGeoHit.latitude();
-                fromLongitude = fromGeoHit.longitude();
-            // Hvis ja kjører inni løkken her til å sette opp for koordinater.
-            } else {
-
-                // lager array som vi kan sette in splita settning
-                String[] splitFrom = from.split(",");
-
-                if (splitFrom.length != 2) {
-
-                    // Kaster error 400 manuelt
-                    throw new BadRequestResponse("Ukjent input, dette er ikke kordinater eller sted.");
-                }
-
-                // for kordinatene til å vare double for jeg tror entur accepterer ikke string. oh no
-                fromLatitude = Double.parseDouble(splitFrom[0].strip());
-                fromLongitude = Double.parseDouble(splitFrom[1].strip());
-
-            }
-
-            String toLabel = "";
-            String toPlaceId = "";
-            double toLatitude;
-            double toLongitude;
-
-            if (!to.strip().matches("^[0-9 .,]+$")) {
-                var toFeatures = _controller.geoHits(to);
-                var toGeoHit = toFeatures.get(0);
-
-                toLabel = toGeoHit.label();
-                toPlaceId = toGeoHit.placeId();
-                toLatitude = toGeoHit.latitude();
-                toLongitude = toGeoHit.longitude();
-            } else {
-
-                String[] splitTo = to.split(",");
-                if (splitTo.length != 2) {
-                    throw new BadRequestResponse("Ukjent input, dette er ikke kordinater eller sted.");
-                }
-
-                toLatitude = Double.parseDouble(splitTo[0].strip());
-                toLongitude = Double.parseDouble(splitTo[1].strip());
-            }
-
-            List<TripPattern> trip = _controller.planTrip(
-                    fromLabel,
-                    fromLatitude,
-                    fromLongitude,
-                    toLabel,
-                    toPlaceId,
-                    toLatitude,
-                    toLongitude,
-                    5,
-                    OffsetDateTime.parse(time), arriveBy
-            );
-
-            //sender koordinater til
-            ArrayList<Double> cords = new ArrayList<>();
-            cords.add(fromLatitude);
-            cords.add(fromLongitude);
-            cords.add(toLatitude);
-            cords.add(toLongitude);
-
-            List<List<?>> response = new ArrayList<>();
-
-            response.add(trip);
-            response.add(cords);
-            ctx.json(response);
-
-            /*
-
-            You know sometimes I wonder when is it to much to make sure the user can't type in stuff you don't want.
-            And still they can SQL inject if there was something to inject into.
-
-                  ******              ******
-                  ******              ******
-                  ******              ******
-
-            ****************************************
-            ****************************************
-
-
-            */
-        });
-
     }
 }
 

@@ -17,6 +17,9 @@ public class AutocompleteAPI {
 
     /**
      *
+     * Query parameters:
+     * typedIn   text typed inn by user, that will be used to suggest locations
+     *
      * Eksample request
      * GET http://localhost:8080/api/autocomplete?typedIn=Osl
      *
