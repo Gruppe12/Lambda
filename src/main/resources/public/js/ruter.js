@@ -140,7 +140,20 @@ async function checkIfFavorite(){
 function makeHeader(dict){
 
   // Setter H3 elementet på siden til å bli dette
-  document.getElementById("title").textContent = capitalize(dict["from"]) + " - " + capitalize(dict["to"])
+  capitalize(dict["from"]) + "<br>" + " &#8595; " + "<br>" + capitalize(dict["to"])
+  document.getElementById("title").innerHTML = `
+  
+        <span>
+            <strong>Fra:</strong>
+            <p>${capitalize(dict["from"])}</p>
+        </span>
+
+        <span>
+            <strong>Til:</strong>
+            <p>${capitalize(dict["to"])}</p>
+        </span>
+
+  `
 
 
 }
