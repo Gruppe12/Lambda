@@ -188,16 +188,6 @@ public class FavoritesApi {
      *   ]
      * ]
      *
-     * Response structure:
-     * [
-     *   [
-     *     reverseHitsFrom,    // result of reverse geocoding (lat,lon -> name/address)
-     *     reverseHitsTo,      // same for destination
-     *     favoriteId          // ID of the saved favorite route
-     *   ],
-     *   ...
-     * ]
-     *
      * Access: requires login (Roller.LOGGED_IN)
      *
      * @param app Javalin instance
