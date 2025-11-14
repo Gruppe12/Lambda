@@ -60,7 +60,7 @@ public class Main {
 
 
         //Bruker ObjectMapper for å prettify utskrift
-       ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        ObjectMapper mapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         for (TripPattern rute : response){
             System.out.println("Rute: ");
             //System.out.print(rute);
