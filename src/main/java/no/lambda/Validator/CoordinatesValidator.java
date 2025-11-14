@@ -21,4 +21,13 @@ public class CoordinatesValidator {
         if (value == null) return false;
         return value.split(",").length == 2;
     }
+
+    public static boolean isCoordinatePair(String value) {
+        if (value == null) return false;
+        if (!value.matches("^[0-9 .,]+$")) return false;
+
+        String[] parts = value.split(",");
+        return parts.length == 2;
+    }
+
 }

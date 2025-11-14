@@ -1,10 +1,10 @@
 package no.lambda.presentation.javalin;
 
 import io.javalin.Javalin;
-import io.javalin.http.BadRequestResponse;
 import no.lambda.Validator.GeoCodeValidator;
 import no.lambda.Validator.TripValidator;
 import no.lambda.controller.PlanTripController;
+import no.lambda.presentation.javalin.helpers.InputLocation;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -81,74 +81,18 @@ public class TripsAPI {
             // Det finnes sikkert andre mulige sjekker og sånt, you just have to be not me to figure them all out.
             boolean arriveBy = Boolean.parseBoolean(ctx.queryParam("arriveBy"));
 
-            String fromLabel = "";
-            double fromLatitude;
-            double fromLongitude;
+            var fromLocation = InputLocation.buildLocation(from, false, controller);
+            var toLocation = InputLocation.buildLocation(to, true, controller);
 
-            // Fra her er det så mange mulig sjekk som må gjøres, NOPE.
-
-            // Theres got to be a better way to check for cordinates ;-; ser om det er bare tall og ., hvis ikke kjører
-            if (!from.strip().matches("^[0-9 .,]+$")) {
-
-                // Finner kordinater ved bruk av enTur autocomplete
-                var fromFeatures = controller.geoHits(from);
-                var fromGeoHit = fromFeatures.get(0);
-
-                fromLabel = fromGeoHit.label();
-                fromLatitude = fromGeoHit.latitude();
-                fromLongitude = fromGeoHit.longitude();
-
-            } else {  // Hvis ja kjører inni løkken her til å sette opp for koordinater.
-
-                // lager array som vi kan sette in splita settning
-                String[] splitFrom = from.split(",");
-
-                if (splitFrom.length != 2) {
-
-                    // Kaster error 400 manuelt
-                    throw new BadRequestResponse("Ukjent input, dette er ikke kordinater eller sted.");
-                }
-
-                // for kordinatene til å vare double for jeg tror entur accepterer ikke string. oh no
-                fromLatitude = Double.parseDouble(splitFrom[0].strip());
-                fromLongitude = Double.parseDouble(splitFrom[1].strip());
-
-            }
-
-            // ---- gjør det samme for til ----
-
-            String toLabel = "";
-            String toPlaceId = "";
-            double toLatitude;
-            double toLongitude;
-
-            if (!to.strip().matches("^[0-9 .,]+$")) {
-                var toFeatures = controller.geoHits(to);
-                var toGeoHit = toFeatures.get(0);
-
-                toLabel = toGeoHit.label();
-                toPlaceId = toGeoHit.placeId();
-                toLatitude = toGeoHit.latitude();
-                toLongitude = toGeoHit.longitude();
-            } else {
-
-                String[] splitTo = to.split(",");
-                if (splitTo.length != 2) {
-                    throw new BadRequestResponse("Ukjent input, dette er ikke kordinater eller sted.");
-                }
-
-                toLatitude = Double.parseDouble(splitTo[0].strip());
-                toLongitude = Double.parseDouble(splitTo[1].strip());
-            }
 
             var trip = controller.planTrip(
-                    fromLabel,
-                    fromLatitude,
-                    fromLongitude,
-                    toLabel,
-                    toPlaceId,
-                    toLatitude,
-                    toLongitude,
+                    fromLocation.label(),
+                    fromLocation.lat(),
+                    fromLocation.lon(),
+                    toLocation.label(),
+                    toLocation.placeId(),
+                    toLocation.lat(),
+                    toLocation.lon(),
                     5,
                     OffsetDateTime.parse(time),
                     arriveBy
@@ -157,10 +101,10 @@ public class TripsAPI {
 
             //sender koordinater med respons
             ArrayList<Double> cords = new ArrayList<>();
-            cords.add(fromLatitude);
-            cords.add(fromLongitude);
-            cords.add(toLatitude);
-            cords.add(toLongitude);
+            cords.add(fromLocation.lat());
+            cords.add(fromLocation.lon());
+            cords.add(toLocation.lat());
+            cords.add(toLocation.lon());
 
             List<List<?>> response = new ArrayList<>();
 
