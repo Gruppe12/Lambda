@@ -104,8 +104,8 @@ public class PlanTripController {
         reiseKlarAdapter.getToAndFromBasedOnFavoriteRouteIDAndUserID(favorittruteId, brukreId);
     }
 
-    public void getFavoriteRoutesFromUserBasedOnId(int brukerId){
-        reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(brukerId);
+    public ArrayList<ArrayList<Double>> getFavoriteRoutesFromUserBasedOnId(int brukerId) {
+        return reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(brukerId);
     }
 
     public void deleteUserBasedOnFavoriteRouteId(int favorittruteId){

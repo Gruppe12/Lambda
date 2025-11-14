@@ -18,10 +18,7 @@ import io.javalin.Javalin;
 
 import no.lambda.client.entur.dto.TripPattern;
 import no.lambda.controller.PlanTripController;
-import no.lambda.presentation.javalin.AutocompleteAPI;
-import no.lambda.presentation.javalin.JavalinServer;
-import no.lambda.presentation.javalin.ServerConfig;
-import no.lambda.presentation.javalin.TripsAPI;
+import no.lambda.presentation.javalin.*;
 
 import static no.lambda.autentisering.Inlogging.getUserId;
 
@@ -79,14 +76,6 @@ public class Application {
     // Logikken for oppstart av nettsiden
     public static void startWebsite() throws Exception{
 
-        // Konfigurerer database
-        MySQLDatabase database = new MySQLDatabase(URL, USERNAME, PASSWORD);
-        Connection dbConnection = database.startDB();
-
-        // Konfigurerer klasse (for database-spørringer)
-        var reiseKlarAdapter = new ReiseKlarAdapter(dbConnection);
-
-
         // Lager kontroller for SOMETHING
         var _controller = new PlanTripController();
 
@@ -104,130 +93,7 @@ public class Application {
 
         // -- With logg-in
 
-        // eksempel: http://localhost:8080/api/checkIfFavorite??fromCoords=59.28101884283402,11.11584417329596&toCoords=59.28281465078122,11.108229734377803{ headers: { "Bruker-id": "123" }
-        app.get("/api/checkIfFavorite", ctx -> {
-            var userId = getUserId(ctx);
-
-            String fromCoords = ctx.queryParamAsClass("fromCoords", String.class)
-                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
-                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
-                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
-                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
-                    .get();
-
-            String toCoords = ctx.queryParamAsClass("toCoords", String.class)
-                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
-                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
-                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
-                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
-                    .get();
-
-            // Splitter inputene som vi for fra front end til 2
-            String[] splitFromCoords = fromCoords.split(",");
-            double fromLat =  Double.parseDouble(splitFromCoords[0].strip());
-            double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
-
-            String[] splitToCoords = toCoords.split(",");
-            double toLat =  Double.parseDouble(splitToCoords[0].strip());
-            double toLon =  Double.parseDouble(splitToCoords[1].strip());
-
-            int exists = _controller.checkIfFavoriteRouteAlreadyExists(userId, fromLon, fromLat, toLon, toLat);
-
-
-            ctx.json(exists);
-
-
-        }, Roller.LOGGED_IN);
-
-        // eksempel: http://localhost:8080/api/removeFavorite?favoritId=13 { headers: { "Bruker-id": "123" }
-        app.get("/api/removeFavorite", ctx -> {
-            var userId = getUserId(ctx);
-
-            Integer favoritId = ctx.queryParamAsClass("favoritId", Integer.class)
-                    .check( inputTo -> inputTo.describeConstable().isPresent(), "Dette felte kan ikke vare blank!")
-                    .get();
-
-            _controller.deleteUserBasedOnFavoriteRouteId(favoritId);
-        }, Roller.LOGGED_IN);
-
-        // eksempel: http://localhost:8080/api/addToFavorite?fromCoords=59.28101884283402, 11.11584417329596&toCoords=59.28281465078122, 11.108229734377803 { headers: { "Bruker-id": "123" }
-        app.get("/api/addToFavorite", ctx -> {
-
-            // for  brukerId fra role Klassen
-            var userId = getUserId(ctx);
-
-            // Kjekker inputs fra frontend
-            String fromCoords = ctx.queryParamAsClass("fromCoords", String.class)
-                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
-                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
-                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
-                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
-                    .get();
-
-            String toCoords = ctx.queryParamAsClass("toCoords", String.class)
-                    .check( inputTo -> !inputTo.isBlank(), "Dette felte kan ikke vare blank!")
-                    .check(inputTo -> inputTo.length() <= 60, "Allt for lang input")
-                    .check(inputTo -> inputTo.matches("^[0-9 .,]+$"), "Ugyldige tegn")
-                    .check(inputTo -> inputTo.split(",").length == 2, "Mindre eller flere kordinat blokker")
-                    .get();
-
-
-            // Splitter inputene som vi for fra front end til 2
-            String[] splitFromCoords = fromCoords.split(",");
-            double fromLat =  Double.parseDouble(splitFromCoords[0].strip());
-            double fromLon =  Double.parseDouble(splitFromCoords[1].strip());
-
-            String[] splitToCoords = toCoords.split(",");
-            double toLat =  Double.parseDouble(splitToCoords[0].strip());
-            double toLon =  Double.parseDouble(splitToCoords[1].strip());
-
-
-            // legger dem inni databasen
-            //int bruker_id, double from_longitude, double from_latitude, double to_longitude, double to_latitude, int to_place_id
-            Rute rute = new Rute(userId, fromLon, fromLat, toLon, toLat, 1);
-
-            int fav_id = _controller.createFavoriteRouteWithoutFavoriteId(rute);
-
-            ctx.json(fav_id);
-
-
-        }, Roller.LOGGED_IN);
-
-        // eksempel: http://localhost:8080/api/getFavorites { headers: { "Bruker-id": "123" }
-        app.get("/api/getFavorites", ctx -> {
-
-            // for  brukerId fra role classen
-            var userId = getUserId(ctx);
-
-            ArrayList<ArrayList<Double>> favoriteRoute = reiseKlarAdapter.getFavoriteRoutesFromUserBasedOnId(userId);
-
-            // lagger liste som skall lagre navn vi får fra entur
-            ArrayList<Object> userFavorits = new ArrayList<>();
-
-            // kjører gjennom listen vi fikk fra databasen av brukers favoriter
-            // den henter listene en og en og sender de kordinater til å reversere gjennom entur.
-            for (ArrayList<Double> coordinates : favoriteRoute) {
-                ArrayList<Object> userFavorit = new ArrayList<>();
-
-                System.out.println("List in for loop: " + coordinates);
-                var fromLon = coordinates.get(0);
-                var fromLat = coordinates.get(1);
-                var toLon = coordinates.get(2);
-                var toLat = coordinates.get(3);
-                var favoriteId = coordinates.get(4);
-
-                var reversHitsFrom = _controller.revereseHits(fromLat, fromLon, 1, 1, "venue,address,locality");
-                var reversHitsTo = _controller.revereseHits(toLat, toLon, 1, 1, "venue,address,locality");
-                // lagrer de verdiene vi for fra entur
-                userFavorit.add(reversHitsFrom);
-                userFavorit.add(reversHitsTo);
-                userFavorit.add(favoriteId);
-
-                userFavorits.add(userFavorit);
-            }
-            ctx.json(userFavorits);
-        }, Roller.LOGGED_IN);
-        // bruker må vare pålogga til å få brukt denne api gjennom frontend
+        FavoritesApi.configure(app, _controller);
     }
 }
 

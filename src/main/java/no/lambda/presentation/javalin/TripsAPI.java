@@ -15,41 +15,41 @@ import java.util.List;
  */
 public class TripsAPI {
 
+    /**
+     *
+     * Query parameters:
+     * from      name or "lat,lon"
+     * to        name or "lat,lon"
+     * time      eksempel 2025-10-23T19:37:25.123+02:00 må vare nå eller framtidig tid eller blir det ikke noe output.
+     * arriveBy  true hvis tiden er ankomsttid, false hvis det er avreisetid
+     *
+     * Example request:
+     * GET http://localhost:8080/api/trips?from=Oslo&to=Bergen&time=2025-10-23T19:37:25.123%2B02:00&arriveBy=false
+     *
+     * Example response (json):
+     * [
+     *   {
+     *  *   "expectedStartTime": "2025-11-14T07:20:17+01:00",
+     *  *   "expectedEndTime":   "2025-11-14T08:40:00+01:00",
+     *  *   "duration": 4783,
+     *  *   "walkDistance": 521.4,
+     *  *   "legs": [
+     *  *     {
+     *  *       // transport mode, distance, what line.
+     *  *     },
+     *  *     {
+     *  *       // second leg
+     *  *     }
+     *  *   ]
+     *  * }
+     *   [ fromLatitude, fromLongitude, toLatitude, toLongitude ]
+     * ]
+     *
+     * @param app Javalin instance
+     * @param controller controller used to validate input and plan trips
+     */
     public static void configure(Javalin app, PlanTripController controller) {
 
-        /**
-         *
-         * Query parameters:
-         * from      name or "lat,lon"
-         * to        name or "lat,lon"
-         * time      eksempel 2025-10-23T19:37:25.123+02:00 må vare nå eller framtidig tid eller blir det ikke noe output.
-         * arriveBy  true hvis tiden er ankomsttid, false hvis det er avreisetid
-         *
-         * Example request:
-         * GET http://localhost:8080/api/trips?from=Oslo&to=Bergen&time=2025-10-23T19:37:25.123%2B02:00&arriveBy=false
-         *
-         * Example response (json):
-         * [
-         *   {
-         *  *   "expectedStartTime": "2025-11-14T07:20:17+01:00",
-         *  *   "expectedEndTime":   "2025-11-14T08:40:00+01:00",
-         *  *   "duration": 4783,
-         *  *   "walkDistance": 521.4,
-         *  *   "legs": [
-         *  *     {
-         *  *       // transport mode, distance, what line.
-         *  *     },
-         *  *     {
-         *  *       // second leg
-         *  *     }
-         *  *   ]
-         *  * }
-         *   [ fromLatitude, fromLongitude, toLatitude, toLongitude ]
-         * ]
-         *
-         * @param app Javalin instance
-         * @param controller controller used to validate input and plan trips
-         */
 
         app.get("/api/trips", ctx -> {
 
