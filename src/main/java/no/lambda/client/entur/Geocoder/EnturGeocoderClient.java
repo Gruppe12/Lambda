@@ -11,7 +11,7 @@ import java.util.ArrayList;
 // Klient for Entur sin Geocoding/Autocomplete-API
 public class EnturGeocoderClient {
     // Record for geo data for POI/addresse/Stop. En uforanderlig data-holder.
-    public record GeoHit(String label,String County ,double latitude, double longitude, String placeId){ }
+    public record GeoHit(String label ,double latitude, double longitude, String placeId){ }
 
     private final OkHttpClient httpClient; // HTTP-klient for nettverksforespørsler
     private final ObjectMapper mapper; // Jackson for JSON-mapping
@@ -79,7 +79,6 @@ public class EnturGeocoderClient {
                 hits.add(
                         new GeoHit(
                                 properties.get("label").asText(), // Navn på stedet/adressen
-                                properties.get("county").asText(), // Fylke
                                 coordinates.get(1).asDouble(), // Latitude (Indeks 1)
                                 coordinates.get(0).asDouble(), // Longitude (Indeks 0)
                                 // Henter ID hvis den finnes, ellers null
