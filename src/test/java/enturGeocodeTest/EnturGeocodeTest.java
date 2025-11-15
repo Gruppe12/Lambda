@@ -130,6 +130,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
         @Test
+        //tester at EnturGeocoderException kastes ved feil
         void geoCode_httpError_throwsDomainException() {
             server.enqueue(new MockResponse().setResponseCode(503).setBody("Service Unavailable"));
             EnturGeocoderClient client = newClient();
