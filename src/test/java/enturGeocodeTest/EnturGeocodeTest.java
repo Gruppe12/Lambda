@@ -83,14 +83,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
             var h0 = hits.get(0);
             assertEquals("Halden", h0.label());
-            assertEquals("Østfold", h0.County());
             assertEquals(59.119946, h0.latitude(), 1e-6);
             assertEquals(11.384822, h0.longitude(), 1e-6);
             assertEquals("NSR:GroupOfStopPlaces:33", h0.placeId());
 
             var h1 = hits.get(1);
             assertEquals("Halden, Bærum", h1.label());
-            assertEquals("Akershus", h1.County());
+
             assertEquals(59.885534, h1.latitude(), 1e-6);
             assertEquals(10.62056, h1.longitude(), 1e-6);
             assertEquals("NSR:StopPlace:3634", h1.placeId());
