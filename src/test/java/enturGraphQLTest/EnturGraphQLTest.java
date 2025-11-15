@@ -117,7 +117,7 @@ public class EnturGraphQLTest {
     }
 
     @Test
-    //tester at en tom query kaster EnturGraphQLExceptions
+        //tester at HTTP-feil kaster EnturGraphQLExceptions
     void execute_httpError_throwsCustomException() {
         server.enqueue(new MockResponse().setResponseCode(502).setBody("Bad Gateway"));
 
