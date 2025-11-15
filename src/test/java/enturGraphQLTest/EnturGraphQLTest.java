@@ -39,7 +39,7 @@ public class EnturGraphQLTest {
     }
 
     @Test
-    //tester om responsen fra EnturGraphQLClient blir korrekt mappet
+    // Tester om responsen fra EnturGraphQLClient blir korrekt mappet.
     void execute_parsesRealEnturGraphQLPayload() throws InterruptedException {
 
         String body = """
