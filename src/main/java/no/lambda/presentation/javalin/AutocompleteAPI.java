@@ -55,7 +55,6 @@ public class AutocompleteAPI {
             for (var suggested : suggestions) {
                 ArrayList<String> pair = new ArrayList<>();
                 pair.add(suggested.label());
-                pair.add(suggested.County());
                 response.add(pair);
             }
 
