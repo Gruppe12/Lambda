@@ -39,6 +39,7 @@ public class EnturGraphQLTest {
     }
 
     @Test
+    // Tester om responsen fra EnturGraphQLClient blir korrekt mappet.
     void execute_parsesRealEnturGraphQLPayload() throws InterruptedException {
 
         String body = """
@@ -116,6 +117,7 @@ public class EnturGraphQLTest {
     }
 
     @Test
+        //tester at HTTP-feil kaster EnturGraphQLExceptions
     void execute_httpError_throwsCustomException() {
         server.enqueue(new MockResponse().setResponseCode(502).setBody("Bad Gateway"));
 
