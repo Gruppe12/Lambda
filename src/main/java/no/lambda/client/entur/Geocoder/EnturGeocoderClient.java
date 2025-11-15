@@ -11,7 +11,7 @@ import java.util.ArrayList;
 // Klient for Entur sin Geocoding/Autocomplete-API
 public class EnturGeocoderClient {
     // Record for geo data for POI/addresse/Stop. En uforanderlig data-holder.
-    public record GeoHit(String label ,double latitude, double longitude, String placeId){ }
+    public record GeoHit(String label, double latitude, double longitude, String placeId){ }
 
     private final OkHttpClient httpClient; // HTTP-klient for nettverksforespørsler
     private final ObjectMapper mapper; // Jackson for JSON-mapping
