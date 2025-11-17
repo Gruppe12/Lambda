@@ -4,6 +4,7 @@ import no.lambda.Validator.CoordinatesValidator;
 import no.lambda.Validator.GeoCodeValidator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.shaded.org.checkerframework.checker.units.qual.C;
 
 public class CoordinatesValidatorUnitTest {
     // ---- Unit testing the notBlank validator.
@@ -50,13 +51,36 @@ public class CoordinatesValidatorUnitTest {
     @Test
     public void allowedCharacters_ReturnTrue_ForAllAllowedChar(){
         String input = "0123456789 . ,";
-        boolean result = GeoCodeValidator.allowedCharacters(input);
+        boolean result = CoordinatesValidator.allowedCharacters(input);
         Assertions.assertTrue(result);
     }
     @Test
     public void allowedCharacters_ReturnFalse_ForAlotOfNotAllowedChar(){
         String input = "aA æÆ !@# é ñ";
-        boolean result = GeoCodeValidator.allowedCharacters(input);
+        boolean result = CoordinatesValidator.allowedCharacters(input);
         Assertions.assertFalse(result);
     }
+
+    // ---- is possible to split into 2 (2 parts, 2 coordinates lan and lon)
+
+    @Test
+    public void hasTwoParts_ReturnTrue_For2Coordinates(){
+        String input = "56.64323,87.6545678";
+        boolean result = CoordinatesValidator.hasTwoParts(input);
+        Assertions.assertTrue(result);
+    }
+    @Test
+    public void hasTwoParts_ReturnTrue_ForOnly1Part(){
+        String input = "56.5627";
+        boolean result = CoordinatesValidator.hasTwoParts(input);
+        Assertions.assertFalse(result);
+    }
+    @Test
+    public void hasTwoParts_ReturnTrue_For3Parts(){
+        String input = "56.25432,43.34235,73.2345";
+        boolean result = CoordinatesValidator.hasTwoParts(input);
+        Assertions.assertFalse(result);
+    }
+
+    //
 }
