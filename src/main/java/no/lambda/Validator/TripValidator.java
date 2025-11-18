@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TripValidator {
-    public static List<String> validateRequestDto(TripRequestDto request) {
-        List<String> errors = new ArrayList<>();
+    public static ArrayList<String> validateRequestDto(TripRequestDto request) {
+        ArrayList<String> errors = new ArrayList<>();
 
         if (request.getTripPatterns() <= 0)
             errors.add("Trip patterns must be > 0");
@@ -18,8 +18,8 @@ public class TripValidator {
     }
 
 
-    public static List<String> validateInputDto(TripRequestInputDto request) {
-        List<String> errors = new ArrayList<>();
+    public static ArrayList<String> validateInputDto(TripRequestInputDto request) {
+        ArrayList<String> errors = new ArrayList<>();
 
         if (request.getFrom() == null || request.getFrom().isBlank())
             errors.add("From location is required");
@@ -35,7 +35,7 @@ public class TripValidator {
         return errors;
     }
 
-    // Tids validering
+    // ---- Tids validering
 
     public static boolean validTime(String value) {
         if (value == null) {
@@ -49,8 +49,4 @@ public class TripValidator {
             return false;
         }
     }
-
-
-
-
 }
