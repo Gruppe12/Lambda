@@ -82,5 +82,40 @@ public class CoordinatesValidatorUnitTest {
         Assertions.assertFalse(result);
     }
 
-    //
+    // ---- all the checks for coordinates, so the above is kinda useless but still.
+
+    @Test
+    public void isCoordinatePair_ReturnsTrue_ForValidPair() {
+        String input = "59.12345,10.98765";
+        boolean result = CoordinatesValidator.isCoordinatePair(input);
+        Assertions.assertTrue(result);
+    }
+
+    @Test
+    public void isCoordinatePair_ReturnsFalse_ForNull() {
+        String input = null;
+        boolean result = CoordinatesValidator.isCoordinatePair(input);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void isCoordinatePair_ReturnsFalse_ForInvalidCharacters() {
+        String input = "59.12a,10.98";
+        boolean result = CoordinatesValidator.isCoordinatePair(input);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void isCoordinatePair_ReturnsFalse_ForSingleNumber() {
+        String input = "59.12345";
+        boolean result = CoordinatesValidator.isCoordinatePair(input);
+        Assertions.assertFalse(result);
+    }
+
+    @Test
+    public void isCoordinatePair_ReturnsFalse_ForTooManyParts() {
+        String input = "59.12,10.98,33.44";
+        boolean result = CoordinatesValidator.isCoordinatePair(input);
+        Assertions.assertFalse(result);
+    }
 }
